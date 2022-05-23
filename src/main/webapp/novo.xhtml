@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/layout.xhtml">
+
+    <ui:define name="content">
+        <!--<h1 class="aw-page-title">Título da sua página</h1>-->
+
+        <p:panel id="painel_conteudo" header="Inspeção" >
+            <p:tabView id="tab_view" activeIndex="#{inspecaoC.aba}">
+                <p:ajax event="tabChange" listener="#{inspecaoC.onTabChange}" update="tab_view:form_pesquisa"/>
+                <p:ajax event="tabClose" listener="#{inspecaoC.onTabClose}" />
+                <!--aba para cadastrar e alterar-->
+                <p:tab title="Novo">
+                    <h:form id="form_novo">
+                        <p:panelGrid columns="4" layout="flex"
+                                     columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-10"
+                                     contentStyleClass="ui-fluid">
+  
+                            <p:outputLabel for="lugar" value="Local:" />
+                            <p:selectOneMenu id="lugar" value="#{inspecaoC.lugar.id}" 
+                                             required="true" requiredMessage="Nome empreendimento é obrigatório!"
+                                             filter="true" filterMatchMode="startsWith">
+                                <f:selectItem itemLabel="Selecione o empreendimento:"/>
+                                <f:selectItems value="#{inspecaoC.comboLugar}"/>
+                            </p:selectOneMenu>
+                            
+                            <p:accordionPanel value="#{inspecaoC.listaDeCategoria}" var="categoria">
+                                <p:tab title="#{categoria.nome}">
+                                    <p:repeat value="#{categoria.itens}" var="item">
+                                    <div class="product-list-item">
+                                        <div class="product-list-detail">
+                                            <div class="product-name">#{item.nome}
+                                                <div class="product-avaliacao">
+                                                    <p:selectOneRadio id="console" value="#{item.avaliacao.resposta}" unselectable="false">
+                                                        <f:selectItem itemLabel="Sim" itemValue="Sim"/>
+                                                        <f:selectItem itemLabel="Não" itemValue="Não"/>
+                                                        <f:selectItem itemLabel="N/A" itemValue="N/A"/>
+                                                    </p:selectOneRadio>
+                                                    <!--<p:remoteCommand name="teste" action="# {inspecaoC.adicionarItem(item.id)}"/>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </p:repeat>
+                                </p:tab>
+                            </p:accordionPanel>
+                        </p:panelGrid>
+                        <!--primeira coluna-->
+                        <p:commandButton value="Salvar Inspeção" action="#{inspecaoC.salvar()}"  update="@all" /> 
+                    </h:form>
+                </p:tab>
+
+                <!--aba para pesquisa-->
+                <p:tab title="Pesquisa">
+                    <h:form id="form_pesquisa">
+                        <p:panelGrid id="panelGG" columns="2" layout="flex" 
+                                     columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
+                                     contentStyleClass="ui-fluid">
+                            <p:outputLabel for="item" value="Nome:" />
+                            <p:inputText id="item" value="#{inspecaoC.inspecao.nome}"  required="true" 
+                                         requiredMessage="Nome é obrigatório" />
+                            <p:commandButton value="Pesquisar" actionListener="#{itemC.pesquisarPorNome()}" update="tabela" />
+                        </p:panelGrid>
+
+                        <p:dataTable id="tabela" var="item" value="" rows="10"
+                                     paginator="true" paginatorPosition="bottom"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+                                     rowsPerPageTemplate="5,10,15,{ShowAll|'Todos'}">
+
+                            <f:facet name="header">
+                                <h:outputText value="Itens"/>
+                            </f:facet>
+                            <p:column headerText="Nome">
+                                <h:outputText value="" />
+                            </p:column>
+
+                            <p:column headerText="Ação">
+                                <p:commandButton icon="pi pi-plus" title="Adicionar" process="@this" 
+                                                 actionListener="#{categoriaC.duplicar()}" update="@all"
+                                                 style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" />
+                                <p:commandButton icon="pi pi-pencil" title="Alterar" process="@this" 
+                                                 actionListener="#{categoriaC.prepararAlterar()}" update="@all"
+                                                 style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" />
+                            </p:column>                       
+
+                        </p:dataTable>
+
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
+                        </p:confirmDialog>
+                    </h:form>
+                </p:tab>
+            </p:tabView>
+
+
+        </p:panel> 
+    </ui:define>
+
+</ui:composition>

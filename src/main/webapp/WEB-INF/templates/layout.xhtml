@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </f:facet>
+        <ui:param name="path" value="#{request.getContextPath()}" />
+        <link rel="shortcut icon" type="image/png" href="#{path}/resources/senac/images/icon.png" />
+        <title>CheckApp Acessibilidade</title>
+
+        <h:outputStylesheet library="senac" name="styles/custom.css" />
+        <h:outputStylesheet library="senac" name="styles/layout.css" />
+        <h:outputStylesheet library="senac" name="styles/components.css" />
+        <h:outputStylesheet library="css" name="styles/primeflex.min.css"  />
+
+        <!--<h:outputScript target="body" library="primefaces" name="jquery/jquery.js" />-->
+        <h:outputScript target="body" library="senac" name="javascripts/app.js" />
+    </h:head>
+
+    <h:body>
+
+        <header class="aw-topbar" style="margin-bottom: 5px;">
+            <h:graphicImage library="senac" name="images/logo.png" />
+            <a href="#" class="aw-toggle  js-toggle"><i class="fa  fa-bars"></i></a>
+        </header>
+
+        <aside class="aw-sidebar  js-sidebar">
+            <ui:include src="menu.xhtml" />
+        </aside>
+
+        <section class="aw-content  js-content">
+            
+            <p:messages id="messages" showSummary="true" closable="true">
+                    <p:autoUpdate/>
+            </p:messages>
+            
+            <ui:insert name="content" />
+        </section>
+
+    </h:body>
+
+</html>
