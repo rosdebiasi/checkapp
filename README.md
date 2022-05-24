@@ -2,9 +2,9 @@
 TCS Senac
 
 Sistema: 
-Windows 10 Home 
-IDE NetBeans 12.3, JDK 13.0.2
-Banco de dados MySQL versão 8.0
+Windows 10 Home; 
+IDE NetBeans 12.3, JDK 13.0.2;
+Banco de dados MySQL versão 8.0.
 
 Instruções para rodar o projeto:
 1- alterar configurações do usuário e senha do banco de dados no arquivo: "application.properties" na pasta "Other Sources
