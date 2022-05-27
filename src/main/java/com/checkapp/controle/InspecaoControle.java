@@ -93,8 +93,8 @@ public class InspecaoControle implements Serializable {
          for (Categoria categoria1 : listaDeCategoria) {
              System.out.println("id: " + categoria1.getId());
              for (Item iten : categoria1.getItens()) {
-                 System.out.println("nome: " + iten.getNome());
-                 avaliacao = new Avaliacao();
+                 //System.out.println("nome: " + iten.getNome());
+                avaliacao = new Avaliacao();
                  iten.setAvaliacao(avaliacao);
                  System.out.println("resposta: " + iten.getAvaliacao().getResposta());
              }
@@ -151,11 +151,13 @@ public class InspecaoControle implements Serializable {
 
     public void salvar() {
         
-        logger.info("método - salvar()");
+        //logger.info("método - salvar()");
         try {
             inspecao.setEmpreendimento(lugar);
+//            listaDeCategoria = categoriaRepositorio.pesquisarCategoriaPorItem();
             avaliacao.setItens(temp_itens); 
-            inspecao.setAvaliacoes(avaliacoes);  
+            inspecao.setAvaliacoes(avaliacoes); 
+            
             inspecaoRepositorio.save(inspecao);
             Mensagem.mensagemSucesso(inspecao.getNome());
             inspecao = null;
@@ -170,38 +172,38 @@ public class InspecaoControle implements Serializable {
         }
     }
 
-    public void excluir() {
-        try {
-            inspecao = modelInspecoes.getRowData();
-            inspecaoRepositorio.delete(inspecao);
-            Mensagem.mensagemSucessoExcluir(inspecao.getNome());
-            inspecao = null;
-            lugar = null;
-            categorias = null;
-            modelInspecoes = null;
-        } catch (Exception e) {
-            Mensagem.mensagemErroExcluir(inspecao.getNome());
-        }
-    }
+//    public void excluir() {
+//        try {
+//            inspecao = modelInspecoes.getRowData();
+//            inspecaoRepositorio.delete(inspecao);
+//            Mensagem.mensagemSucessoExcluir(inspecao.getNome());
+//            inspecao = null;
+//            lugar = null;
+//            categorias = null;
+//            modelInspecoes = null;
+//        } catch (Exception e) {
+//            Mensagem.mensagemErroExcluir(inspecao.getNome());
+//        }
+//    }
 
-    public void prepararAlterar() {
-        inspecao = modelInspecoes.getRowData();
-        lugar = inspecao.getEmpreendimento();
-        //categorias = (List<Categoria>) inspecao.getCategorias();
-        modelInspecoes = null;
-        aba = 1;
-    }
+//    public void prepararAlterar() {
+//        inspecao = modelInspecoes.getRowData();
+//        lugar = inspecao.getEmpreendimento();
+//        //categorias = (List<Categoria>) inspecao.getCategorias();
+//        modelInspecoes = null;
+//        aba = 1;
+//    }
 
-    public void adicionarItem(long id) {
-        try {
-            System.out.println(id);
-            Item temp_item = itemRepositorio.getById(id);
-            temp_itens.add(temp_item);
-
-        } catch (Exception e) {
-            Mensagem.mensagemErro("não foi possivel salvar");
-        }
-    }
+//    public void adicionarItem(long id) {
+//        try {
+//            System.out.println(id);
+//            Item temp_item = itemRepositorio.getById(id);
+//            temp_itens.add(temp_item);
+//
+//        } catch (Exception e) {
+//            Mensagem.mensagemErro("não foi possivel salvar");
+//        }
+//    }
 
     public void onTabChange(TabChangeEvent event) {
         if (event.getTab().getTitle().equals("Novo")) {
@@ -318,6 +320,8 @@ public class InspecaoControle implements Serializable {
     public void setAba(int aba) {
         this.aba = aba;
     }
+    
+    
 
 //comentados    
 //    public List<SelectItem> getComboItem() {
@@ -346,6 +350,7 @@ public class InspecaoControle implements Serializable {
 //        avaliac.add("Não");
 //        avaliac.add("N/A");
 //    }
+    
 //    private void carregarComboBoxItem() {  
 //        inspecao.getAvaliacoes();
 //        Avaliacao ava = new Avaliacao();

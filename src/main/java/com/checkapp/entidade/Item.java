@@ -43,39 +43,6 @@ public class Item implements Serializable {
         this.nome = nome;
         this.categoria = categoria;
     }
-    
-//    public Integer getNumero() {
-//        return numero;
-//    }
-//
-//    public void setNumero(Integer numero) {
-//        this.numero = numero;
-//    }
-//    
-//    public boolean isSim() {
-//        return sim;
-//    }
-//
-//    public void setSim(boolean sim) {
-//        this.sim = sim;
-//    }
-//
-//    public boolean isNao() {
-//        return nao;
-//    }
-//
-//    public void setNao(boolean nao) {
-//        this.nao = nao;
-//    }
-//
-//    public boolean isNaoSeAplica() {
-//        return naoSeAplica;
-//    }
-//
-//    public void setNaoSeAplica(boolean naoSeAplica) {
-//        this.naoSeAplica = naoSeAplica;
-//    }
-
 
     public Long getId() {
         return id;
@@ -101,24 +68,6 @@ public class Item implements Serializable {
         this.categoria = categoria;
     }
     
-    
-
-//    public String getObservacao() {
-//        return observacao;
-//    }
-//
-//    public void setObservacao(String observacao) {
-//        this.observacao = observacao;
-//    }
-
-//    public Local getLocal() {
-//        return local;
-//    }
-//
-//    public void setLocal(Local local) {
-//        this.local = local;
-//    }
-
     public Avaliacao getAvaliacao() {
         return avaliacao;
     }
@@ -156,5 +105,54 @@ public class Item implements Serializable {
         }
         return true;
     }
+ 
+    //    public Integer getNumero() {
+//        return numero;
+//    }
+//
+//    public void setNumero(Integer numero) {
+//        this.numero = numero;
+//    }
+//    
+//    public boolean isSim() {
+//        return sim;
+//    }
+//
+//    public void setSim(boolean sim) {
+//        this.sim = sim;
+//    }
+//
+//    public boolean isNao() {
+//        return nao;
+//    }
+//
+//    public void setNao(boolean nao) {
+//        this.nao = nao;
+//    }
+//
+//    public boolean isNaoSeAplica() {
+//        return naoSeAplica;
+//    }
+//
+//    public void setNaoSeAplica(boolean naoSeAplica) {
+//        this.naoSeAplica = naoSeAplica;
+//    }
+    
+
+//    public String getObservacao() {
+//        return observacao;
+//    }
+//
+//    public void setObservacao(String observacao) {
+//        this.observacao = observacao;
+//    }
+
+//    public Local getLocal() {
+//        return local;
+//    }
+//
+//    public void setLocal(Local local) {
+//        this.local = local;
+//    }
 
 }

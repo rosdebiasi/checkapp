@@ -32,11 +32,9 @@ public class Avaliacao implements Serializable {
     public Avaliacao() {
     }
 
-    public Avaliacao(String resposta, String observacao, List<Item> itens, Inspecao inspecao) {
+    public Avaliacao(String resposta, String observacao) {
         this.resposta = resposta;
         this.observacao = observacao;
-        this.itens = itens;
-        this.inspecao = inspecao;
     }
 
     public Long getId() {
@@ -55,14 +53,6 @@ public class Avaliacao implements Serializable {
         this.resposta = resposta;
     }
 
-//    public boolean isAvaliacao() {
-//        return avaliacao;
-//    }
-//
-//    public void setAvaliacao(boolean avaliacao) {
-//        this.avaliacao = avaliacao;
-//    }
-
     public String getObservacao() {
         return observacao;
     }
@@ -78,14 +68,6 @@ public class Avaliacao implements Serializable {
     public void setItens(List<Item> itens) {
         this.itens = itens;
     }
-
-//    public Item getItem() {
-//        return item;
-//    }
-//
-//    public void setItem(Item item) {
-//        this.item = item;
-//    }
 
     public Inspecao getInspecao() {
         return inspecao;
@@ -124,5 +106,21 @@ public class Avaliacao implements Serializable {
         }
         return true;
     }
+    
+    //    public boolean isAvaliacao() {
+//        return avaliacao;
+//    }
+//
+//    public void setAvaliacao(boolean avaliacao) {
+//        this.avaliacao = avaliacao;
+//    }
+    
+//    public Item getItem() {
+//        return item;
+//    }
+//
+//    public void setItem(Item item) {
+//        this.item = item;
+//    }
 
 }
