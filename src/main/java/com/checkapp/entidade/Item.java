@@ -1,6 +1,7 @@
 package com.checkapp.entidade;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -29,9 +30,13 @@ public class Item implements Serializable {
     @JoinColumn (name = "id_categoria")
     private Categoria categoria;
     
-    @ManyToOne
-    @JoinColumn (name = "id_avaliacao")
-    private Avaliacao avaliacao;
+//    @OneToMany
+//    @JoinColumn(name = "id_avaliacao")
+//    private List <Avaliacao> avaliacoes;
+    
+//    @ManyToOne
+//    @JoinColumn (name = "id_avaliacao")
+//    private Avaliacao avaliacao;
     
     //antigo - sugestão professor - para forçar, mas deu problema no salvar item
     //private Avaliacao avaliacao = new Avaliacao();
@@ -67,15 +72,24 @@ public class Item implements Serializable {
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
-    
-    public Avaliacao getAvaliacao() {
-        return avaliacao;
-    }
 
-    public void setAvaliacao(Avaliacao avaliacao) {
-        this.avaliacao = avaliacao;
-    }
+//    public List<Avaliacao> getAvaliacoes() {
+//        return avaliacoes;
+//    }
+//
+//    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+//        this.avaliacoes = avaliacoes;
+//    }
     
+
+//    public Avaliacao getAvaliacao() {
+//        return avaliacao;
+//    }
+//
+//    public void setAvaliacao(Avaliacao avaliacao) {
+//        this.avaliacao = avaliacao;
+//    }
+      
     @Override
     public int hashCode() {
         final int prime = 31;

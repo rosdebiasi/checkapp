@@ -5,7 +5,7 @@
  */
 package com.checkapp.controle;
 
-import com.checkapp.dao.AvaliacaoRepositorio;
+//import com.checkapp.dao.AvaliacaoRepositorio;
 import com.checkapp.dao.CategoriaRepositorio;
 import com.checkapp.dao.InspecaoRepositorio;
 import com.checkapp.dao.ItemRepositorio;
@@ -26,7 +26,9 @@ import com.checkapp.entidade.Item;
 import java.util.ArrayList;
 import javax.faces.model.SelectItem;
 import com.checkapp.dao.EmpreendimentoRepositorio;
-import com.checkapp.entidade.Avaliacao;
+//import com.checkapp.entidade.Avaliacao;
+import java.time.LocalDate;
+import static java.time.LocalDate.now;
 import javax.annotation.PostConstruct;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -38,6 +40,7 @@ import org.jboss.logging.Logger;
  *
  * @author JavaRevolutions
  */
+
 @Component(value = "inspecaoC")
 @Scope("view")
 public class InspecaoControle implements Serializable {
@@ -45,7 +48,7 @@ public class InspecaoControle implements Serializable {
     private static final long serialVersionUID = 1L;
     private final Logger logger = LoggerFactory.logger(getClass());
 
-    private Avaliacao avaliacao;
+    //private Avaliacao avaliacao;
     private Inspecao inspecao;
     private DataModel<Inspecao> modelInspecoes;
     private int aba;
@@ -56,7 +59,7 @@ public class InspecaoControle implements Serializable {
 
     private List<Categoria> categorias;
 
-    private List<Avaliacao> avaliacoes;
+    //private List<Avaliacao> avaliacoes;
 
     private List<Item> itens;
 
@@ -80,8 +83,8 @@ public class InspecaoControle implements Serializable {
     @Autowired
     private InspecaoRepositorio inspecaoRepositorio;
 
-    @Autowired
-    private AvaliacaoRepositorio avaliacaoRepositorio;
+    //@Autowired
+    //private AvaliacaoRepositorio avaliacaoRepositorio;
 
     //para pesquisar no banco antes de carregar a tela- como um construtor de uma classe de Entidade, mas tem em todas as classes
     @PostConstruct
@@ -89,16 +92,16 @@ public class InspecaoControle implements Serializable {
         carregarComboBoxLugar();
         listaDeCategoria = categoriaRepositorio.pesquisarCategoriaPorItem();
         //para teste
-        Avaliacao avaliacao;
-         for (Categoria categoria1 : listaDeCategoria) {
-             System.out.println("id: " + categoria1.getId());
-             for (Item iten : categoria1.getItens()) {
-                 //System.out.println("nome: " + iten.getNome());
-                avaliacao = new Avaliacao();
-                 iten.setAvaliacao(avaliacao);
-                 System.out.println("resposta: " + iten.getAvaliacao().getResposta());
-             }
-        }
+//        Avaliacao avaliacao;
+//         for (Categoria categoria1 : listaDeCategoria) {
+//             System.out.println("id: " + categoria1.getId());
+//             for (Item iten : categoria1.getItens()) {
+//                 //System.out.println("nome: " + iten.getNome());
+//                avaliacao = new Avaliacao();
+//                 iten.setAvaliacao(avaliacao);
+//                 System.out.println("resposta: " + iten.getAvaliacao().getResposta());
+//             }
+//        }
     }
 
     public List<Inspecao> pesquisarTodo() {
@@ -132,14 +135,14 @@ public class InspecaoControle implements Serializable {
         }
     }
 
-    public List<Item> getListaItemCategoria(String nome) {
-        List<Item> itens = itemRepositorio.findByNomeCategoria(nome);
-        for (Item iten : itens) {
-            System.out.println("X X X X X " + iten.getAvaliacao().getResposta());
-        }
-        System.out.println("");
-        return itens;
-    }
+//    public List<Item> getListaItemCategoria(String nome) {
+//        List<Item> itens = itemRepositorio.findByNomeCategoria(nome);
+//        for (Item iten : itens) {
+//            System.out.println("X X X X X " + iten.getAvaliacao().getResposta());
+//        }
+//        System.out.println("");
+//        return itens;
+//    }
 
     public List<String> getAvaliac() {
         return avaliac;
@@ -148,15 +151,24 @@ public class InspecaoControle implements Serializable {
     public void setAvaliac(List<String> avaliac) {
         this.avaliac = avaliac;
     }
+    
+    public void trocarDeTela(){
+        try {
+            String url = "http://localhost:8080/CheckApp/novo_2.jr";
+        } catch (Exception e) {
+             System.out.println("Erro ao trocar de tela " + e.getMessage());
+        }
+    }
 
     public void salvar() {
         
         //logger.info("método - salvar()");
         try {
             inspecao.setEmpreendimento(lugar);
+            //inspecao.setDataEhora(LocalDate.now());
 //            listaDeCategoria = categoriaRepositorio.pesquisarCategoriaPorItem();
-            avaliacao.setItens(temp_itens); 
-            inspecao.setAvaliacoes(avaliacoes); 
+            //avaliacao.setItens(temp_itens); 
+//            inspecao.setAvaliacoes(avaliacoes); 
             
             inspecaoRepositorio.save(inspecao);
             Mensagem.mensagemSucesso(inspecao.getNome());
@@ -219,21 +231,21 @@ public class InspecaoControle implements Serializable {
     }
 
 //    getters e setters
-    public Avaliacao getAvaliacao() {
-        return avaliacao;
-    }
-
-    public void setAvaliacao(Avaliacao avaliacao) {
-        this.avaliacao = avaliacao;
-    }
-
-    public List<Avaliacao> getAvaliacoes() {
-        return avaliacoes;
-    }
-
-    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
-        this.avaliacoes = avaliacoes;
-    }
+//    public Avaliacao getAvaliacao() {
+//        return avaliacao;
+//    }
+//
+//    public void setAvaliacao(Avaliacao avaliacao) {
+//        this.avaliacao = avaliacao;
+//    }
+//
+//    public List<Avaliacao> getAvaliacoes() {
+//        return avaliacoes;
+//    }
+//
+//    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+//        this.avaliacoes = avaliacoes;
+//    }
 
     public Categoria getCategoria() {
         return categoria;
@@ -320,6 +332,8 @@ public class InspecaoControle implements Serializable {
     public void setAba(int aba) {
         this.aba = aba;
     }
+
+}
     
     
 
@@ -361,4 +375,4 @@ public class InspecaoControle implements Serializable {
 //            comboItem.add(new SelectItem(iti.getId(), iti.getNome()));
 //        }
 //    }
-}
+//}

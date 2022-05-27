@@ -12,11 +12,10 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 import com.checkapp.entidade.Categoria;
 import com.checkapp.dao.CategoriaRepositorio;
 import com.checkapp.dao.ItemRepositorio;
-import com.checkapp.entidade.Avaliacao;
+//import com.checkapp.entidade.Avaliacao;
 import com.checkapp.entidade.Item;
 import java.util.ArrayList;
 import java.util.List;

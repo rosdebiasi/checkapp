@@ -12,10 +12,10 @@ public interface AvaliacaoRepositorio extends JpaRepository<Item, Long>{
     
 //    @Query("from Item i Where i.nome like %:nome%")
 //    List<Item> findByNomeContaining(String nome);
-    
+//    
 //    @Query("from Item i join fetch i.categoria Where nome like %:nome%")
 //    List<Item> procurarItemPorCategoria(String nome);
-    
+//    
 //    @Query("from Item i join fetch i.categoria Where nome like %:nome%")
 //    List<Item> procurarItemPorCategoria(String nome);
 //    
@@ -27,5 +27,5 @@ public interface AvaliacaoRepositorio extends JpaRepository<Item, Long>{
 //       
 //    @Query("select max(i.numero) from Item i join i.categoria c where c.id = :idCategoria")
 //    Integer pesquisarUltimoNumeroItem(Long idCategoria);
-    
+//    
 }

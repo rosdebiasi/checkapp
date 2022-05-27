@@ -15,15 +15,18 @@ public class Avaliacao implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (nullable = false)
     private String resposta;
 
-    private String observacao;
+    //private String observacao;
     
-    //depois desmarcar
+//    //depois desmarcar
     
-    @OneToMany (mappedBy="avaliacao",cascade = CascadeType.ALL) //qqer coisa tirar o cascade
-    private List<Item> itens;
+    @ManyToOne
+    @JoinColumn(name="id_item")
+    private Item item;
+//    
+//    @OneToMany (mappedBy="avaliacao",cascade = CascadeType.ALL) //qqer coisa tirar o cascade
+//    private List<Item> itens;
     
     @ManyToOne 
     @JoinColumn(name="id_inspecao")
@@ -32,9 +35,8 @@ public class Avaliacao implements Serializable {
     public Avaliacao() {
     }
 
-    public Avaliacao(String resposta, String observacao) {
+    public Avaliacao(String resposta) {
         this.resposta = resposta;
-        this.observacao = observacao;
     }
 
     public Long getId() {
@@ -53,21 +55,21 @@ public class Avaliacao implements Serializable {
         this.resposta = resposta;
     }
 
-    public String getObservacao() {
-        return observacao;
-    }
+//    public String getObservacao() {
+//        return observacao;
+//    }
+//
+//    public void setObservacao(String observacao) {
+//        this.observacao = observacao;
+//    }
 
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
-
-    public List<Item> getItens() {
-        return itens;
-    }
-
-    public void setItens(List<Item> itens) {
-        this.itens = itens;
-    }
+//    public List<Item> getItens() {
+//        return itens;
+//    }
+//
+//    public void setItens(List<Item> itens) {
+//        this.itens = itens;
+//    }
 
     public Inspecao getInspecao() {
         return inspecao;
@@ -76,6 +78,16 @@ public class Avaliacao implements Serializable {
     public void setInspecao(Inspecao inspecao) {
         this.inspecao = inspecao;
     }
+    
+//    public Item getItem() {
+//        return item;
+//    }
+//
+//    public void setItem(Item item) {
+//        this.item = item;
+//    }
+//    
+    
             
     @Override
     public int hashCode() {
@@ -107,7 +119,7 @@ public class Avaliacao implements Serializable {
         return true;
     }
     
-    //    public boolean isAvaliacao() {
+//    public boolean isAvaliacao() {
 //        return avaliacao;
 //    }
 //
@@ -115,12 +127,6 @@ public class Avaliacao implements Serializable {
 //        this.avaliacao = avaliacao;
 //    }
     
-//    public Item getItem() {
-//        return item;
-//    }
-//
-//    public void setItem(Item item) {
-//        this.item = item;
-//    }
+
 
 }

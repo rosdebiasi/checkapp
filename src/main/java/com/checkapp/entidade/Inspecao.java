@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "inspecao")
@@ -19,7 +20,8 @@ public class Inspecao implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
+    //@Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh-mm")
     private Date dataEhora;
     
     private String observacao;
@@ -37,13 +39,22 @@ public class Inspecao implements Serializable {
 //    @ManyToMany
 //    @JoinTable(name = "inspecao_categoria",
 //            joinColumns = @JoinColumn(name = "inspecao_codigo"),
+//              addColumn = @Addcolumn(name= "resposta"),
 //            inverseJoinColumns = @JoinColumn(name = "categoria_codigo"))
 //    private Set<Categoria> categorias = new HashSet<>();
     
     //descomentar depois
     
-    @OneToMany(mappedBy = "inspecao",cascade = CascadeType.ALL) 
+    @OneToMany(mappedBy = "inspecao") 
     private List<Avaliacao> avaliacoes;
+    
+//    @ManyToMany
+//    @JoinTable(name = "inspecao_item",
+//            joinColumns = @JoinColumn(name = "inspecao_codigo"),
+//            inverseJoinColumns = @JoinColumn(name = "item_codigo"))
+//    @Column(name = "resposta")
+//    private Set<Item> itens = new HashSet<>();
+    
     
 //    @OneToOne 
 //    @JoinColumn(name="id_usuario")
@@ -90,14 +101,6 @@ public class Inspecao implements Serializable {
         this.empreendimento = empreendimento;
     }
 
-    public List<Avaliacao> getAvaliacoes() {
-        return avaliacoes;
-    }
-
-    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
-        this.avaliacoes = avaliacoes;
-    }
-
     public Usuario getUsuario() {
         return usuario;
     }
@@ -105,7 +108,30 @@ public class Inspecao implements Serializable {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
+    public List<Avaliacao> getAvaliacoes() {
+        return avaliacoes;
+    }
+
+    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+        this.avaliacoes = avaliacoes;
+    }
     
+//    public Set<Item> getItens() {
+//        return itens;
+//    }
+//
+//    public void setItens(Set<Item> itens) {
+//        this.itens = itens;
+//    }
+   
+//    public List<Avaliacao> getAvaliacoes() {
+//        return avaliacoes;
+//    }
+//
+//    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+//        this.avaliacoes = avaliacoes;
+//    }
     
     
 //    public Set<Categoria> getCategorias() {
