@@ -6,6 +6,7 @@
 package com.checkapp.controle;
 
 //import com.checkapp.dao.AvaliacaoRepositorio;
+import com.checkapp.dao.AvaliacaoRepositorio;
 import com.checkapp.dao.CategoriaRepositorio;
 import com.checkapp.dao.InspecaoRepositorio;
 import com.checkapp.dao.ItemRepositorio;
@@ -26,6 +27,7 @@ import com.checkapp.entidade.Item;
 import java.util.ArrayList;
 import javax.faces.model.SelectItem;
 import com.checkapp.dao.EmpreendimentoRepositorio;
+import com.checkapp.entidade.Avaliacao;
 //import com.checkapp.entidade.Avaliacao;
 import java.time.LocalDate;
 import static java.time.LocalDate.now;
@@ -59,7 +61,7 @@ public class InspecaoControle implements Serializable {
 
     private List<Categoria> categorias;
 
-    //private List<Avaliacao> avaliacoes;
+    private List<Avaliacao> avaliacoes;
 
     private List<Item> itens;
 
@@ -83,8 +85,8 @@ public class InspecaoControle implements Serializable {
     @Autowired
     private InspecaoRepositorio inspecaoRepositorio;
 
-    //@Autowired
-    //private AvaliacaoRepositorio avaliacaoRepositorio;
+    @Autowired
+    private AvaliacaoRepositorio avaliacaoRepositorio;
 
     //para pesquisar no banco antes de carregar a tela- como um construtor de uma classe de Entidade, mas tem em todas as classes
     @PostConstruct
@@ -134,7 +136,16 @@ public class InspecaoControle implements Serializable {
             listaDeCategoria.add(it);
         }
     }
-
+    
+    public List<Avaliacao> getListaAvaliacao(String resposta){
+        List<Avaliacao> avaliacoes = avaliacaoRepositorio.procurarPorResposta(resposta);
+        for(Avaliacao avaliac : avaliacoes){
+            System.out.println("XXXX" + avaliac.getResposta());
+        }
+        System.out.println("");
+        return avaliacoes;
+    }
+    
 //    public List<Item> getListaItemCategoria(String nome) {
 //        List<Item> itens = itemRepositorio.findByNomeCategoria(nome);
 //        for (Item iten : itens) {
@@ -165,7 +176,13 @@ public class InspecaoControle implements Serializable {
         //logger.info("método - salvar()");
         try {
             inspecao.setEmpreendimento(lugar);
-            //inspecao.setDataEhora(LocalDate.now());
+            inspecao.setAvaliacoes(avaliacoes);
+            Avaliacao avaliacao = new Avaliacao();
+                for(Avaliacao avaliac : avaliacoes){
+                    avaliacao.setResposta(avaliacao.getResposta());
+                }
+            
+            //inspecao.setDataEhora(LocalDate.now()); --> não sei como setar para ser data e hora atual
 //            listaDeCategoria = categoriaRepositorio.pesquisarCategoriaPorItem();
             //avaliacao.setItens(temp_itens); 
 //            inspecao.setAvaliacoes(avaliacoes); 
@@ -184,6 +201,14 @@ public class InspecaoControle implements Serializable {
         }
     }
 
+    public List<Avaliacao> getAvaliacoes() {
+        return avaliacoes;
+    }
+
+    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+        this.avaliacoes = avaliacoes;
+    }
+    
 //    public void excluir() {
 //        try {
 //            inspecao = modelInspecoes.getRowData();

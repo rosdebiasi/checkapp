@@ -1,5 +1,6 @@
 package com.checkapp.dao; //chamado pelo padrão do spring boot de repositorio
 
+import com.checkapp.entidade.Avaliacao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +11,9 @@ import org.springframework.data.jpa.repository.Query;
 @Repository
 public interface AvaliacaoRepositorio extends JpaRepository<Item, Long>{
     
+    @Query("from Avaliacao a Where a.resposta = :resposta")
+    List<Avaliacao> procurarPorResposta(String resposta);
+
 //    @Query("from Item i Where i.nome like %:nome%")
 //    List<Item> findByNomeContaining(String nome);
 //    

@@ -21,7 +21,7 @@ public class Inspecao implements Serializable {
 
     @Column(nullable = false)
     //@Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd hh-mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataEhora;
     
     private String observacao;
