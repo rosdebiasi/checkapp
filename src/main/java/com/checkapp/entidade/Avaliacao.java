@@ -1,50 +1,39 @@
 package com.checkapp.entidade;
 
-import java.io.Serializable;
-import java.util.List;
-
+import java.util.Objects;
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "Avaliacao")
 @Table(name = "avaliacao")
-public class Avaliacao implements Serializable {
+public class Avaliacao {
 
-    private static final long serialVersionUID = 1L;
+    @EmbeddedId
+    private AvaliacaoID id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String resposta;
-
-    //private String observacao;
-    
-//    //depois desmarcar
-    
-    @ManyToOne
-    @JoinColumn(name="id_item")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("inspecaoId")
+    private Inspecao inspecao;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("itemId")
     private Item item;
-//    
-//    @OneToMany (mappedBy="avaliacao",cascade = CascadeType.ALL) //qqer coisa tirar o cascade
-//    private List<Item> itens;
-    
-    @ManyToOne 
-    @JoinColumn(name="id_inspecao")
-    private Inspecao inspecao;    
+
+//    @ManyToOne
+//    @JoinColumn(name = "id_item")
+//    private Item item;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "id_inspecao")
+//    private Inspecao inspecao;
+    @Column
+    private String resposta;
 
     public Avaliacao() {
     }
 
-    public Avaliacao(String resposta) {
-        this.resposta = resposta;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public Avaliacao(Inspecao inspecao, Item item) {
+        this.inspecao = inspecao;
+        this.item = item;
+        this.id = new AvaliacaoID(inspecao.getId(), item.getId());
     }
 
     public String getResposta() {
@@ -62,15 +51,6 @@ public class Avaliacao implements Serializable {
 //    public void setObservacao(String observacao) {
 //        this.observacao = observacao;
 //    }
-
-//    public List<Item> getItens() {
-//        return itens;
-//    }
-//
-//    public void setItens(List<Item> itens) {
-//        this.itens = itens;
-//    }
-
     public Inspecao getInspecao() {
         return inspecao;
     }
@@ -78,23 +58,21 @@ public class Avaliacao implements Serializable {
     public void setInspecao(Inspecao inspecao) {
         this.inspecao = inspecao;
     }
-    
-//    public Item getItem() {
-//        return item;
-//    }
-//
-//    public void setItem(Item item) {
-//        this.item = item;
-//    }
-//    
-    
-            
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
+        int hash = 7;
+        hash = 19 * hash + Objects.hashCode(this.inspecao);
+        hash = 19 * hash + Objects.hashCode(this.item);
+        return hash;
     }
 
     @Override
@@ -108,25 +86,11 @@ public class Avaliacao implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Avaliacao other = (Avaliacao) obj;
-        if (id == null) {
-            if (other.id != null) {
-                return false;
-            }
-        } else if (!id.equals(other.id)) {
+        final Avaliacao other = (Avaliacao) obj;
+        if (!Objects.equals(this.inspecao, other.inspecao)) {
             return false;
         }
-        return true;
+        return Objects.equals(this.item, other.item);
     }
-    
-//    public boolean isAvaliacao() {
-//        return avaliacao;
-//    }
-//
-//    public void setAvaliacao(boolean avaliacao) {
-//        this.avaliacao = avaliacao;
-//    }
-    
-
 
 }

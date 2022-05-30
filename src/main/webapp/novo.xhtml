@@ -27,28 +27,46 @@
                                 <f:selectItems value="#{inspecaoC.comboLugar}"/>
                             </p:selectOneMenu>
                             
-                            <p:accordionPanel value="#{inspecaoC.listaDeCategoria}" var="categoria">
+<!--                            <p:accordionPanel value="#{inspecaoC.listaDeCategoria}" var="categoria">
                                 <p:tab title="#{categoria.nome}">
                                     <p:repeat value="#{categoria.itens}" var="item">
                                     <div class="product-list-item">
                                         <div class="product-list-detail">
                                             <div class="product-name">#{item.nome}
                                                 <div class="product-avaliacao">
-                                                    <p:selectOneRadio id="console" value="#{inspecaoC.avaliac}" unselectable="false"> <!--<não puxa: item.avaliacao.resposta>-->
-                                                        <f:selectItem itemLabel="Sim" itemValue="Sim"/>
-                                                        <f:selectItem itemLabel="Não" itemValue="Não"/>
-                                                        <f:selectItem itemLabel="N/A" itemValue="N/A"/>
+                                                    <p:selectOneRadio id="console" value="#{inspecaoC.avaliacoes}" unselectable="false">
+                                                        <f:selectItem itemLabel="Sim" itemValue="sim"/>
+                                                        <f:selectItem itemLabel="Não" itemValue="nao"/>
+                                                        <f:selectItem itemLabel="N/A" itemValue="na"/>
                                                     </p:selectOneRadio>
-                                                    <!--<p:remoteCommand name="teste" action="# {inspecaoC.adicionarItem(item.id)}"/>-->
+                                                    <p:remoteCommand name="teste" action="# {inspecaoC.adicionarItem(item.id)}"/>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     </p:repeat>
                                 </p:tab>
-                            </p:accordionPanel>
+                            </p:accordionPanel>-->
                         </p:panelGrid>
                         <!--primeira coluna-->
+                        
+                        <p:repeat value="#{inspecaoC.avaliacoes}" var="avaliacao">
+                            <div class="product-list-item">
+                                <div class="product-list-detail">
+                                    <div class="product-name">#{avaliacao.item.nome}
+                                        <div class="product-avaliacao">
+                                            <p:selectOneRadio id="console" value="#{avaliacao.resposta}" unselectable="false">
+                                                <f:selectItem itemLabel="Sim" itemValue="sim"/>
+                                                <f:selectItem itemLabel="Não" itemValue="nao"/>
+                                                <f:selectItem itemLabel="N/A" itemValue="na"/>
+                                            </p:selectOneRadio>
+                                            <!--<p:remoteCommand name="teste" action="# {inspecaoC.adicionarItem(item.id)}"/>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p:repeat>
+                        
                         <p:commandButton value="Salvar Inspeção" action="#{inspecaoC.salvar()}"  update="@all" /> 
                     </h:form>
                 </p:tab>

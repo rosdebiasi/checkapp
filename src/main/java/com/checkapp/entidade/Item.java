@@ -1,6 +1,7 @@
 package com.checkapp.entidade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -17,30 +18,24 @@ public class Item implements Serializable {
 
     @Column(nullable = false)
     private String nome;
-    
-//    private boolean sim;
-//    private boolean nao;
-//    private boolean naoSeAplica;
-    
-//    private Integer numero;
- 
-    //desmarcar depois- para teste inicial
-    
-    @ManyToOne 
-    @JoinColumn (name = "id_categoria")
+
+    @ManyToOne
+    @JoinColumn(name = "id_categoria")
     private Categoria categoria;
-    
-//    @OneToMany
-//    @JoinColumn(name = "id_avaliacao")
-//    private List <Avaliacao> avaliacoes;
-    
+
+    @OneToMany(
+            mappedBy = "item",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Avaliacao> avaliacoes = new ArrayList<>();
+
 //    @ManyToOne
 //    @JoinColumn (name = "id_avaliacao")
 //    private Avaliacao avaliacao;
-    
     //antigo - sugestão professor - para forçar, mas deu problema no salvar item
     //private Avaliacao avaliacao = new Avaliacao();
-
     public Item() {
     }
 
@@ -73,23 +68,14 @@ public class Item implements Serializable {
         this.categoria = categoria;
     }
 
-//    public List<Avaliacao> getAvaliacoes() {
-//        return avaliacoes;
-//    }
-//
-//    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
-//        this.avaliacoes = avaliacoes;
-//    }
-    
+    public List<Avaliacao> getAvaliacoes() {
+        return avaliacoes;
+    }
 
-//    public Avaliacao getAvaliacao() {
-//        return avaliacao;
-//    }
-//
-//    public void setAvaliacao(Avaliacao avaliacao) {
-//        this.avaliacao = avaliacao;
-//    }
-      
+    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+        this.avaliacoes = avaliacoes;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -119,54 +105,5 @@ public class Item implements Serializable {
         }
         return true;
     }
- 
-    //    public Integer getNumero() {
-//        return numero;
-//    }
-//
-//    public void setNumero(Integer numero) {
-//        this.numero = numero;
-//    }
-//    
-//    public boolean isSim() {
-//        return sim;
-//    }
-//
-//    public void setSim(boolean sim) {
-//        this.sim = sim;
-//    }
-//
-//    public boolean isNao() {
-//        return nao;
-//    }
-//
-//    public void setNao(boolean nao) {
-//        this.nao = nao;
-//    }
-//
-//    public boolean isNaoSeAplica() {
-//        return naoSeAplica;
-//    }
-//
-//    public void setNaoSeAplica(boolean naoSeAplica) {
-//        this.naoSeAplica = naoSeAplica;
-//    }
-    
-
-//    public String getObservacao() {
-//        return observacao;
-//    }
-//
-//    public void setObservacao(String observacao) {
-//        this.observacao = observacao;
-//    }
-
-//    public Local getLocal() {
-//        return local;
-//    }
-//
-//    public void setLocal(Local local) {
-//        this.local = local;
-//    }
 
 }

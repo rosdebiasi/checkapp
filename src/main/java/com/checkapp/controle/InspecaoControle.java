@@ -28,88 +28,76 @@ import java.util.ArrayList;
 import javax.faces.model.SelectItem;
 import com.checkapp.dao.EmpreendimentoRepositorio;
 import com.checkapp.entidade.Avaliacao;
-//import com.checkapp.entidade.Avaliacao;
 import java.time.LocalDate;
-import static java.time.LocalDate.now;
+import java.util.GregorianCalendar;
 import javax.annotation.PostConstruct;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
-
-/**
- *
- * @author JavaRevolutions
- */
 
 @Component(value = "inspecaoC")
 @Scope("view")
 public class InspecaoControle implements Serializable {
-
+    
     private static final long serialVersionUID = 1L;
     private final Logger logger = LoggerFactory.logger(getClass());
-
-    //private Avaliacao avaliacao;
+    
     private Inspecao inspecao;
     private DataModel<Inspecao> modelInspecoes;
     private int aba;
-
+    
     private Item item;
     private Empreendimento lugar;
     private Categoria categoria;
-
+    
     private List<Categoria> categorias;
-
-    private List<Avaliacao> avaliacoes;
-
-    private List<Item> itens;
-
-    private List<Item> temp_itens;
-
-    private List<String> avaliac;
-
     private List<SelectItem> comboLugar;
-
     private List<Categoria> listaDeCategoria;
-
+    
     @Autowired
     private ItemRepositorio itemRepositorio;
-
+    
     @Autowired
     private CategoriaRepositorio categoriaRepositorio;
-
+    
     @Autowired
     private EmpreendimentoRepositorio lugarRepositorio;
-
+    
     @Autowired
     private InspecaoRepositorio inspecaoRepositorio;
-
+    
     @Autowired
     private AvaliacaoRepositorio avaliacaoRepositorio;
 
     //para pesquisar no banco antes de carregar a tela- como um construtor de uma classe de Entidade, mas tem em todas as classes
     @PostConstruct
     public void iniciar() {
+            lugar = null;
+            modelInspecoes = null;
+            aba = 0;
+        inspecao = new Inspecao();
         carregarComboBoxLugar();
         listaDeCategoria = categoriaRepositorio.pesquisarCategoriaPorItem();
-        //para teste
-//        Avaliacao avaliacao;
-//         for (Categoria categoria1 : listaDeCategoria) {
-//             System.out.println("id: " + categoria1.getId());
-//             for (Item iten : categoria1.getItens()) {
-//                 //System.out.println("nome: " + iten.getNome());
-//                avaliacao = new Avaliacao();
-//                 iten.setAvaliacao(avaliacao);
-//                 System.out.println("resposta: " + iten.getAvaliacao().getResposta());
-//             }
-//        }
-    }
 
+//        avaliacoes = new ArrayList<>();
+        for (Categoria cat : listaDeCategoria) {
+            for (Item it : cat.getItens()) {
+                //System.out.println("nome: " + iten.getNome());
+//                Avaliacao avaliacao = new Avaliacao();
+//                avaliacao.setItem(it);
+
+//                System.out.println("resposta: " + iten.getAvaliacao().getResposta());
+//                avaliacoes.add(avaliacao);
+                inspecao.addAvaliacao(it);
+            }
+        }
+    }
+    
     public List<Inspecao> pesquisarTodo() {
         return inspecaoRepositorio.findAll();
     }
-
+    
     public void pesquisarPorNome() {
         List<Inspecao> inspecoes = inspecaoRepositorio.findByNome(inspecao.getNome());
         modelInspecoes = new ListDataModel<>(inspecoes);
@@ -120,7 +108,7 @@ public class InspecaoControle implements Serializable {
     public void pesquisarPorId() {
         Optional<Inspecao> inspecoes = inspecaoRepositorio.findById(inspecao.getId());
     }
-
+    
     private void carregarComboBoxLugar() {
         List<Empreendimento> lugares = lugarRepositorio.findAll();
         comboLugar = new ArrayList<>();
@@ -128,7 +116,7 @@ public class InspecaoControle implements Serializable {
             comboLugar.add(new SelectItem(lug.getId(), lug.getNome()));
         }
     }
-
+    
     private void carregarListaItem() {
         List<Categoria> categorias = categoriaRepositorio.findAll();
         listaDeCategoria = new ArrayList<>();
@@ -137,15 +125,15 @@ public class InspecaoControle implements Serializable {
         }
     }
     
-    public List<Avaliacao> getListaAvaliacao(String resposta){
+    public List<Avaliacao> getListaAvaliacao(String resposta) {
         List<Avaliacao> avaliacoes = avaliacaoRepositorio.procurarPorResposta(resposta);
-        for(Avaliacao avaliac : avaliacoes){
+        for (Avaliacao avaliac : avaliacoes) {
             System.out.println("XXXX" + avaliac.getResposta());
         }
         System.out.println("");
         return avaliacoes;
     }
-    
+
 //    public List<Item> getListaItemCategoria(String nome) {
 //        List<Item> itens = itemRepositorio.findByNomeCategoria(nome);
 //        for (Item iten : itens) {
@@ -154,61 +142,42 @@ public class InspecaoControle implements Serializable {
 //        System.out.println("");
 //        return itens;
 //    }
-
-    public List<String> getAvaliac() {
-        return avaliac;
-    }
-
-    public void setAvaliac(List<String> avaliac) {
-        this.avaliac = avaliac;
-    }
     
-    public void trocarDeTela(){
+    public void trocarDeTela() {
         try {
             String url = "http://localhost:8080/CheckApp/novo_2.jr";
         } catch (Exception e) {
-             System.out.println("Erro ao trocar de tela " + e.getMessage());
+            System.out.println("Erro ao trocar de tela " + e.getMessage());
         }
     }
-
+    
     public void salvar() {
-        
-        //logger.info("método - salvar()");
         try {
+            inspecao.setNome("Teste");
             inspecao.setEmpreendimento(lugar);
-            inspecao.setAvaliacoes(avaliacoes);
-            Avaliacao avaliacao = new Avaliacao();
-                for(Avaliacao avaliac : avaliacoes){
-                    avaliacao.setResposta(avaliacao.getResposta());
-                }
-            
-            //inspecao.setDataEhora(LocalDate.now()); --> não sei como setar para ser data e hora atual
-//            listaDeCategoria = categoriaRepositorio.pesquisarCategoriaPorItem();
-            //avaliacao.setItens(temp_itens); 
-//            inspecao.setAvaliacoes(avaliacoes); 
+            inspecao.setDataEhora(GregorianCalendar.getInstance().getTime());
             
             inspecaoRepositorio.save(inspecao);
+            for (Avaliacao avaliacao : inspecao.getAvaliacoes()) {
+                avaliacaoRepositorio.save(avaliacao);
+            }
             Mensagem.mensagemSucesso(inspecao.getNome());
-            inspecao = null;
-            lugar = null;
-            temp_itens = null;
-            //categorias = null;
-            modelInspecoes = null;
-            aba = 0;
+            
+            iniciar();
         } catch (Exception e) {
             System.out.println("Error ao salvar " + e.getMessage());
             Mensagem.mensagemErro(inspecao.getNome());
         }
     }
-
+    
     public List<Avaliacao> getAvaliacoes() {
-        return avaliacoes;
-    }
-
-    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
-        this.avaliacoes = avaliacoes;
+        return inspecao.getAvaliacoes();
     }
     
+    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+        inspecao.setAvaliacoes(avaliacoes);
+    }
+
 //    public void excluir() {
 //        try {
 //            inspecao = modelInspecoes.getRowData();
@@ -222,7 +191,6 @@ public class InspecaoControle implements Serializable {
 //            Mensagem.mensagemErroExcluir(inspecao.getNome());
 //        }
 //    }
-
 //    public void prepararAlterar() {
 //        inspecao = modelInspecoes.getRowData();
 //        lugar = inspecao.getEmpreendimento();
@@ -230,7 +198,6 @@ public class InspecaoControle implements Serializable {
 //        modelInspecoes = null;
 //        aba = 1;
 //    }
-
 //    public void adicionarItem(long id) {
 //        try {
 //            System.out.println(id);
@@ -241,7 +208,6 @@ public class InspecaoControle implements Serializable {
 //            Mensagem.mensagemErro("não foi possivel salvar");
 //        }
 //    }
-
     public void onTabChange(TabChangeEvent event) {
         if (event.getTab().getTitle().equals("Novo")) {
             if (comboLugar == null) {
@@ -252,6 +218,7 @@ public class InspecaoControle implements Serializable {
             }
         }
     }
+    
     public void onTabClose(TabCloseEvent event) {
     }
 
@@ -271,96 +238,90 @@ public class InspecaoControle implements Serializable {
 //    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
 //        this.avaliacoes = avaliacoes;
 //    }
-
     public Categoria getCategoria() {
         return categoria;
     }
-
+    
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
-
+    
     public Item getItem() {
         return item;
     }
-
+    
     public void setItem(Item item) {
         this.item = item;
     }
-
+    
     public List<Categoria> getListaDeCategoria() {
         return listaDeCategoria;
     }
-
+    
     public void setListaDeCategoria(List<Categoria> listaDeCategoria) {
         this.listaDeCategoria = listaDeCategoria;
     }
-
+    
     public List<SelectItem> getComboLugar() {
         return comboLugar;
     }
-
+    
     public void setComboLugar(List<SelectItem> comboLugar) {
         this.comboLugar = comboLugar;
     }
-
+    
     public Inspecao getInspecao() {
-        if (inspecao == null) {
-            inspecao = new Inspecao();
-        }
         return inspecao;
     }
-
+    
     public void setInspecao(Inspecao inspecao) {
         this.inspecao = inspecao;
     }
-
+    
     public DataModel<Inspecao> getModelInspecoes() {
         return modelInspecoes;
     }
-
+    
     public void setModelInspecoes(DataModel<Inspecao> modelInspecoes) {
         this.modelInspecoes = modelInspecoes;
     }
-
+    
     public List<Categoria> getCategorias() {
         return categorias;
     }
-
+    
     public void setCategorias(List<Categoria> categorias) {
         this.categorias = categorias;
     }
-
+    
     public InspecaoRepositorio getInspecaoRepositorio() {
         return inspecaoRepositorio;
     }
-
+    
     public void setInspecaoRepositorio(InspecaoRepositorio inspecaoRepositorio) {
         this.inspecaoRepositorio = inspecaoRepositorio;
     }
-
+    
     public Empreendimento getLugar() {
         if (lugar == null) {
             lugar = new Empreendimento();
         }
         return lugar;
     }
-
+    
     public void setLugar(Empreendimento lugar) {
         this.lugar = lugar;
     }
-
+    
     public int getAba() {
         return aba;
     }
-
+    
     public void setAba(int aba) {
         this.aba = aba;
     }
-
+    
 }
-    
-    
 
 //comentados    
 //    public List<SelectItem> getComboItem() {
@@ -389,7 +350,6 @@ public class InspecaoControle implements Serializable {
 //        avaliac.add("Não");
 //        avaliac.add("N/A");
 //    }
-    
 //    private void carregarComboBoxItem() {  
 //        inspecao.getAvaliacoes();
 //        Avaliacao ava = new Avaliacao();

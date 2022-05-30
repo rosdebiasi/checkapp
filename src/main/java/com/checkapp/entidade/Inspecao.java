@@ -1,10 +1,10 @@
 package com.checkapp.entidade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,46 +20,38 @@ public class Inspecao implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    //@Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataEhora;
-    
+
     private String observacao;
-    
+
     private String nome;
 
     @ManyToOne()
-    @JoinColumn(name="id_empreendimento")
+    @JoinColumn(name = "id_empreendimento")
     private Empreendimento empreendimento;
-    
+
     @ManyToOne()
-    @JoinColumn(name="id_usuario")
+    @JoinColumn(name = "id_usuario")
     private Usuario usuario;
-    
-//    @ManyToMany
-//    @JoinTable(name = "inspecao_categoria",
-//            joinColumns = @JoinColumn(name = "inspecao_codigo"),
-//              addColumn = @Addcolumn(name= "resposta"),
-//            inverseJoinColumns = @JoinColumn(name = "categoria_codigo"))
-//    private Set<Categoria> categorias = new HashSet<>();
-    
-    //descomentar depois
-    
-    @OneToMany(mappedBy = "inspecao") 
-    private List<Avaliacao> avaliacoes;
-    
+
+    @OneToMany(
+            mappedBy = "inspecao",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.MERGE,
+            orphanRemoval = true
+    )
+    private List<Avaliacao> avaliacoes = new ArrayList<>();
+
 //    @ManyToMany
 //    @JoinTable(name = "inspecao_item",
 //            joinColumns = @JoinColumn(name = "inspecao_codigo"),
 //            inverseJoinColumns = @JoinColumn(name = "item_codigo"))
 //    @Column(name = "resposta")
-//    private Set<Item> itens = new HashSet<>();
-    
-    
+//    private Set<Item> itens = new HashSet<>();    
 //    @OneToOne 
 //    @JoinColumn(name="id_usuario")
 //    private Usuario usuario;
-
     public Inspecao() {
     }
 
@@ -67,6 +59,27 @@ public class Inspecao implements Serializable {
         this.dataEhora = dataEhora;
         this.observacao = observacao;
         this.nome = nome;
+    }
+
+    public void addAvaliacao(Item item) {
+        Avaliacao avaliacao = new Avaliacao(this, item);
+        avaliacoes.add(avaliacao);
+//        item.getAvaliacoes().add(avaliacao);
+    }
+
+    public void removeAvaliacao(Item item) {
+        for (Iterator<Avaliacao> iterator = avaliacoes.iterator();
+                iterator.hasNext();) {
+            Avaliacao avaliacao = iterator.next();
+
+            if (avaliacao.getInspecao().equals(this)
+                    && avaliacao.getItem().equals(item)) {
+                iterator.remove();
+//                avaliacao.getItem().getAvaliacoes().remove(avaliacao);
+                avaliacao.setInspecao(null);
+                avaliacao.setItem(null);
+            }
+        }
     }
 
     public Long getId() {
@@ -116,31 +129,6 @@ public class Inspecao implements Serializable {
     public void setAvaliacoes(List<Avaliacao> avaliacoes) {
         this.avaliacoes = avaliacoes;
     }
-    
-//    public Set<Item> getItens() {
-//        return itens;
-//    }
-//
-//    public void setItens(Set<Item> itens) {
-//        this.itens = itens;
-//    }
-   
-//    public List<Avaliacao> getAvaliacoes() {
-//        return avaliacoes;
-//    }
-//
-//    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
-//        this.avaliacoes = avaliacoes;
-//    }
-    
-    
-//    public Set<Categoria> getCategorias() {
-//        return categorias;
-//    }
-//
-//    public void setCategorias(Set<Categoria> categorias) {
-//        this.categorias = categorias;
-//    }
 
     public String getNome() {
         return nome;
@@ -149,26 +137,7 @@ public class Inspecao implements Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
-   
 
-//   public Avaliacao getAvaliacao() {
-//        return avaliacao;
-//    }
-//
-//   public void setAvaliacao(Avaliacao avaliacao) {
-//        this.avaliacao = avaliacao;
-//    }
-//
-//    public Usuario getUsuario() {
-//       return usuario;
-//    }
-//
-//   public void setUsuario(Usuario usuario) {
-//        this.usuario = usuario;
-//   }
-    
-    
-    
     @Override
     public int hashCode() {
         final int prime = 31;

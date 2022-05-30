@@ -4,12 +4,11 @@ import com.checkapp.entidade.Avaliacao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.checkapp.entidade.Item;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 
 @Repository
-public interface AvaliacaoRepositorio extends JpaRepository<Item, Long>{
+public interface AvaliacaoRepositorio extends JpaRepository<Avaliacao, Long>{
     
     @Query("from Avaliacao a Where a.resposta = :resposta")
     List<Avaliacao> procurarPorResposta(String resposta);

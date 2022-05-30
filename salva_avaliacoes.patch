@@ -1,0 +1,1015 @@
+commit ee25e0a703c05120db36f12401e5b57add0cd638
+Author: Crineu Tres <crineu.tres@ufsc.br>
+Date:   Mon May 30 16:57:57 2022 -0300
+
+    avaliações
+    
+    Mudanças para salvar avalicações
+
+diff --git a/src/main/java/com/checkapp/controle/InspecaoControle.java b/src/main/java/com/checkapp/controle/InspecaoControle.java
+index 5639415..27fa053 100644
+--- a/src/main/java/com/checkapp/controle/InspecaoControle.java
++++ b/src/main/java/com/checkapp/controle/InspecaoControle.java
+@@ -28,88 +28,76 @@ import java.util.ArrayList;
+ import javax.faces.model.SelectItem;
+ import com.checkapp.dao.EmpreendimentoRepositorio;
+ import com.checkapp.entidade.Avaliacao;
+-//import com.checkapp.entidade.Avaliacao;
+ import java.time.LocalDate;
+-import static java.time.LocalDate.now;
++import java.util.GregorianCalendar;
+ import javax.annotation.PostConstruct;
+ import org.springframework.context.annotation.Scope;
+ import org.springframework.stereotype.Component;
+-
+ import org.hibernate.annotations.common.util.impl.LoggerFactory;
+ import org.jboss.logging.Logger;
+ 
+-/**
+- *
+- * @author JavaRevolutions
+- */
+-
+ @Component(value = "inspecaoC")
+ @Scope("view")
+ public class InspecaoControle implements Serializable {
+-
++    
+     private static final long serialVersionUID = 1L;
+     private final Logger logger = LoggerFactory.logger(getClass());
+-
+-    //private Avaliacao avaliacao;
++    
+     private Inspecao inspecao;
+     private DataModel<Inspecao> modelInspecoes;
+     private int aba;
+-
++    
+     private Item item;
+     private Empreendimento lugar;
+     private Categoria categoria;
+-
++    
+     private List<Categoria> categorias;
+-
+-    private List<Avaliacao> avaliacoes;
+-
+-    private List<Item> itens;
+-
+-    private List<Item> temp_itens;
+-
+-    private List<String> avaliac;
+-
+     private List<SelectItem> comboLugar;
+-
+     private List<Categoria> listaDeCategoria;
+-
++    
+     @Autowired
+     private ItemRepositorio itemRepositorio;
+-
++    
+     @Autowired
+     private CategoriaRepositorio categoriaRepositorio;
+-
++    
+     @Autowired
+     private EmpreendimentoRepositorio lugarRepositorio;
+-
++    
+     @Autowired
+     private InspecaoRepositorio inspecaoRepositorio;
+-
++    
+     @Autowired
+     private AvaliacaoRepositorio avaliacaoRepositorio;
+ 
+     //para pesquisar no banco antes de carregar a tela- como um construtor de uma classe de Entidade, mas tem em todas as classes
+     @PostConstruct
+     public void iniciar() {
++            lugar = null;
++            modelInspecoes = null;
++            aba = 0;
++        inspecao = new Inspecao();
+         carregarComboBoxLugar();
+         listaDeCategoria = categoriaRepositorio.pesquisarCategoriaPorItem();
+-        //para teste
+-//        Avaliacao avaliacao;
+-//         for (Categoria categoria1 : listaDeCategoria) {
+-//             System.out.println("id: " + categoria1.getId());
+-//             for (Item iten : categoria1.getItens()) {
+-//                 //System.out.println("nome: " + iten.getNome());
+-//                avaliacao = new Avaliacao();
+-//                 iten.setAvaliacao(avaliacao);
+-//                 System.out.println("resposta: " + iten.getAvaliacao().getResposta());
+-//             }
+-//        }
+-    }
+ 
++//        avaliacoes = new ArrayList<>();
++        for (Categoria cat : listaDeCategoria) {
++            for (Item it : cat.getItens()) {
++                //System.out.println("nome: " + iten.getNome());
++//                Avaliacao avaliacao = new Avaliacao();
++//                avaliacao.setItem(it);
++
++//                System.out.println("resposta: " + iten.getAvaliacao().getResposta());
++//                avaliacoes.add(avaliacao);
++                inspecao.addAvaliacao(it);
++            }
++        }
++    }
++    
+     public List<Inspecao> pesquisarTodo() {
+         return inspecaoRepositorio.findAll();
+     }
+-
++    
+     public void pesquisarPorNome() {
+         List<Inspecao> inspecoes = inspecaoRepositorio.findByNome(inspecao.getNome());
+         modelInspecoes = new ListDataModel<>(inspecoes);
+@@ -120,7 +108,7 @@ public class InspecaoControle implements Serializable {
+     public void pesquisarPorId() {
+         Optional<Inspecao> inspecoes = inspecaoRepositorio.findById(inspecao.getId());
+     }
+-
++    
+     private void carregarComboBoxLugar() {
+         List<Empreendimento> lugares = lugarRepositorio.findAll();
+         comboLugar = new ArrayList<>();
+@@ -128,7 +116,7 @@ public class InspecaoControle implements Serializable {
+             comboLugar.add(new SelectItem(lug.getId(), lug.getNome()));
+         }
+     }
+-
++    
+     private void carregarListaItem() {
+         List<Categoria> categorias = categoriaRepositorio.findAll();
+         listaDeCategoria = new ArrayList<>();
+@@ -137,15 +125,15 @@ public class InspecaoControle implements Serializable {
+         }
+     }
+     
+-    public List<Avaliacao> getListaAvaliacao(String resposta){
++    public List<Avaliacao> getListaAvaliacao(String resposta) {
+         List<Avaliacao> avaliacoes = avaliacaoRepositorio.procurarPorResposta(resposta);
+-        for(Avaliacao avaliac : avaliacoes){
++        for (Avaliacao avaliac : avaliacoes) {
+             System.out.println("XXXX" + avaliac.getResposta());
+         }
+         System.out.println("");
+         return avaliacoes;
+     }
+-    
++
+ //    public List<Item> getListaItemCategoria(String nome) {
+ //        List<Item> itens = itemRepositorio.findByNomeCategoria(nome);
+ //        for (Item iten : itens) {
+@@ -154,61 +142,42 @@ public class InspecaoControle implements Serializable {
+ //        System.out.println("");
+ //        return itens;
+ //    }
+-
+-    public List<String> getAvaliac() {
+-        return avaliac;
+-    }
+-
+-    public void setAvaliac(List<String> avaliac) {
+-        this.avaliac = avaliac;
+-    }
+     
+-    public void trocarDeTela(){
++    public void trocarDeTela() {
+         try {
+             String url = "http://localhost:8080/CheckApp/novo_2.jr";
+         } catch (Exception e) {
+-             System.out.println("Erro ao trocar de tela " + e.getMessage());
++            System.out.println("Erro ao trocar de tela " + e.getMessage());
+         }
+     }
+-
++    
+     public void salvar() {
+-        
+-        //logger.info("método - salvar()");
+         try {
++            inspecao.setNome("Teste");
+             inspecao.setEmpreendimento(lugar);
+-            inspecao.setAvaliacoes(avaliacoes);
+-            Avaliacao avaliacao = new Avaliacao();
+-                for(Avaliacao avaliac : avaliacoes){
+-                    avaliacao.setResposta(avaliacao.getResposta());
+-                }
+-            
+-            //inspecao.setDataEhora(LocalDate.now()); --> não sei como setar para ser data e hora atual
+-//            listaDeCategoria = categoriaRepositorio.pesquisarCategoriaPorItem();
+-            //avaliacao.setItens(temp_itens); 
+-//            inspecao.setAvaliacoes(avaliacoes); 
++            inspecao.setDataEhora(GregorianCalendar.getInstance().getTime());
+             
+             inspecaoRepositorio.save(inspecao);
++            for (Avaliacao avaliacao : inspecao.getAvaliacoes()) {
++                avaliacaoRepositorio.save(avaliacao);
++            }
+             Mensagem.mensagemSucesso(inspecao.getNome());
+-            inspecao = null;
+-            lugar = null;
+-            temp_itens = null;
+-            //categorias = null;
+-            modelInspecoes = null;
+-            aba = 0;
++            
++            iniciar();
+         } catch (Exception e) {
+             System.out.println("Error ao salvar " + e.getMessage());
+             Mensagem.mensagemErro(inspecao.getNome());
+         }
+     }
+-
++    
+     public List<Avaliacao> getAvaliacoes() {
+-        return avaliacoes;
++        return inspecao.getAvaliacoes();
+     }
+-
++    
+     public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+-        this.avaliacoes = avaliacoes;
++        inspecao.setAvaliacoes(avaliacoes);
+     }
+-    
++
+ //    public void excluir() {
+ //        try {
+ //            inspecao = modelInspecoes.getRowData();
+@@ -222,7 +191,6 @@ public class InspecaoControle implements Serializable {
+ //            Mensagem.mensagemErroExcluir(inspecao.getNome());
+ //        }
+ //    }
+-
+ //    public void prepararAlterar() {
+ //        inspecao = modelInspecoes.getRowData();
+ //        lugar = inspecao.getEmpreendimento();
+@@ -230,7 +198,6 @@ public class InspecaoControle implements Serializable {
+ //        modelInspecoes = null;
+ //        aba = 1;
+ //    }
+-
+ //    public void adicionarItem(long id) {
+ //        try {
+ //            System.out.println(id);
+@@ -241,7 +208,6 @@ public class InspecaoControle implements Serializable {
+ //            Mensagem.mensagemErro("não foi possivel salvar");
+ //        }
+ //    }
+-
+     public void onTabChange(TabChangeEvent event) {
+         if (event.getTab().getTitle().equals("Novo")) {
+             if (comboLugar == null) {
+@@ -252,6 +218,7 @@ public class InspecaoControle implements Serializable {
+             }
+         }
+     }
++    
+     public void onTabClose(TabCloseEvent event) {
+     }
+ 
+@@ -271,96 +238,90 @@ public class InspecaoControle implements Serializable {
+ //    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+ //        this.avaliacoes = avaliacoes;
+ //    }
+-
+     public Categoria getCategoria() {
+         return categoria;
+     }
+-
++    
+     public void setCategoria(Categoria categoria) {
+         this.categoria = categoria;
+     }
+-
++    
+     public Item getItem() {
+         return item;
+     }
+-
++    
+     public void setItem(Item item) {
+         this.item = item;
+     }
+-
++    
+     public List<Categoria> getListaDeCategoria() {
+         return listaDeCategoria;
+     }
+-
++    
+     public void setListaDeCategoria(List<Categoria> listaDeCategoria) {
+         this.listaDeCategoria = listaDeCategoria;
+     }
+-
++    
+     public List<SelectItem> getComboLugar() {
+         return comboLugar;
+     }
+-
++    
+     public void setComboLugar(List<SelectItem> comboLugar) {
+         this.comboLugar = comboLugar;
+     }
+-
++    
+     public Inspecao getInspecao() {
+-        if (inspecao == null) {
+-            inspecao = new Inspecao();
+-        }
+         return inspecao;
+     }
+-
++    
+     public void setInspecao(Inspecao inspecao) {
+         this.inspecao = inspecao;
+     }
+-
++    
+     public DataModel<Inspecao> getModelInspecoes() {
+         return modelInspecoes;
+     }
+-
++    
+     public void setModelInspecoes(DataModel<Inspecao> modelInspecoes) {
+         this.modelInspecoes = modelInspecoes;
+     }
+-
++    
+     public List<Categoria> getCategorias() {
+         return categorias;
+     }
+-
++    
+     public void setCategorias(List<Categoria> categorias) {
+         this.categorias = categorias;
+     }
+-
++    
+     public InspecaoRepositorio getInspecaoRepositorio() {
+         return inspecaoRepositorio;
+     }
+-
++    
+     public void setInspecaoRepositorio(InspecaoRepositorio inspecaoRepositorio) {
+         this.inspecaoRepositorio = inspecaoRepositorio;
+     }
+-
++    
+     public Empreendimento getLugar() {
+         if (lugar == null) {
+             lugar = new Empreendimento();
+         }
+         return lugar;
+     }
+-
++    
+     public void setLugar(Empreendimento lugar) {
+         this.lugar = lugar;
+     }
+-
++    
+     public int getAba() {
+         return aba;
+     }
+-
++    
+     public void setAba(int aba) {
+         this.aba = aba;
+     }
+-
+-}
+-    
+     
++}
+ 
+ //comentados    
+ //    public List<SelectItem> getComboItem() {
+@@ -389,7 +350,6 @@ public class InspecaoControle implements Serializable {
+ //        avaliac.add("Não");
+ //        avaliac.add("N/A");
+ //    }
+-    
+ //    private void carregarComboBoxItem() {  
+ //        inspecao.getAvaliacoes();
+ //        Avaliacao ava = new Avaliacao();
+diff --git a/src/main/java/com/checkapp/dao/AvaliacaoRepositorio.java b/src/main/java/com/checkapp/dao/AvaliacaoRepositorio.java
+index dcfef0c..8f8ac04 100644
+--- a/src/main/java/com/checkapp/dao/AvaliacaoRepositorio.java
++++ b/src/main/java/com/checkapp/dao/AvaliacaoRepositorio.java
+@@ -4,12 +4,11 @@ import com.checkapp.entidade.Avaliacao;
+ import org.springframework.data.jpa.repository.JpaRepository;
+ import org.springframework.stereotype.Repository;
+ 
+-import com.checkapp.entidade.Item;
+ import java.util.List;
+ import org.springframework.data.jpa.repository.Query;
+ 
+ @Repository
+-public interface AvaliacaoRepositorio extends JpaRepository<Item, Long>{
++public interface AvaliacaoRepositorio extends JpaRepository<Avaliacao, Long>{
+     
+     @Query("from Avaliacao a Where a.resposta = :resposta")
+     List<Avaliacao> procurarPorResposta(String resposta);
+diff --git a/src/main/java/com/checkapp/entidade/Avaliacao.java b/src/main/java/com/checkapp/entidade/Avaliacao.java
+index 28dcc89..8464cd2 100644
+--- a/src/main/java/com/checkapp/entidade/Avaliacao.java
++++ b/src/main/java/com/checkapp/entidade/Avaliacao.java
+@@ -1,50 +1,39 @@
+ package com.checkapp.entidade;
+ 
+-import java.io.Serializable;
+-import java.util.List;
+-
++import java.util.Objects;
+ import javax.persistence.*;
+ 
+-@Entity
++@Entity(name = "Avaliacao")
+ @Table(name = "avaliacao")
+-public class Avaliacao implements Serializable {
++public class Avaliacao {
+ 
+-    private static final long serialVersionUID = 1L;
++    @EmbeddedId
++    private AvaliacaoID id;
+ 
+-    @Id
+-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+-    private Long id;
++    @ManyToOne(fetch = FetchType.LAZY)
++    @MapsId("inspecaoId")
++    private Inspecao inspecao;
++    @ManyToOne(fetch = FetchType.LAZY)
++    @MapsId("itemId")
++    private Item item;
+ 
++//    @ManyToOne
++//    @JoinColumn(name = "id_item")
++//    private Item item;
++//
++//    @ManyToOne
++//    @JoinColumn(name = "id_inspecao")
++//    private Inspecao inspecao;
++    @Column
+     private String resposta;
+ 
+-    //private String observacao;
+-    
+-//    //depois desmarcar
+-    
+-    @ManyToOne
+-    @JoinColumn(name="id_item")
+-    private Item item;
+-//    
+-//    @OneToMany (mappedBy="avaliacao",cascade = CascadeType.ALL) //qqer coisa tirar o cascade
+-//    private List<Item> itens;
+-    
+-    @ManyToOne 
+-    @JoinColumn(name="id_inspecao")
+-    private Inspecao inspecao;    
+-
+     public Avaliacao() {
+     }
+ 
+-    public Avaliacao(String resposta) {
+-        this.resposta = resposta;
+-    }
+-
+-    public Long getId() {
+-        return id;
+-    }
+-
+-    public void setId(Long id) {
+-        this.id = id;
++    public Avaliacao(Inspecao inspecao, Item item) {
++        this.inspecao = inspecao;
++        this.item = item;
++        this.id = new AvaliacaoID(inspecao.getId(), item.getId());
+     }
+ 
+     public String getResposta() {
+@@ -62,15 +51,6 @@ public class Avaliacao implements Serializable {
+ //    public void setObservacao(String observacao) {
+ //        this.observacao = observacao;
+ //    }
+-
+-//    public List<Item> getItens() {
+-//        return itens;
+-//    }
+-//
+-//    public void setItens(List<Item> itens) {
+-//        this.itens = itens;
+-//    }
+-
+     public Inspecao getInspecao() {
+         return inspecao;
+     }
+@@ -78,23 +58,21 @@ public class Avaliacao implements Serializable {
+     public void setInspecao(Inspecao inspecao) {
+         this.inspecao = inspecao;
+     }
+-    
+-//    public Item getItem() {
+-//        return item;
+-//    }
+-//
+-//    public void setItem(Item item) {
+-//        this.item = item;
+-//    }
+-//    
+-    
+-            
++
++    public Item getItem() {
++        return item;
++    }
++
++    public void setItem(Item item) {
++        this.item = item;
++    }
++
+     @Override
+     public int hashCode() {
+-        final int prime = 31;
+-        int result = 1;
+-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+-        return result;
++        int hash = 7;
++        hash = 19 * hash + Objects.hashCode(this.inspecao);
++        hash = 19 * hash + Objects.hashCode(this.item);
++        return hash;
+     }
+ 
+     @Override
+@@ -108,25 +86,11 @@ public class Avaliacao implements Serializable {
+         if (getClass() != obj.getClass()) {
+             return false;
+         }
+-        Avaliacao other = (Avaliacao) obj;
+-        if (id == null) {
+-            if (other.id != null) {
+-                return false;
+-            }
+-        } else if (!id.equals(other.id)) {
++        final Avaliacao other = (Avaliacao) obj;
++        if (!Objects.equals(this.inspecao, other.inspecao)) {
+             return false;
+         }
+-        return true;
++        return Objects.equals(this.item, other.item);
+     }
+-    
+-//    public boolean isAvaliacao() {
+-//        return avaliacao;
+-//    }
+-//
+-//    public void setAvaliacao(boolean avaliacao) {
+-//        this.avaliacao = avaliacao;
+-//    }
+-    
+-
+ 
+ }
+diff --git a/src/main/java/com/checkapp/entidade/AvaliacaoID.java b/src/main/java/com/checkapp/entidade/AvaliacaoID.java
+new file mode 100644
+index 0000000..6024e81
+--- /dev/null
++++ b/src/main/java/com/checkapp/entidade/AvaliacaoID.java
+@@ -0,0 +1,63 @@
++package com.checkapp.entidade;
++
++import java.io.Serializable;
++import java.util.Objects;
++import javax.persistence.Column;
++import javax.persistence.Embeddable;
++
++/**
++ *
++ * @author user
++ */
++@Embeddable
++public class AvaliacaoID implements Serializable {
++    
++    @Column(name = "id_inspecao")
++    private Long inspecaoId;
++    
++    @Column(name = "id_item")
++    private Long itemId;
++    
++    public AvaliacaoID() {}
++            
++    public AvaliacaoID(Long inspecaoId, Long itemId) {
++        this.inspecaoId = inspecaoId;
++        this.itemId = itemId;
++    }
++    
++    public Long getInspecaoId() {
++        return inspecaoId;
++    }
++    public Long getItemId() {
++        return itemId;
++    }
++    
++
++    @Override
++    public int hashCode() {
++        int hash = 7;
++        hash = 23 * hash + Objects.hashCode(this.inspecaoId);
++        hash = 23 * hash + Objects.hashCode(this.itemId);
++        return hash;
++    }
++
++    @Override
++    public boolean equals(Object obj) {
++        if (this == obj) {
++            return true;
++        }
++        if (obj == null) {
++            return false;
++        }
++        if (getClass() != obj.getClass()) {
++            return false;
++        }
++        final AvaliacaoID other = (AvaliacaoID) obj;
++        if (!Objects.equals(this.inspecaoId, other.inspecaoId)) {
++            return false;
++        }
++        return Objects.equals(this.itemId, other.itemId);
++    }
++
++    
++}
+diff --git a/src/main/java/com/checkapp/entidade/Inspecao.java b/src/main/java/com/checkapp/entidade/Inspecao.java
+index 9f39607..bd9706a 100644
+--- a/src/main/java/com/checkapp/entidade/Inspecao.java
++++ b/src/main/java/com/checkapp/entidade/Inspecao.java
+@@ -1,10 +1,10 @@
+ package com.checkapp.entidade;
+ 
+ import java.io.Serializable;
++import java.util.ArrayList;
+ import java.util.Date;
+-import java.util.HashSet;
++import java.util.Iterator;
+ import java.util.List;
+-import java.util.Set;
+ 
+ import javax.persistence.*;
+ import org.springframework.format.annotation.DateTimeFormat;
+@@ -20,46 +20,38 @@ public class Inspecao implements Serializable {
+     private Long id;
+ 
+     @Column(nullable = false)
+-    //@Temporal(TemporalType.DATE)
+     @DateTimeFormat(pattern = "yyyy-MM-dd")
+     private Date dataEhora;
+-    
++
+     private String observacao;
+-    
++
+     private String nome;
+ 
+     @ManyToOne()
+-    @JoinColumn(name="id_empreendimento")
++    @JoinColumn(name = "id_empreendimento")
+     private Empreendimento empreendimento;
+-    
++
+     @ManyToOne()
+-    @JoinColumn(name="id_usuario")
++    @JoinColumn(name = "id_usuario")
+     private Usuario usuario;
+-    
+-//    @ManyToMany
+-//    @JoinTable(name = "inspecao_categoria",
+-//            joinColumns = @JoinColumn(name = "inspecao_codigo"),
+-//              addColumn = @Addcolumn(name= "resposta"),
+-//            inverseJoinColumns = @JoinColumn(name = "categoria_codigo"))
+-//    private Set<Categoria> categorias = new HashSet<>();
+-    
+-    //descomentar depois
+-    
+-    @OneToMany(mappedBy = "inspecao") 
+-    private List<Avaliacao> avaliacoes;
+-    
++
++    @OneToMany(
++            mappedBy = "inspecao",
++            fetch = FetchType.EAGER,
++            cascade = CascadeType.MERGE,
++            orphanRemoval = true
++    )
++    private List<Avaliacao> avaliacoes = new ArrayList<>();
++
+ //    @ManyToMany
+ //    @JoinTable(name = "inspecao_item",
+ //            joinColumns = @JoinColumn(name = "inspecao_codigo"),
+ //            inverseJoinColumns = @JoinColumn(name = "item_codigo"))
+ //    @Column(name = "resposta")
+-//    private Set<Item> itens = new HashSet<>();
+-    
+-    
++//    private Set<Item> itens = new HashSet<>();    
+ //    @OneToOne 
+ //    @JoinColumn(name="id_usuario")
+ //    private Usuario usuario;
+-
+     public Inspecao() {
+     }
+ 
+@@ -69,6 +61,27 @@ public class Inspecao implements Serializable {
+         this.nome = nome;
+     }
+ 
++    public void addAvaliacao(Item item) {
++        Avaliacao avaliacao = new Avaliacao(this, item);
++        avaliacoes.add(avaliacao);
++//        item.getAvaliacoes().add(avaliacao);
++    }
++
++    public void removeAvaliacao(Item item) {
++        for (Iterator<Avaliacao> iterator = avaliacoes.iterator();
++                iterator.hasNext();) {
++            Avaliacao avaliacao = iterator.next();
++
++            if (avaliacao.getInspecao().equals(this)
++                    && avaliacao.getItem().equals(item)) {
++                iterator.remove();
++//                avaliacao.getItem().getAvaliacoes().remove(avaliacao);
++                avaliacao.setInspecao(null);
++                avaliacao.setItem(null);
++            }
++        }
++    }
++
+     public Long getId() {
+         return id;
+     }
+@@ -116,31 +129,6 @@ public class Inspecao implements Serializable {
+     public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+         this.avaliacoes = avaliacoes;
+     }
+-    
+-//    public Set<Item> getItens() {
+-//        return itens;
+-//    }
+-//
+-//    public void setItens(Set<Item> itens) {
+-//        this.itens = itens;
+-//    }
+-   
+-//    public List<Avaliacao> getAvaliacoes() {
+-//        return avaliacoes;
+-//    }
+-//
+-//    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+-//        this.avaliacoes = avaliacoes;
+-//    }
+-    
+-    
+-//    public Set<Categoria> getCategorias() {
+-//        return categorias;
+-//    }
+-//
+-//    public void setCategorias(Set<Categoria> categorias) {
+-//        this.categorias = categorias;
+-//    }
+ 
+     public String getNome() {
+         return nome;
+@@ -149,26 +137,7 @@ public class Inspecao implements Serializable {
+     public void setNome(String nome) {
+         this.nome = nome;
+     }
+-   
+-
+-//   public Avaliacao getAvaliacao() {
+-//        return avaliacao;
+-//    }
+-//
+-//   public void setAvaliacao(Avaliacao avaliacao) {
+-//        this.avaliacao = avaliacao;
+-//    }
+-//
+-//    public Usuario getUsuario() {
+-//       return usuario;
+-//    }
+-//
+-//   public void setUsuario(Usuario usuario) {
+-//        this.usuario = usuario;
+-//   }
+-    
+-    
+-    
++
+     @Override
+     public int hashCode() {
+         final int prime = 31;
+diff --git a/src/main/java/com/checkapp/entidade/Item.java b/src/main/java/com/checkapp/entidade/Item.java
+index d26eece..eec4fc3 100644
+--- a/src/main/java/com/checkapp/entidade/Item.java
++++ b/src/main/java/com/checkapp/entidade/Item.java
+@@ -1,6 +1,7 @@
+ package com.checkapp.entidade;
+ 
+ import java.io.Serializable;
++import java.util.ArrayList;
+ import java.util.List;
+ 
+ import javax.persistence.*;
+@@ -17,30 +18,24 @@ public class Item implements Serializable {
+ 
+     @Column(nullable = false)
+     private String nome;
+-    
+-//    private boolean sim;
+-//    private boolean nao;
+-//    private boolean naoSeAplica;
+-    
+-//    private Integer numero;
+- 
+-    //desmarcar depois- para teste inicial
+-    
+-    @ManyToOne 
+-    @JoinColumn (name = "id_categoria")
++
++    @ManyToOne
++    @JoinColumn(name = "id_categoria")
+     private Categoria categoria;
+-    
+-//    @OneToMany
+-//    @JoinColumn(name = "id_avaliacao")
+-//    private List <Avaliacao> avaliacoes;
+-    
++
++    @OneToMany(
++            mappedBy = "item",
++            fetch = FetchType.EAGER,
++            cascade = CascadeType.ALL,
++            orphanRemoval = true
++    )
++    private List<Avaliacao> avaliacoes = new ArrayList<>();
++
+ //    @ManyToOne
+ //    @JoinColumn (name = "id_avaliacao")
+ //    private Avaliacao avaliacao;
+-    
+     //antigo - sugestão professor - para forçar, mas deu problema no salvar item
+     //private Avaliacao avaliacao = new Avaliacao();
+-
+     public Item() {
+     }
+ 
+@@ -73,23 +68,14 @@ public class Item implements Serializable {
+         this.categoria = categoria;
+     }
+ 
+-//    public List<Avaliacao> getAvaliacoes() {
+-//        return avaliacoes;
+-//    }
+-//
+-//    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+-//        this.avaliacoes = avaliacoes;
+-//    }
+-    
+-
+-//    public Avaliacao getAvaliacao() {
+-//        return avaliacao;
+-//    }
+-//
+-//    public void setAvaliacao(Avaliacao avaliacao) {
+-//        this.avaliacao = avaliacao;
+-//    }
+-      
++    public List<Avaliacao> getAvaliacoes() {
++        return avaliacoes;
++    }
++
++    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
++        this.avaliacoes = avaliacoes;
++    }
++
+     @Override
+     public int hashCode() {
+         final int prime = 31;
+@@ -119,54 +105,5 @@ public class Item implements Serializable {
+         }
+         return true;
+     }
+- 
+-    //    public Integer getNumero() {
+-//        return numero;
+-//    }
+-//
+-//    public void setNumero(Integer numero) {
+-//        this.numero = numero;
+-//    }
+-//    
+-//    public boolean isSim() {
+-//        return sim;
+-//    }
+-//
+-//    public void setSim(boolean sim) {
+-//        this.sim = sim;
+-//    }
+-//
+-//    public boolean isNao() {
+-//        return nao;
+-//    }
+-//
+-//    public void setNao(boolean nao) {
+-//        this.nao = nao;
+-//    }
+-//
+-//    public boolean isNaoSeAplica() {
+-//        return naoSeAplica;
+-//    }
+-//
+-//    public void setNaoSeAplica(boolean naoSeAplica) {
+-//        this.naoSeAplica = naoSeAplica;
+-//    }
+-    
+-
+-//    public String getObservacao() {
+-//        return observacao;
+-//    }
+-//
+-//    public void setObservacao(String observacao) {
+-//        this.observacao = observacao;
+-//    }
+-
+-//    public Local getLocal() {
+-//        return local;
+-//    }
+-//
+-//    public void setLocal(Local local) {
+-//        this.local = local;
+-//    }
+ 
+ }
+diff --git a/src/main/webapp/novo.xhtml b/src/main/webapp/novo.xhtml
+index 7ce64cd..598583e 100644
+--- a/src/main/webapp/novo.xhtml
++++ b/src/main/webapp/novo.xhtml
+@@ -27,28 +27,46 @@
+                                 <f:selectItems value="#{inspecaoC.comboLugar}"/>
+                             </p:selectOneMenu>
+                             
+-                            <p:accordionPanel value="#{inspecaoC.listaDeCategoria}" var="categoria">
++<!--                            <p:accordionPanel value="#{inspecaoC.listaDeCategoria}" var="categoria">
+                                 <p:tab title="#{categoria.nome}">
+                                     <p:repeat value="#{categoria.itens}" var="item">
+                                     <div class="product-list-item">
+                                         <div class="product-list-detail">
+                                             <div class="product-name">#{item.nome}
+                                                 <div class="product-avaliacao">
+-                                                    <p:selectOneRadio id="console" value="#{inspecaoC.avaliac}" unselectable="false"> <!--<não puxa: item.avaliacao.resposta>-->
+-                                                        <f:selectItem itemLabel="Sim" itemValue="Sim"/>
+-                                                        <f:selectItem itemLabel="Não" itemValue="Não"/>
+-                                                        <f:selectItem itemLabel="N/A" itemValue="N/A"/>
++                                                    <p:selectOneRadio id="console" value="#{inspecaoC.avaliacoes}" unselectable="false">
++                                                        <f:selectItem itemLabel="Sim" itemValue="sim"/>
++                                                        <f:selectItem itemLabel="Não" itemValue="nao"/>
++                                                        <f:selectItem itemLabel="N/A" itemValue="na"/>
+                                                     </p:selectOneRadio>
+-                                                    <!--<p:remoteCommand name="teste" action="# {inspecaoC.adicionarItem(item.id)}"/>-->
++                                                    <p:remoteCommand name="teste" action="# {inspecaoC.adicionarItem(item.id)}"/>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     </p:repeat>
+                                 </p:tab>
+-                            </p:accordionPanel>
++                            </p:accordionPanel>-->
+                         </p:panelGrid>
+                         <!--primeira coluna-->
++                        
++                        <p:repeat value="#{inspecaoC.avaliacoes}" var="avaliacao">
++                            <div class="product-list-item">
++                                <div class="product-list-detail">
++                                    <div class="product-name">#{avaliacao.item.nome}
++                                        <div class="product-avaliacao">
++                                            <p:selectOneRadio id="console" value="#{avaliacao.resposta}" unselectable="false">
++                                                <f:selectItem itemLabel="Sim" itemValue="sim"/>
++                                                <f:selectItem itemLabel="Não" itemValue="nao"/>
++                                                <f:selectItem itemLabel="N/A" itemValue="na"/>
++                                            </p:selectOneRadio>
++                                            <!--<p:remoteCommand name="teste" action="# {inspecaoC.adicionarItem(item.id)}"/>-->
++                                        </div>
++                                    </div>
++                                </div>
++                            </div>
++                        </p:repeat>
++                        
+                         <p:commandButton value="Salvar Inspeção" action="#{inspecaoC.salvar()}"  update="@all" /> 
+                     </h:form>
+                 </p:tab>
