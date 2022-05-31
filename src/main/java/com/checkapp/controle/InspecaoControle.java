@@ -164,7 +164,7 @@ public class InspecaoControle implements Serializable {
     
     public void salvar() {
         try {
-            inspecao.setNome("Nome da Inspecao");
+            inspecao.setNome("Inspecao"); //setar por nome empreendimento - chamar ali e ficar pelo nome do empreendimento
             inspecao.setEmpreendimento(empreendimento);
             inspecao.setDataEhora(GregorianCalendar.getInstance().getTime());
             
@@ -172,7 +172,7 @@ public class InspecaoControle implements Serializable {
 //            for (Avaliacao avaliacao : inspecao.getAvaliacoes()) {
 //                avaliacaoRepositorio.save(avaliacao);
 //            }
-
+            //precisa de um if para não salvar caso não esteja preenchido nada lá dos itens. se 
             for (List<Avaliacao> avaliacaoPorCategoria : listaAvaliacoesPorCategoria.values()) {
                 for (Avaliacao avaliacao : avaliacaoPorCategoria) {           
                     avaliacao.setInspecao(inspecao);
@@ -180,12 +180,12 @@ public class InspecaoControle implements Serializable {
                 }
             }
             
-            Mensagem.mensagemSucesso(inspecao.getNome());
+            Mensagem.mensagemSucesso(inspecao.getEmpreendimento().getNome()); //pegar pelo nome do empreendimento e se puder dizer a data e hora
             
             iniciar();
         } catch (Exception e) {
             System.out.println("Error ao salvar " + e.getMessage());
-            Mensagem.mensagemErro(inspecao.getNome());
+            Mensagem.mensagemErro(inspecao.getNome()); //pegar pelo nome do empreendimento
         }
     }
     

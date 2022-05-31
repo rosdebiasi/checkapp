@@ -84,7 +84,7 @@
                             <p:outputLabel for="item" value="Nome:" />
                             <p:inputText id="item" value="#{inspecaoC.inspecao.nome}"  required="true" 
                                          requiredMessage="Nome é obrigatório" />
-                            <p:commandButton value="Pesquisar" actionListener="#{itemC.pesquisarPorNome()}" update="tabela" />
+                            <p:commandButton value="Pesquisar" actionListener="#{inspecaoC.pesquisarPorNome()}" update="tabela" />
                         </p:panelGrid>
 
                         <p:dataTable id="tabela" var="item" value="" rows="10"
@@ -96,17 +96,17 @@
                             <f:facet name="header">
                                 <h:outputText value="Itens"/>
                             </f:facet>
-                            <p:column headerText="Nome">
+                            <p:column headerText="Nome Empreendimento">
                                 <h:outputText value="" />
                             </p:column>
 
                             <p:column headerText="Ação">
-                                <p:commandButton icon="pi pi-plus" title="Adicionar" process="@this" 
+                                <p:commandButton icon="pi pi-plus" title="Gerar relatório em pdf" process="@this" 
                                                  actionListener="#{categoriaC.duplicar()}" update="@all"
                                                  style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" />
-                                <p:commandButton icon="pi pi-pencil" title="Alterar" process="@this" 
+<!--                                <p:commandButton icon="pi pi-pencil" title="Alterar" process="@this" 
                                                  actionListener="#{categoriaC.prepararAlterar()}" update="@all"
-                                                 style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" />
+                                                 style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" />-->
                             </p:column>                       
 
                         </p:dataTable>
