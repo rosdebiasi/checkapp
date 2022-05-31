@@ -1,0 +1,173 @@
+commit 58622848c864488ee380625c3b5cfd2e8379b167
+Author: Crineu Tres <crineu.tres@ufsc.br>
+Date:   Mon May 30 23:50:28 2022 -0300
+
+    avaliacao por categoria
+
+diff --git a/src/main/java/com/checkapp/controle/InspecaoControle.java b/src/main/java/com/checkapp/controle/InspecaoControle.java
+index 7603227..4768821 100644
+--- a/src/main/java/com/checkapp/controle/InspecaoControle.java
++++ b/src/main/java/com/checkapp/controle/InspecaoControle.java
+@@ -30,6 +30,8 @@ import com.checkapp.dao.EmpreendimentoRepositorio;
+ import com.checkapp.entidade.Avaliacao;
+ import java.time.LocalDate;
+ import java.util.GregorianCalendar;
++import java.util.Map;
++import java.util.stream.Collectors;
+ import javax.annotation.PostConstruct;
+ import org.springframework.context.annotation.Scope;
+ import org.springframework.stereotype.Component;
+@@ -54,6 +56,7 @@ public class InspecaoControle implements Serializable {
+     private List<Categoria> categorias;
+     private List<SelectItem> comboEmpreendimentos;
+     private List<Categoria> listaDeCategoria;
++    private Map<String, List<Avaliacao>> listaAvaliacoesPorCategoria;
+     
+     @Autowired
+     private ItemRepositorio itemRepositorio;
+@@ -74,24 +77,32 @@ public class InspecaoControle implements Serializable {
+     @PostConstruct
+     public void iniciar() {
+         aba = 0;
++        inspecao = new Inspecao();
+         empreendimento = new Empreendimento();
+         modelInspecoes = null;
+-        inspecao = new Inspecao();
+         carregarComboBoxEmpreendimentos();
+-        listaDeCategoria = categoriaRepositorio.pesquisarCategoriaPorItem();
++        listaDeCategoria = categoriaRepositorio.carregarTodasComItens();
+ 
+-//        avaliacoes = new ArrayList<>();
++        
++        List<Avaliacao> avaliacoes = new ArrayList<>();
+         for (Categoria cat : listaDeCategoria) {
+             for (Item it : cat.getItens()) {
+                 //System.out.println("nome: " + iten.getNome());
+ //                Avaliacao avaliacao = new Avaliacao();
+ //                avaliacao.setItem(it);
+-
+ //                System.out.println("resposta: " + iten.getAvaliacao().getResposta());
+ //                avaliacoes.add(avaliacao);
+-                inspecao.addAvaliacao(it);
++
++//                inspecao.addAvaliacao(it);
++
++                avaliacoes.add(new Avaliacao(inspecao, it));
+             }
+         }
++        
++        listaAvaliacoesPorCategoria = avaliacoes
++                .stream()
++                .collect(Collectors.groupingBy(av -> av.getItem().getCategoria().getNome()));
++
+     }
+     
+     public List<Inspecao> pesquisarTodo() {
+@@ -153,14 +164,22 @@ public class InspecaoControle implements Serializable {
+     
+     public void salvar() {
+         try {
+-            inspecao.setNome("Teste");
++            inspecao.setNome("Nome da Inspecao");
+             inspecao.setEmpreendimento(empreendimento);
+             inspecao.setDataEhora(GregorianCalendar.getInstance().getTime());
+             
+             inspecaoRepositorio.save(inspecao);
+-            for (Avaliacao avaliacao : inspecao.getAvaliacoes()) {
+-                avaliacaoRepositorio.save(avaliacao);
++//            for (Avaliacao avaliacao : inspecao.getAvaliacoes()) {
++//                avaliacaoRepositorio.save(avaliacao);
++//            }
++
++            for (List<Avaliacao> avaliacaoPorCategoria : listaAvaliacoesPorCategoria.values()) {
++                for (Avaliacao avaliacao : avaliacaoPorCategoria) {           
++                    avaliacao.setInspecao(inspecao);
++                    avaliacaoRepositorio.save(avaliacao);
++                }
+             }
++            
+             Mensagem.mensagemSucesso(inspecao.getNome());
+             
+             iniciar();
+@@ -317,6 +336,14 @@ public class InspecaoControle implements Serializable {
+     public void setAba(int aba) {
+         this.aba = aba;
+     }
++
++    public Map<String, List<Avaliacao>> getListaAvaliacoesPorCategoria() {
++        return listaAvaliacoesPorCategoria;
++    }
++
++    public void setListaAvaliacoesPorCategoria(Map<String, List<Avaliacao>> listaAvaliacoesPorCategoria) {
++        this.listaAvaliacoesPorCategoria = listaAvaliacoesPorCategoria;
++    }
+     
+ }
+ 
+diff --git a/src/main/java/com/checkapp/dao/CategoriaRepositorio.java b/src/main/java/com/checkapp/dao/CategoriaRepositorio.java
+index dba1b56..6e182f6 100644
+--- a/src/main/java/com/checkapp/dao/CategoriaRepositorio.java
++++ b/src/main/java/com/checkapp/dao/CategoriaRepositorio.java
+@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
+ public interface CategoriaRepositorio extends JpaRepository<Categoria, Long>{
+     
+     @Query("select distinct(c) from Categoria c join fetch c.itens")
+-    List<Categoria>pesquisarCategoriaPorItem();
++    List<Categoria>carregarTodasComItens();
+     
+     @Query("from Categoria c Where c.nome like %:nome%")
+     List<Categoria> findByNomeContaining(String nome);
+diff --git a/src/main/webapp/novo.xhtml b/src/main/webapp/novo.xhtml
+index 100bb2a..d71399c 100644
+--- a/src/main/webapp/novo.xhtml
++++ b/src/main/webapp/novo.xhtml
+@@ -27,14 +27,14 @@
+                                 <f:selectItems value="#{inspecaoC.comboEmpreendimentos}"/>
+                             </p:selectOneMenu>
+                             
+-<!--                            <p:accordionPanel value="#{inspecaoC.listaDeCategoria}" var="categoria">
+-                                <p:tab title="#{categoria.nome}">
+-                                    <p:repeat value="#{categoria.itens}" var="item">
++                            <p:accordionPanel value="#{inspecaoC.listaAvaliacoesPorCategoria.keySet()}" var="nomeCategoria">
++                                <p:tab title="#{nomeCategoria}">
++                                    <p:repeat value="#{inspecaoC.listaAvaliacoesPorCategoria.get(nomeCategoria)}" var="avaliacao">
+                                     <div class="product-list-item">
+                                         <div class="product-list-detail">
+-                                            <div class="product-name">#{item.nome}
++                                            <div class="product-name">#{avaliacao.item.nome}
+                                                 <div class="product-avaliacao">
+-                                                    <p:selectOneRadio id="console" value="#{inspecaoC.avaliacoes}" unselectable="false">
++                                                    <p:selectOneRadio id="console" value="#{avaliacao.resposta}" unselectable="false">
+                                                         <f:selectItem itemLabel="Sim" itemValue="sim"/>
+                                                         <f:selectItem itemLabel="Não" itemValue="nao"/>
+                                                         <f:selectItem itemLabel="N/A" itemValue="na"/>
+@@ -46,10 +46,12 @@
+                                     </div>
+                                     </p:repeat>
+                                 </p:tab>
+-                            </p:accordionPanel>-->
++                            </p:accordionPanel>
+                         </p:panelGrid>
+                         <!--primeira coluna-->
+                         
++                        
++<!--                        
+                         <p:repeat value="#{inspecaoC.avaliacoes}" var="avaliacao">
+                             <div class="product-list-item">
+                                 <div class="product-list-detail">
+@@ -60,12 +62,14 @@
+                                                 <f:selectItem itemLabel="Não" itemValue="nao"/>
+                                                 <f:selectItem itemLabel="N/A" itemValue="na"/>
+                                             </p:selectOneRadio>
+-                                            <!--<p:remoteCommand name="teste" action="# {inspecaoC.adicionarItem(item.id)}"/>-->
++                                            <p:remoteCommand name="teste" action="# {inspecaoC.adicionarItem(item.id)}"/>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </p:repeat>
++                        -->
++                        
+                         
+                         <p:commandButton value="Salvar Inspeção" action="#{inspecaoC.salvar()}"  update="@all" /> 
+                     </h:form>

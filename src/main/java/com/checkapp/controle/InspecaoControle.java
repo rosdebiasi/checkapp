@@ -30,6 +30,8 @@ import com.checkapp.dao.EmpreendimentoRepositorio;
 import com.checkapp.entidade.Avaliacao;
 import java.time.LocalDate;
 import java.util.GregorianCalendar;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -54,6 +56,7 @@ public class InspecaoControle implements Serializable {
     private List<Categoria> categorias;
     private List<SelectItem> comboEmpreendimentos;
     private List<Categoria> listaDeCategoria;
+    private Map<String, List<Avaliacao>> listaAvaliacoesPorCategoria;
     
     @Autowired
     private ItemRepositorio itemRepositorio;
@@ -74,24 +77,32 @@ public class InspecaoControle implements Serializable {
     @PostConstruct
     public void iniciar() {
         aba = 0;
+        inspecao = new Inspecao();
         empreendimento = new Empreendimento();
         modelInspecoes = null;
-        inspecao = new Inspecao();
         carregarComboBoxEmpreendimentos();
-        listaDeCategoria = categoriaRepositorio.pesquisarCategoriaPorItem();
+        listaDeCategoria = categoriaRepositorio.carregarTodasComItens();
 
-//        avaliacoes = new ArrayList<>();
+        
+        List<Avaliacao> avaliacoes = new ArrayList<>();
         for (Categoria cat : listaDeCategoria) {
             for (Item it : cat.getItens()) {
                 //System.out.println("nome: " + iten.getNome());
 //                Avaliacao avaliacao = new Avaliacao();
 //                avaliacao.setItem(it);
-
 //                System.out.println("resposta: " + iten.getAvaliacao().getResposta());
 //                avaliacoes.add(avaliacao);
-                inspecao.addAvaliacao(it);
+
+//                inspecao.addAvaliacao(it);
+
+                avaliacoes.add(new Avaliacao(inspecao, it));
             }
         }
+        
+        listaAvaliacoesPorCategoria = avaliacoes
+                .stream()
+                .collect(Collectors.groupingBy(av -> av.getItem().getCategoria().getNome()));
+
     }
     
     public List<Inspecao> pesquisarTodo() {
@@ -153,14 +164,22 @@ public class InspecaoControle implements Serializable {
     
     public void salvar() {
         try {
-            inspecao.setNome("Teste");
+            inspecao.setNome("Nome da Inspecao");
             inspecao.setEmpreendimento(empreendimento);
             inspecao.setDataEhora(GregorianCalendar.getInstance().getTime());
             
             inspecaoRepositorio.save(inspecao);
-            for (Avaliacao avaliacao : inspecao.getAvaliacoes()) {
-                avaliacaoRepositorio.save(avaliacao);
+//            for (Avaliacao avaliacao : inspecao.getAvaliacoes()) {
+//                avaliacaoRepositorio.save(avaliacao);
+//            }
+
+            for (List<Avaliacao> avaliacaoPorCategoria : listaAvaliacoesPorCategoria.values()) {
+                for (Avaliacao avaliacao : avaliacaoPorCategoria) {           
+                    avaliacao.setInspecao(inspecao);
+                    avaliacaoRepositorio.save(avaliacao);
+                }
             }
+            
             Mensagem.mensagemSucesso(inspecao.getNome());
             
             iniciar();
@@ -316,6 +335,14 @@ public class InspecaoControle implements Serializable {
     
     public void setAba(int aba) {
         this.aba = aba;
+    }
+
+    public Map<String, List<Avaliacao>> getListaAvaliacoesPorCategoria() {
+        return listaAvaliacoesPorCategoria;
+    }
+
+    public void setListaAvaliacoesPorCategoria(Map<String, List<Avaliacao>> listaAvaliacoesPorCategoria) {
+        this.listaAvaliacoesPorCategoria = listaAvaliacoesPorCategoria;
     }
     
 }

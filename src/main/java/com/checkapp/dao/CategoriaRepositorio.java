@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface CategoriaRepositorio extends JpaRepository<Categoria, Long>{
     
     @Query("select distinct(c) from Categoria c join fetch c.itens")
-    List<Categoria>pesquisarCategoriaPorItem();
+    List<Categoria>carregarTodasComItens();
     
     @Query("from Categoria c Where c.nome like %:nome%")
     List<Categoria> findByNomeContaining(String nome);
