@@ -48,11 +48,11 @@ public class InspecaoControle implements Serializable {
     private int aba;
     
     private Item item;
-    private Empreendimento lugar;
+    private Empreendimento empreendimento;
     private Categoria categoria;
     
     private List<Categoria> categorias;
-    private List<SelectItem> comboLugar;
+    private List<SelectItem> comboEmpreendimentos;
     private List<Categoria> listaDeCategoria;
     
     @Autowired
@@ -73,11 +73,11 @@ public class InspecaoControle implements Serializable {
     //para pesquisar no banco antes de carregar a tela- como um construtor de uma classe de Entidade, mas tem em todas as classes
     @PostConstruct
     public void iniciar() {
-            lugar = null;
-            modelInspecoes = null;
-            aba = 0;
+        aba = 0;
+        empreendimento = new Empreendimento();
+        modelInspecoes = null;
         inspecao = new Inspecao();
-        carregarComboBoxLugar();
+        carregarComboBoxEmpreendimentos();
         listaDeCategoria = categoriaRepositorio.pesquisarCategoriaPorItem();
 
 //        avaliacoes = new ArrayList<>();
@@ -109,11 +109,11 @@ public class InspecaoControle implements Serializable {
         Optional<Inspecao> inspecoes = inspecaoRepositorio.findById(inspecao.getId());
     }
     
-    private void carregarComboBoxLugar() {
+    private void carregarComboBoxEmpreendimentos() {
         List<Empreendimento> lugares = lugarRepositorio.findAll();
-        comboLugar = new ArrayList<>();
+        comboEmpreendimentos = new ArrayList<>();
         for (Empreendimento lug : lugares) {
-            comboLugar.add(new SelectItem(lug.getId(), lug.getNome()));
+            comboEmpreendimentos.add(new SelectItem(lug.getId(), lug.getNome()));
         }
     }
     
@@ -154,7 +154,7 @@ public class InspecaoControle implements Serializable {
     public void salvar() {
         try {
             inspecao.setNome("Teste");
-            inspecao.setEmpreendimento(lugar);
+            inspecao.setEmpreendimento(empreendimento);
             inspecao.setDataEhora(GregorianCalendar.getInstance().getTime());
             
             inspecaoRepositorio.save(inspecao);
@@ -210,8 +210,8 @@ public class InspecaoControle implements Serializable {
 //    }
     public void onTabChange(TabChangeEvent event) {
         if (event.getTab().getTitle().equals("Novo")) {
-            if (comboLugar == null) {
-                carregarComboBoxLugar();
+            if (comboEmpreendimentos == null) {
+                carregarComboBoxEmpreendimentos();
             }
             if (listaDeCategoria == null) {
                 carregarListaItem();
@@ -262,12 +262,12 @@ public class InspecaoControle implements Serializable {
         this.listaDeCategoria = listaDeCategoria;
     }
     
-    public List<SelectItem> getComboLugar() {
-        return comboLugar;
+    public List<SelectItem> getComboEmpreendimentos() {
+        return comboEmpreendimentos;
     }
     
-    public void setComboLugar(List<SelectItem> comboLugar) {
-        this.comboLugar = comboLugar;
+    public void setComboEmpreendimentos(List<SelectItem> comboEmpreendimentos) {
+        this.comboEmpreendimentos = comboEmpreendimentos;
     }
     
     public Inspecao getInspecao() {
@@ -302,15 +302,12 @@ public class InspecaoControle implements Serializable {
         this.inspecaoRepositorio = inspecaoRepositorio;
     }
     
-    public Empreendimento getLugar() {
-        if (lugar == null) {
-            lugar = new Empreendimento();
-        }
-        return lugar;
+    public Empreendimento getEmpreendimento() {
+        return empreendimento;
     }
     
-    public void setLugar(Empreendimento lugar) {
-        this.lugar = lugar;
+    public void setEmpreencimento(Empreendimento empreendimento) {
+        this.empreendimento = empreendimento;
     }
     
     public int getAba() {

@@ -20,11 +20,11 @@
                                      contentStyleClass="ui-fluid">
   
                             <p:outputLabel for="lugar" value="Local:" />
-                            <p:selectOneMenu id="lugar" value="#{inspecaoC.lugar.id}" 
+                            <p:selectOneMenu id="lugar" value="#{inspecaoC.empreendimento.id}" 
                                              required="true" requiredMessage="Nome empreendimento é obrigatório!"
                                              filter="true" filterMatchMode="startsWith">
                                 <f:selectItem itemLabel="Selecione o empreendimento:"/>
-                                <f:selectItems value="#{inspecaoC.comboLugar}"/>
+                                <f:selectItems value="#{inspecaoC.comboEmpreendimentos}"/>
                             </p:selectOneMenu>
                             
 <!--                            <p:accordionPanel value="#{inspecaoC.listaDeCategoria}" var="categoria">
