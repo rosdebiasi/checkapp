@@ -27,7 +27,60 @@
 
         <header class="aw-topbar" style="margin-bottom: 5px;">
             <h:graphicImage library="senac" name="images/logo.png" />
-            <a href="#" class="aw-toggle  js-toggle"><i class="fa  fa-bars"></i></a>
+            
+            <a href="#" class="aw-toggle js-toggle" ><i class="fa fa-bars"></i></a>
+
+            <a href="#" class="aw-toggle  js-toggle">
+                <i class="pi pi-align-justify" style="color: white; size: 20px"> </i>
+            </a>
+
+<!--            <a href="#" class="aw-toggle  js-toggle">
+                <i class="pi pi-home" style="color: white; size: 20px" />
+                                <i class="fa  fa-bars"></i>           
+            </a>
+            <a href="#" class="aw-toggle  js-toggle">
+                <i class="pi pi-info-circle" style="color: white; size: 20px" />
+            </a>-->
+
+            <!--            <a href="#" class="aw-toggle  js-toggle">
+                        <h:form id="menuForm">
+                                <p:menubar style="background-color: #84509c; color: white; margin-right:10px; border: none">
+                                    <p:submenu label="Entrar " style="background-color: white; border-radius: 10%" >
+                                        <p:menuitem value="Login" url="#" icon="pi pi-fw pi-sign-in" />
+                                        <p:menuitem value="Logout" icon="pi pi-fw pi-sign-in" 
+                                                    ajax="false" process="@all" action="#"/>
+                                        <p:menuitem rendered="#" url="#" value="Perfil" icon="pi pi-fw pi-sign-in"  
+                                                    actionListener="#"  ajax="false" process="@all" />
+            
+                                    </p:submenu>
+                                </p:menubar>
+                        </h:form>
+                         </a>-->
+            <!-- acrescentei a partir daqui teste - base site quiz
+            <div id="container_menu_header">
+
+                <a href="#">
+                    <i class="pi pi-home" style="color: white; size: 20px" />
+                </a>
+                <a href="#"> 
+                    <i class="pi pi-info-circle" style="color: white; size: 20px" />
+                </a>
+
+                <h:form id="menuForm">
+                    <p:menubar style="background-color: #84509c; color: white; margin-right:10px; border: none">
+                        <p:submenu label="Entrar " style="background-color: white; border-radius: 10%" >
+                            <p:menuitem value="Login" outcome="/login" icon="pi pi-fw pi-sign-in" />
+                            <p:menuitem value="Logout" icon="pi pi-fw pi-sign-in" 
+                                        ajax="false" process="@all" action="#"/>
+                            <p:menuitem rendered="#" outcome="/Perfil/perfil" value="Perfil" icon="pi pi-fw pi-sign-in"  
+                                        actionListener="#"  ajax="false" process="@all" />
+
+                        </p:submenu>
+                    </p:menubar>
+                </h:form>
+            </div>
+            término teste -->
+
         </header>
 
         <aside class="aw-sidebar  js-sidebar">
@@ -35,11 +88,11 @@
         </aside>
 
         <section class="aw-content  js-content">
-            
+
             <p:messages id="messages" showSummary="true" closable="true">
-                    <p:autoUpdate/>
+                <p:autoUpdate/>
             </p:messages>
-            
+
             <ui:insert name="content" />
         </section>
 
