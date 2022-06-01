@@ -101,8 +101,7 @@ public class CategoriaControle implements Serializable {
        categoria = modelCategorias.getRowData();
        //itens = categoria.getItens();
        modelCategorias = null;
-       aba=0;
-       
+       aba=0;  
    }
    
    public void onTabChange(TabChangeEvent event){   
