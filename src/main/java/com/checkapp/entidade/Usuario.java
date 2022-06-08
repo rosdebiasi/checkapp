@@ -24,7 +24,7 @@ public class Usuario implements Serializable {
     @Column(nullable = false)
     private String senha;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private boolean enable;
 
     //desmarcar depois- para teste inicial
@@ -34,14 +34,13 @@ public class Usuario implements Serializable {
 //    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
 //    private Inspecao inspecao; --uma ou várias??? fiquei em dúvida
     public Usuario() {
-
     }
 
-    public Usuario(String login, String email, String senha, boolean enable) {
+    public Usuario(String login, String email, String senha) {
         this.login = login;
         this.email = email;
         this.senha = senha;
-        this.enable = enable;
+        //this.enable = enable;
     }
 
     public Long getId() {

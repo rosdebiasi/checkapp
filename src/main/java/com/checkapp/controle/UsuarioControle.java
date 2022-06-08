@@ -37,15 +37,15 @@ public class UsuarioControle implements Serializable {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
     
-    public List<Usuario> pesquisarTodo(){
-        return usuarioRepositorio.findAll(); 
-    }
+//    public List<Usuario> pesquisarTodo(){
+//        return usuarioRepositorio.findAll(); 
+//    }
 
-    public void pesquisarPorNome(){      
-        List<Usuario> usuarios = usuarioRepositorio.findByNomeContaining(usuario.getLogin());
-        modelUsuarios = new ListDataModel<>(usuarios);
-        usuario.setLogin(null);
-    }
+//    public void pesquisarPorNome(){      
+//        List<Usuario> usuarios = usuarioRepositorio.findByNomeContaining(usuario.getLogin());
+//        modelUsuarios = new ListDataModel<>(usuarios);
+//        usuario.setLogin(null);
+//    }
 
 ////     //adicionado --será que funciona???
 ////    public void pesquisarPorId(){      
@@ -62,24 +62,24 @@ public class UsuarioControle implements Serializable {
         try {
             usuarioRepositorio.save(usuario);
             Mensagem.mensagemSucesso(usuario.getLogin());
-            usuario = null;
-            aba =0;
+//            usuario = null;
+//            aba =0;
         } catch (Exception e) {
             Mensagem.mensagemErro(usuario.getLogin());
         }
     }
     
-    public void excluir(){
-        try {
-            usuario = modelUsuarios.getRowData();
-            usuarioRepositorio.delete(usuario);
-            Mensagem.mensagemSucessoExcluir(usuario.getLogin());
-            usuario = null;
-            modelUsuarios = null;
-        } catch (Exception e) {
-            Mensagem.mensagemErroExcluir(usuario.getLogin());
-        }
-    }
+//    public void excluir(){
+//        try {
+//            usuario = modelUsuarios.getRowData();
+//            usuarioRepositorio.delete(usuario);
+//            Mensagem.mensagemSucessoExcluir(usuario.getLogin());
+//            usuario = null;
+//            modelUsuarios = null;
+//        } catch (Exception e) {
+//            Mensagem.mensagemErroExcluir(usuario.getLogin());
+//        }
+//    }
     
 
 //    public void excluir (){
@@ -103,7 +103,7 @@ public class UsuarioControle implements Serializable {
     
    public void prepararAlterar(){
        usuario = modelUsuarios.getRowData();
-       aba=1;
+       //aba=1;
        modelUsuarios = null;
    }
    
@@ -136,14 +136,14 @@ public class UsuarioControle implements Serializable {
 
 //    getters e setters
    
-       public Usuario getUsuario() {
+    public Usuario getUsuario() {
         return usuario;
     }
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
+    
     public DataModel<Usuario> getModelUsuarios() {
         return modelUsuarios;
     }
@@ -152,12 +152,12 @@ public class UsuarioControle implements Serializable {
         this.modelUsuarios = modelUsuarios;
     }
 
-    public int getAba() {
-        return aba;
-    }
-
-    public void setAba(int aba) {
-        this.aba = aba;
-    }
+//    public int getAba() {
+//        return aba;
+//    }
+//
+//    public void setAba(int aba) {
+//        this.aba = aba;
+//    }
 
 }
