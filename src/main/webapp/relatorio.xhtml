@@ -9,7 +9,7 @@
         <!--<h1 class="aw-page-title">Título da sua página</h1>-->
 
         <p:panel id="painel_conteudo" header="Relatório" >
-        <p:tabView id="tab_view" activeIndex="#{inspecaoC.aba}">
+            <p:tabView id="tab_view" activeIndex="#{inspecaoC.aba}">
                 <!--aba para pesquisa-->
                 <p:tab title="Pesquisa">
                     <h:form id="form_pesquisa">
@@ -43,29 +43,11 @@
                             </p:column>
 
                             <p:column headerText="Ação">
-                                
-                                <!-- de um arquivo, mas parece que sai da própria tabela de pesquisa -->
-<!--                                <p:commandButton value="PDF" icon="fa fa-file-pdf-o" ajax="false"
-                                                 styleClass="p-mr-2 p-mb-2 ui-button-raised rounded-button ui-button-danger">
-                                    <p:dataExporter type="pdf" target="tabela" fileName="TesteInspecao"
-                                                    pageOnly="true" />
-                                </p:commandButton>
-                                -->
-                                
-<!--                                 <p:commandButton icon="pi pi-file-pdf" title="Gerar relatório em pdf" process="@this" 
-                                                 actionListener="#{categoriaC.duplicar()}" update="@all"
-                                                 style="margin-right: 12px" styleClass="rounded-button ui-button-outlined">
-                                    <p:dataExporter type="pdf" target="tabela" fileName="TesteInspecao"
-                                                    pageOnly="true" />   daqui a priori puxaria a tabela, preciso puxar o arquivo salvo mas acho que é muito complexo isso ideal seria passar para outra aba e de lá ter o icone de pdf
-                                </p:commandButton>-->
-                                
-                                <p:commandButton icon="pi pi-eye" title="Gerar relatório em pdf" process="@this" 
-                                                 actionListener="#{categoriaC.duplicar()}" update="@all"
-                                                 style="margin-right: 12px" styleClass="rounded-button ui-button-outlined">
-<!--                                    <p:dataExporter type="pdf" target="tabela" fileName="TesteInspecao"
-                                                    pageOnly="true" />   daqui a priori puxaria a tabela, preciso puxar o arquivo salvo mas acho que é muito complexo isso ideal seria passar para outra aba e de lá ter o icone de pdf-->
-                                </p:commandButton>
 
+                                <p:commandButton icon="pi pi-eye" title="Visualisar" process="@this" 
+                                                 actionListener="#{clienteC.prepararAlterar()}" update="@all"
+                                                 style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" >
+                                </p:commandButton>
                             </p:column>                       
 
                         </p:dataTable>
@@ -76,9 +58,52 @@
                         </p:confirmDialog>
                     </h:form>
                 </p:tab>
-            </p:tabView>
 
-            <-<!-- fazer outra aba para entrar no arquivo e de lá exportar em pdf -->
+                <!--aba para mostrar o relatório-->
+
+
+                <p:tab title="Relatório">
+                    <h:form id="form_relatorio">
+
+                        <p:dataTable>
+                            <p:column headerText="Empreendimento" style="text-align:left;">
+                                <h:outputText value="#{cliente.nome}" />
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dataTable>
+
+<!--                            <f:facet name="header">
+                                <h:outputText value="inspeção no empreendimento GG"/>
+                            </f:facet>-->
+                            <p:column headerText="Categoria">
+                                <h:outputText value="#{cliente.nome}" />
+                            </p:column>
+                            <p:column headerText="item">
+                                <h:outputText value="#{cliente.email}" />
+                            </p:column>
+                            <p:column headerText="Resposta">
+                                <h:outputText value="#{cliente.email}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:dataTable>
+                            <p:column headerText="Observação" style="text-align:left;">
+                                <h:outputText value="#{cliente.nome}" />
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:commandButton value="Exportar para pdf" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
+                            <p:dataExporter type="pdf" target="dt-products" fileName="products"/>
+                        </p:commandButton>
+                    </h:form>  
+                </p:tab>
+
+
+
+
+            </p:tabView>
 
         </p:panel> 
     </ui:define>

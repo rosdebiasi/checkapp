@@ -211,6 +211,19 @@ public class InspecaoControle implements Serializable {
     
     public void onTabClose(TabCloseEvent event) {
     }
+    
+    //não vai funcionar - gerar um lancamento dao - talvez outra classe para relatório 
+    public void gerarRelatorio(){
+        inspecao = modelInspecoes.getRowData();
+        empreendimento = inspecao.getEmpreendimento();
+        
+        for (List<Avaliacao> avaliacaoPorCategoria : listaAvaliacoesPorCategoria.values()) {
+            for (Avaliacao avaliacao : avaliacaoPorCategoria) {           
+                avaliacao.getInspecao();                   
+                avaliacaoRepositorio.getById(serialVersionUID);
+            }
+        }
+    }
 
 //    getters e setters
 //    public Avaliacao getAvaliacao() {
