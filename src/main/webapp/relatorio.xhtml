@@ -52,11 +52,18 @@
                                 </p:commandButton>
                                 -->
                                 
-                                <p:commandButton icon="pi pi-file-pdf" title="Gerar relatório em pdf" process="@this" 
+<!--                                 <p:commandButton icon="pi pi-file-pdf" title="Gerar relatório em pdf" process="@this" 
                                                  actionListener="#{categoriaC.duplicar()}" update="@all"
                                                  style="margin-right: 12px" styleClass="rounded-button ui-button-outlined">
                                     <p:dataExporter type="pdf" target="tabela" fileName="TesteInspecao"
-                                                    pageOnly="true" />  <!-- daqui a priori puxaria a tabela, preciso puxar o arquivo salvo-->
+                                                    pageOnly="true" />   daqui a priori puxaria a tabela, preciso puxar o arquivo salvo mas acho que é muito complexo isso ideal seria passar para outra aba e de lá ter o icone de pdf
+                                </p:commandButton>-->
+                                
+                                <p:commandButton icon="pi pi-eye" title="Gerar relatório em pdf" process="@this" 
+                                                 actionListener="#{categoriaC.duplicar()}" update="@all"
+                                                 style="margin-right: 12px" styleClass="rounded-button ui-button-outlined">
+<!--                                    <p:dataExporter type="pdf" target="tabela" fileName="TesteInspecao"
+                                                    pageOnly="true" />   daqui a priori puxaria a tabela, preciso puxar o arquivo salvo mas acho que é muito complexo isso ideal seria passar para outra aba e de lá ter o icone de pdf-->
                                 </p:commandButton>
 
                             </p:column>                       
@@ -71,6 +78,7 @@
                 </p:tab>
             </p:tabView>
 
+            <-<!-- fazer outra aba para entrar no arquivo e de lá exportar em pdf -->
 
         </p:panel> 
     </ui:define>
