@@ -16,29 +16,48 @@
                         <p:panelGrid id="panelGG" columns="2" layout="flex" 
                                      columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
                                      contentStyleClass="ui-fluid">
-                            <p:outputLabel for="item" value="Nome:" />
-                            <p:inputText id="item" value="#{inspecaoC.inspecao.nome}"  required="true" 
-                                         requiredMessage="Nome é obrigatório" />
+                            <p:outputLabel for="lugar" value="Local:" />
+                            <p:selectOneMenu id="lugar" value="#{inspecaoC.empreendimento.id}" 
+                                             required="true" requiredMessage="Nome empreendimento é obrigatório!"
+                                             filter="true" filterMatchMode="startsWith">
+                                <f:selectItem itemLabel="Selecione o empreendimento:"/>
+                                <f:selectItems value="#{inspecaoC.comboEmpreendimentos}"/>
+                            </p:selectOneMenu>         
                             <p:commandButton value="Pesquisar" actionListener="#{inspecaoC.pesquisarPorNome()}" update="tabela" />
                         </p:panelGrid>
 
-                        <p:dataTable id="tabela" var="item" value="" rows="10"
+                        <p:dataTable id="tabela" var="inspecao" value="" rows="10"
                                      paginator="true" paginatorPosition="bottom"
                                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
                                      rowsPerPageTemplate="5,10,15,{ShowAll|'Todos'}">
 
                             <f:facet name="header">
-                                <h:outputText value="Itens"/>
+                                <h:outputText value="Inspeção"/>
                             </f:facet>
                             <p:column headerText="Nome Empreendimento">
                                 <h:outputText value="" />
                             </p:column>
+                            <p:column headerText="Data de Inspeção">
+                                <h:outputText value="" />
+                            </p:column>
 
                             <p:column headerText="Ação">
-                                <p:commandButton icon="pi pi-plus" title="Gerar relatório em pdf" process="@this" 
+                                
+                                <!-- de um arquivo, mas parece que sai da própria tabela de pesquisa -->
+<!--                                <p:commandButton value="PDF" icon="fa fa-file-pdf-o" ajax="false"
+                                                 styleClass="p-mr-2 p-mb-2 ui-button-raised rounded-button ui-button-danger">
+                                    <p:dataExporter type="pdf" target="tabela" fileName="TesteInspecao"
+                                                    pageOnly="true" />
+                                </p:commandButton>
+                                -->
+                                
+                                <p:commandButton icon="pi pi-file-pdf" title="Gerar relatório em pdf" process="@this" 
                                                  actionListener="#{categoriaC.duplicar()}" update="@all"
-                                                 style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" />
+                                                 style="margin-right: 12px" styleClass="rounded-button ui-button-outlined">
+                                    <p:dataExporter type="pdf" target="tabela" fileName="TesteInspecao"
+                                                    pageOnly="true" />  <!-- daqui a priori puxaria a tabela, preciso puxar o arquivo salvo-->
+                                </p:commandButton>
 
                             </p:column>                       
 

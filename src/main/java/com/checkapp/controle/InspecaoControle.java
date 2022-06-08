@@ -82,7 +82,6 @@ public class InspecaoControle implements Serializable {
         modelInspecoes = null;
         carregarComboBoxEmpreendimentos();
         listaDeCategoria = categoriaRepositorio.carregarTodasComItens();
-
         
         List<Avaliacao> avaliacoes = new ArrayList<>();
         for (Categoria cat : listaDeCategoria) {
@@ -154,28 +153,30 @@ public class InspecaoControle implements Serializable {
 //        return itens;
 //    }
     
-    public void trocarDeTela() {
-        try {
-            String url = "http://localhost:8080/CheckApp/novo_2.jr";
-        } catch (Exception e) {
-            System.out.println("Erro ao trocar de tela " + e.getMessage());
-        }
-    }
+//    public void trocarDeTela() {
+//        try {
+//            String url = "http://localhost:8080/CheckApp/novo_2.jr";
+//        } catch (Exception e) {
+//            System.out.println("Erro ao trocar de tela " + e.getMessage());
+//        }
+//    }
     
     public void salvar() {
         try {
-            inspecao.setNome("Inspecao"); //setar por nome empreendimento - chamar ali e ficar pelo nome do empreendimento
             inspecao.setEmpreendimento(empreendimento);
+            inspecao.setNome(inspecao.getNome()); //não deu certo..setar por nome empreendimento - chamar ali e ficar pelo nome do empreendimento
             inspecao.setDataEhora(GregorianCalendar.getInstance().getTime());
+            
+            inspecao.setObservacao(inspecao.getObservacao());
             
             inspecaoRepositorio.save(inspecao);
 //            for (Avaliacao avaliacao : inspecao.getAvaliacoes()) {
 //                avaliacaoRepositorio.save(avaliacao);
 //            }
-            //precisa de um if para não salvar caso não esteja preenchido nada lá dos itens. se 
+                              
             for (List<Avaliacao> avaliacaoPorCategoria : listaAvaliacoesPorCategoria.values()) {
                 for (Avaliacao avaliacao : avaliacaoPorCategoria) {           
-                    avaliacao.setInspecao(inspecao);
+                    avaliacao.setInspecao(inspecao);                   
                     avaliacaoRepositorio.save(avaliacao);
                 }
             }
@@ -184,7 +185,7 @@ public class InspecaoControle implements Serializable {
             
             iniciar();
         } catch (Exception e) {
-            System.out.println("Error ao salvar " + e.getMessage());
+            System.out.println("Erro ao salvar " + e.getMessage());
             Mensagem.mensagemErro(inspecao.getNome()); //pegar pelo nome do empreendimento
         }
     }
@@ -197,36 +198,6 @@ public class InspecaoControle implements Serializable {
         inspecao.setAvaliacoes(avaliacoes);
     }
 
-//    public void excluir() {
-//        try {
-//            inspecao = modelInspecoes.getRowData();
-//            inspecaoRepositorio.delete(inspecao);
-//            Mensagem.mensagemSucessoExcluir(inspecao.getNome());
-//            inspecao = null;
-//            lugar = null;
-//            categorias = null;
-//            modelInspecoes = null;
-//        } catch (Exception e) {
-//            Mensagem.mensagemErroExcluir(inspecao.getNome());
-//        }
-//    }
-//    public void prepararAlterar() {
-//        inspecao = modelInspecoes.getRowData();
-//        lugar = inspecao.getEmpreendimento();
-//        //categorias = (List<Categoria>) inspecao.getCategorias();
-//        modelInspecoes = null;
-//        aba = 1;
-//    }
-//    public void adicionarItem(long id) {
-//        try {
-//            System.out.println(id);
-//            Item temp_item = itemRepositorio.getById(id);
-//            temp_itens.add(temp_item);
-//
-//        } catch (Exception e) {
-//            Mensagem.mensagemErro("não foi possivel salvar");
-//        }
-//    }
     public void onTabChange(TabChangeEvent event) {
         if (event.getTab().getTitle().equals("Novo")) {
             if (comboEmpreendimentos == null) {
@@ -257,6 +228,7 @@ public class InspecaoControle implements Serializable {
 //    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
 //        this.avaliacoes = avaliacoes;
 //    }
+    
     public Categoria getCategoria() {
         return categoria;
     }
@@ -347,7 +319,39 @@ public class InspecaoControle implements Serializable {
     
 }
 
-//comentados    
+//comentados  
+
+//    public void excluir() {
+//        try {
+//            inspecao = modelInspecoes.getRowData();
+//            inspecaoRepositorio.delete(inspecao);
+//            Mensagem.mensagemSucessoExcluir(inspecao.getNome());
+//            inspecao = null;
+//            lugar = null;
+//            categorias = null;
+//            modelInspecoes = null;
+//        } catch (Exception e) {
+//            Mensagem.mensagemErroExcluir(inspecao.getNome());
+//        }
+//    }
+//    public void prepararAlterar() {
+//        inspecao = modelInspecoes.getRowData();
+//        lugar = inspecao.getEmpreendimento();
+//        //categorias = (List<Categoria>) inspecao.getCategorias();
+//        modelInspecoes = null;
+//        aba = 1;
+//    }
+//    public void adicionarItem(long id) {
+//        try {
+//            System.out.println(id);
+//            Item temp_item = itemRepositorio.getById(id);
+//            temp_itens.add(temp_item);
+//
+//        } catch (Exception e) {
+//            Mensagem.mensagemErro("não foi possivel salvar");
+//        }
+//    }
+
 //    public List<SelectItem> getComboItem() {
 //        return comboItem;
 //    }

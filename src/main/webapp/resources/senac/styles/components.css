@@ -17,3 +17,6 @@ body .ui-panelgrid .ui-panelgrid-cell {
 	padding: 0.3rem;
 }
 
+.ui-menu.ui-widget li > .ui-menuitem-link.ui-state-hover {
+    background-color: #f6f6f6 !important;
+}

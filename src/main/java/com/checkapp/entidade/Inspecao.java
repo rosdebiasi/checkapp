@@ -131,6 +131,7 @@ public class Inspecao implements Serializable {
     }
 
     public String getNome() {
+        //nome = empreendimento.getNome();
         return nome;
     }
 

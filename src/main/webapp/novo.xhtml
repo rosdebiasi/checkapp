@@ -3,7 +3,8 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/templates/layout.xhtml">
+                template="/WEB-INF/templates/layout.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="content">
         <!--<h1 class="aw-page-title">Título da sua página</h1>-->
@@ -18,7 +19,7 @@
                                      columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-10"
                                      contentStyleClass="ui-fluid">
   
-                            <p:outputLabel for="lugar" value="Local:" />
+                            <p:outputLabel for="lugar" value="Nome empreendimento:" />
                             <p:selectOneMenu id="lugar" value="#{inspecaoC.empreendimento.id}" 
                                              required="true" requiredMessage="Nome empreendimento é obrigatório!"
                                              filter="true" filterMatchMode="startsWith">
@@ -33,7 +34,13 @@
                                         <div class="product-list-detail">
                                             <div class="product-name">#{avaliacao.item.nome}
                                                 <div class="product-avaliacao">
-                                                    <p:selectOneRadio id="console" value="#{avaliacao.resposta}" unselectable="false">
+                                                    <p:selectOneRadio id="console" value="#{avaliacao.resposta}" unselectable="true" 
+                                                        required="true" requiredMessage="Preenchimento do item de inspeção obrigatório (Sim, Não ou N/A)" >
+                                                        
+                                                        <!--testando o if- ainda não deu certo-->
+                                                        <c:if test = "${'#{avaliacao.item.id}' == '1'}" >
+                                                            required="true" requiredMessage="Preenchimento do item de inspeção obrigatório (Sim, Não ou N/A)"
+                                                        </c:if>
                                                         <f:selectItem itemLabel="Sim" itemValue="sim"/>
                                                         <f:selectItem itemLabel="Não" itemValue="nao"/>
                                                         <f:selectItem itemLabel="N/A" itemValue="na"/>
@@ -46,6 +53,14 @@
                                     </p:repeat>
                                 </p:tab>
                             </p:accordionPanel>
+                            
+<!--                        <p:outputLabel for="observacao" value="Observação:" />    -->
+
+                        <div class="p-field p-col-12">
+                            <label for="observacao">Observação</label>
+                            <p:inputTextarea id="observacao" value="#{inspecaoC.inspecao.observacao}" rows="4" />
+                        </div>
+                            
                         </p:panelGrid>
                         <!--primeira coluna-->
                         
@@ -69,7 +84,11 @@
                         </p:repeat>
                         -->
                     
-                        <p:commandButton value="Salvar Inspeção" action="#{inspecaoC.salvar()}"  update="@all" /> 
+                        <p:commandButton value="Salvar Inspeção" action="#{inspecaoC.salvar()}"  update="@all" > 
+                            <!-- com problema essa caixa de confirmação >-->                         
+<!--                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>-->
+<!--                            <p:confirm header="Confirmação" message="Deseja realmente salvar a inspeção? Essa inspeção não poderá ser alterada." icon="pi pi-info-circle"/>-->
+                        </p:commandButton>
                     </h:form>
                 </p:tab>
 
