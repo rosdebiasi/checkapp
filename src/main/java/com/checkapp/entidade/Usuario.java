@@ -16,30 +16,32 @@ public class Usuario implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    private String nome;
+    private String login;
 
     @Column(nullable = false)
     private String email;
-    
+
     @Column(nullable = false)
     private String senha;
-    
-     //desmarcar depois- para teste inicial
-    
-    @OneToMany (mappedBy= "usuario")
+
+    @Column(nullable = false)
+    private boolean enable;
+
+    //desmarcar depois- para teste inicial
+    @OneToMany(mappedBy = "usuario")
     private List<Inspecao> inspecao;
-    
+
 //    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
 //    private Inspecao inspecao; --uma ou várias??? fiquei em dúvida
-
     public Usuario() {
 
     }
 
-    public Usuario(String nome, String email, String senha) {
-        this.nome = nome;
+    public Usuario(String login, String email, String senha, boolean enable) {
+        this.login = login;
         this.email = email;
         this.senha = senha;
+        this.enable = enable;
     }
 
     public Long getId() {
@@ -50,12 +52,12 @@ public class Usuario implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getLogin() {
+        return login;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getEmail() {
@@ -74,6 +76,14 @@ public class Usuario implements Serializable {
         this.senha = senha;
     }
 
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+
     public List<Inspecao> getInspecao() {
         return inspecao;
     }
@@ -81,9 +91,6 @@ public class Usuario implements Serializable {
     public void setInspecao(List<Inspecao> inspecao) {
         this.inspecao = inspecao;
     }
-    
-    
-    
 
     @Override
     public int hashCode() {

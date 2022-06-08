@@ -11,8 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 @Repository
 public interface UsuarioRepositorio extends JpaRepository<Usuario, Long>{
     
-    @Query("from Usuario u Where u.nome like %:nome%")
-    List<Usuario> findByNomeContaining(String nome);
+    @Query("from Usuario u Where u.login like %:login%")
+    List<Usuario> findByNomeContaining(String login);
     
     @Query("from Usuario u Where u.email like %:email%")
     List<Usuario> findByEmailContaining(String email);

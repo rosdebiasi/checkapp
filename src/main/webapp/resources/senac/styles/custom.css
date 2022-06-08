@@ -28,10 +28,3 @@ body {
 }
 
 
-.ui-menu.ui-widget li > .ui-menuitem-link.ui-state-hover {
-    background-color: #f6f6f6 !important;
-}
-
-.ui-tabs .ui-tabs-nav.ui-widget-header li a {
-    color: #f6f6f6 !important;
-}

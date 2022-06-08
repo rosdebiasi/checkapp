@@ -11,9 +11,8 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
-import com.checkapp.entidade.Cliente;
-import com.checkapp.dao.ClienteRepositorio;
+import com.checkapp.dao.UsuarioRepositorio;
+import com.checkapp.entidade.Usuario;
 import java.util.List;
 import java.util.Optional;
 import javax.faces.model.DataModel;
@@ -25,27 +24,27 @@ import org.primefaces.event.TabCloseEvent;
 // *
 // * @author JavaRevolutions
 // */
-@Named(value = "clienteC")
+@Named(value = "usuarioC")
 @ViewScoped
-public class ClienteControle implements Serializable {
+public class UsuarioControle implements Serializable {
 
     private static final long serialVersionUID = 1L;
  
-    private Cliente cliente;
-    private DataModel<Cliente> modelClientes;
+    private Usuario usuario;
+    private DataModel<Usuario> modelUsuarios;
     private int aba;
     
     @Autowired
-    private ClienteRepositorio clienteRepositorio;
+    private UsuarioRepositorio usuarioRepositorio;
     
-    public List<Cliente> pesquisarTodo(){
-        return clienteRepositorio.findAll(); 
+    public List<Usuario> pesquisarTodo(){
+        return usuarioRepositorio.findAll(); 
     }
 
     public void pesquisarPorNome(){      
-        List<Cliente> clientes = clienteRepositorio.findByNomeContaining(cliente.getNome());
-        modelClientes = new ListDataModel<>(clientes);
-        cliente.setNome(null);
+        List<Usuario> usuarios = usuarioRepositorio.findByNomeContaining(usuario.getLogin());
+        modelUsuarios = new ListDataModel<>(usuarios);
+        usuario.setLogin(null);
     }
 
 ////     //adicionado --será que funciona???
@@ -61,24 +60,24 @@ public class ClienteControle implements Serializable {
 //
     public void salvar(){
         try {
-            clienteRepositorio.save(cliente);
-            Mensagem.mensagemSucesso(cliente.getNome());
-            cliente = null;
+            usuarioRepositorio.save(usuario);
+            Mensagem.mensagemSucesso(usuario.getLogin());
+            usuario = null;
             aba =0;
         } catch (Exception e) {
-            Mensagem.mensagemErro(cliente.getNome());
+            Mensagem.mensagemErro(usuario.getLogin());
         }
     }
     
     public void excluir(){
         try {
-            cliente = modelClientes.getRowData();
-            clienteRepositorio.delete(cliente);
-            Mensagem.mensagemSucessoExcluir(cliente.getNome());
-            cliente = null;
-            modelClientes = null;
+            usuario = modelUsuarios.getRowData();
+            usuarioRepositorio.delete(usuario);
+            Mensagem.mensagemSucessoExcluir(usuario.getLogin());
+            usuario = null;
+            modelUsuarios = null;
         } catch (Exception e) {
-            Mensagem.mensagemErroExcluir(cliente.getNome());
+            Mensagem.mensagemErroExcluir(usuario.getLogin());
         }
     }
     
@@ -103,9 +102,9 @@ public class ClienteControle implements Serializable {
 //   }
     
    public void prepararAlterar(){
-       cliente = modelClientes.getRowData();
+       usuario = modelUsuarios.getRowData();
        aba=1;
-       modelClientes = null;
+       modelUsuarios = null;
    }
    
    public void onTabChange(TabChangeEvent event){   
@@ -134,24 +133,24 @@ public class ClienteControle implements Serializable {
 //        Mensagem.mensagemSucessoExcluir(cliente.getNome());
 //        } 
 //    }
-    
-    
-    
+
 //    getters e setters
-    public Cliente getCliente() {
-        if (cliente == null) {
-            cliente = new Cliente();
-        }
-        return cliente;
+   
+       public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public DataModel<Cliente> getModelClientes() {
-        return modelClientes;
-    }   
+    public DataModel<Usuario> getModelUsuarios() {
+        return modelUsuarios;
+    }
+   
+    public void setModelUsuarios(DataModel<Usuario> modelUsuarios) {
+        this.modelUsuarios = modelUsuarios;
+    }
 
     public int getAba() {
         return aba;
