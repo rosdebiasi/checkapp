@@ -26,6 +26,12 @@ public class Inspecao implements Serializable {
     private String observacao;
 
     private String nome;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dataInicioPesquisa;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dataFinalPesquisa;
 
     @ManyToOne()
     @JoinColumn(name = "id_empreendimento")
@@ -139,6 +145,22 @@ public class Inspecao implements Serializable {
         this.nome = nome;
     }
 
+    public Date getDataInicioPesquisa() {
+        return dataInicioPesquisa;
+    }
+
+    public void setDataInicioPesquisa(Date dataInicioPesquisa) {
+        this.dataInicioPesquisa = dataInicioPesquisa;
+    }
+
+    public Date getDataFinalPesquisa() {
+        return dataFinalPesquisa;
+    }
+
+    public void setDataFinalPesquisa(Date dataFinalPesquisa) {
+        this.dataFinalPesquisa = dataFinalPesquisa;
+    }
+ 
     @Override
     public int hashCode() {
         final int prime = 31;

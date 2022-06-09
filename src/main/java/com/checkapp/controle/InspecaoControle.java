@@ -72,7 +72,7 @@ public class InspecaoControle implements Serializable {
     
     @Autowired
     private AvaliacaoRepositorio avaliacaoRepositorio;
-
+    
     //para pesquisar no banco antes de carregar a tela- como um construtor de uma classe de Entidade, mas tem em todas as classes
     @PostConstruct
     public void iniciar() {
