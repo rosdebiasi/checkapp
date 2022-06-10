@@ -18,4 +18,6 @@ public interface EmpreendimentoRepositorio extends JpaRepository<Empreendimento,
     
     //@Query("select e from Empreendimento l join fetch l.endereco e Where l.nome like %:nome%")
     
+    //@Query("select e from Empreendimento l join fetch l.endereco e Where l.nome like %:nome%")
+    
 }
