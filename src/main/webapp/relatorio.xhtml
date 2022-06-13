@@ -10,19 +10,19 @@
         <p:panel id="painel_conteudo" header="Relatório" >
 
             <h:form id="form_pesquisa">
-<!--                
-                <p:panelGrid id="panelGG" columns="2" layout="flex" 
-                             columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
-                             contentStyleClass="ui-fluid">
-                    <p:outputLabel for="lugar" value="Local:" />
-                    <p:selectOneMenu id="lugar" value="#{relatorioC.empreendimento.id}" 
-                                     required="true" requiredMessage="Nome empreendimento é obrigatório!"
-                                     filter="true" filterMatchMode="startsWith">
-                        <f:selectItem itemLabel="Selecione o empreendimento:"/>
-                        <f:selectItems value="#{relatorioC.comboEmpreendimentos}"/>
-                    </p:selectOneMenu>         
-                    <p:commandButton value="Pesquisar" actionListener="#{relatorioC.pesquisarPorNome()}" update="tabela" />
-                </p:panelGrid>-->
+                <!--                
+                                <p:panelGrid id="panelGG" columns="2" layout="flex" 
+                                             columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
+                                             contentStyleClass="ui-fluid">
+                                    <p:outputLabel for="lugar" value="Local:" />
+                                    <p:selectOneMenu id="lugar" value="#{relatorioC.empreendimento.id}" 
+                                                     required="true" requiredMessage="Nome empreendimento é obrigatório!"
+                                                     filter="true" filterMatchMode="startsWith">
+                                        <f:selectItem itemLabel="Selecione o empreendimento:"/>
+                                        <f:selectItems value="#{relatorioC.comboEmpreendimentos}"/>
+                                    </p:selectOneMenu>         
+                                    <p:commandButton value="Pesquisar" actionListener="#{relatorioC.pesquisarPorNome()}" update="tabela" />
+                                </p:panelGrid>-->
 
                 <p:dataTable id="tabela" var="inspecao" value="${relatorioC.inspecoes}" rows="10"
                              paginator="true" paginatorPosition="bottom"
@@ -56,7 +56,7 @@
             </h:form>
 
             <!--aba para mostrar o relatório-->
-            
+
             <br/>
             <hr/>
             <br/>
@@ -83,9 +83,9 @@
                 </p:panel>
 
                 <br/>
-                
+
                 <p:commandButton value="Exportar para pdf" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
-                    <p:dataExporter type="pdf" target="dt-products" fileName="products"/>
+                    <p:dataExporter type="pdf" target="form_relatorio" fileName="relatorio"/>
                 </p:commandButton>
             </h:form>  
 
