@@ -19,23 +19,21 @@ public class Inspecao implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne()
+    @JoinColumn(name = "id_empreendimento")
+    private Empreendimento empreendimento;
+
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataEhora;
 
     private String observacao;
 
-    private String nome;
-    
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataInicioPesquisa;
-    
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataFinalPesquisa;
-
-    @ManyToOne()
-    @JoinColumn(name = "id_empreendimento")
-    private Empreendimento empreendimento;
 
     @ManyToOne()
     @JoinColumn(name = "id_usuario")
@@ -61,10 +59,9 @@ public class Inspecao implements Serializable {
     public Inspecao() {
     }
 
-    public Inspecao(Date dataEhora, String observacao, String nome) {
+    public Inspecao(Date dataEhora, String observacao) {
         this.dataEhora = dataEhora;
         this.observacao = observacao;
-        this.nome = nome;
     }
 
     public void addAvaliacao(Item item) {
@@ -137,12 +134,11 @@ public class Inspecao implements Serializable {
     }
 
     public String getNome() {
-        //nome = empreendimento.getNome();
-        return nome;
+        return getEmpreendimento().getNome();
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        getEmpreendimento().setNome(nome);
     }
 
     public Date getDataInicioPesquisa() {
@@ -160,7 +156,7 @@ public class Inspecao implements Serializable {
     public void setDataFinalPesquisa(Date dataFinalPesquisa) {
         this.dataFinalPesquisa = dataFinalPesquisa;
     }
- 
+
     @Override
     public int hashCode() {
         final int prime = 31;

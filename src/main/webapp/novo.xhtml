@@ -53,8 +53,6 @@
                                     </p:repeat>
                                 </p:tab>
                             </p:accordionPanel>
-                            
-<!--                        <p:outputLabel for="observacao" value="Observação:" />    -->
 
                         <div class="p-field p-col-12">
                             <label for="observacao">Observação</label>
@@ -84,11 +82,14 @@
                         </p:repeat>
                         -->
                     
-                        <p:commandButton value="Salvar Inspeção" action="#{inspecaoC.salvar()}"  update="@all" > 
-                            <!-- com problema essa caixa de confirmação >-->                         
-<!--                            <p:confirm header="Confirmation" message="Are you sure you want to proceed?" icon="pi pi-exclamation-triangle"/>-->
-<!--                            <p:confirm header="Confirmação" message="Deseja realmente salvar a inspeção? Essa inspeção não poderá ser alterada." icon="pi pi-info-circle"/>-->
+                        <p:commandButton value="Salvar Inspeção" action="#{inspecaoC.salvar()}"  update="@all" >                           
+                            <p:confirm header="Confirmação" message="Deseja realmente salvar a inspeção? Essa inspeção não poderá ser alterada." icon="pi pi-info-circle"/>
                         </p:commandButton>
+                        
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="450">
+                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
+                        </p:confirmDialog>
                     </h:form>
                 </p:tab>
 

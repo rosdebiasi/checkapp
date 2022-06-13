@@ -13,8 +13,8 @@ public interface InspecaoRepositorio extends JpaRepository<Inspecao, Long>{
 //    @Query("select i from Inspecao i Where i.nome like %:nome%")
 //    List<Inspecao> findByNome(String nome);
     
-    @Query("select i from Inspecao i join fetch i.empreendimento Where i.nome like %:nome%")
-    List<Inspecao> findByNome(String nome);
+//    @Query("select i from Inspecao i join fetch i.empreendimento Where i.nome like %:nome%")
+//    List<Inspecao> findByNome(String nome);
     
 //    @Query("select i from Inspecao "
 //            + "i join fetch i.empreendimento "

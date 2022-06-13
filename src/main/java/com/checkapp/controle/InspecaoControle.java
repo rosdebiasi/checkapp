@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.checkapp.controle;
 
-//import com.checkapp.dao.AvaliacaoRepositorio;
 import com.checkapp.dao.AvaliacaoRepositorio;
 import com.checkapp.dao.CategoriaRepositorio;
 import com.checkapp.dao.InspecaoRepositorio;
@@ -18,7 +12,6 @@ import com.checkapp.entidade.Empreendimento;
 import java.util.List;
 import java.util.Optional;
 import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TabCloseEvent;
 import com.checkapp.entidade.Categoria;
@@ -28,12 +21,10 @@ import java.util.ArrayList;
 import javax.faces.model.SelectItem;
 import com.checkapp.dao.EmpreendimentoRepositorio;
 import com.checkapp.entidade.Avaliacao;
-import java.time.LocalDate;
 import java.util.GregorianCalendar;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import org.hibernate.Hibernate;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
@@ -44,7 +35,6 @@ import org.jboss.logging.Logger;
 public class InspecaoControle implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private final Logger logger = LoggerFactory.logger(getClass());
 
     private Inspecao inspecao;
     private DataModel<Inspecao> modelInspecoes;
@@ -104,22 +94,7 @@ public class InspecaoControle implements Serializable {
 
     }
 
-    public List<Inspecao> pesquisarTodo() {
-        return inspecaoRepositorio.findAll();
-    }
-
-    public void pesquisarPorNome() {
-        List<Inspecao> inspecoes = inspecaoRepositorio.findByNome(inspecao.getNome());
-        modelInspecoes = new ListDataModel<>(inspecoes);
-        inspecao.setNome(null);
-    }
-
-    //adicionado --será que funciona???
-    public void pesquisarPorId() {
-        Optional<Inspecao> inspecoes = inspecaoRepositorio.findById(inspecao.getId());
-    }
-
-    private void carregarComboBoxEmpreendimentos() {
+       private void carregarComboBoxEmpreendimentos() {
         List<Empreendimento> lugares = lugarRepositorio.findAll();
         comboEmpreendimentos = new ArrayList<>();
         for (Empreendimento lug : lugares) {
@@ -161,18 +136,11 @@ public class InspecaoControle implements Serializable {
 //    }
     public void salvar() {
         try {
-            inspecao.setEmpreendimento(empreendimento);
-            //Hibernate.initialize(empreendimento);
-            //empreendimento = lugarRepositorio.getById(empreendimento.getId());
-            inspecao.setNome(empreendimento.getNome()); //não deu certo..setar por nome empreendimento - chamar ali e ficar pelo nome do empreendimento
+            Empreendimento emp = lugarRepositorio.getById(empreendimento.getId());
+            
+            inspecao.setEmpreendimento(emp);
             inspecao.setDataEhora(GregorianCalendar.getInstance().getTime());
-
-            inspecao.setObservacao(inspecao.getObservacao());
-
             inspecaoRepositorio.save(inspecao);
-//            for (Avaliacao avaliacao : inspecao.getAvaliacoes()) {
-//                avaliacaoRepositorio.save(avaliacao);
-//            }
 
             for (List<Avaliacao> avaliacaoPorCategoria : listaAvaliacoesPorCategoria.values()) {
                 for (Avaliacao avaliacao : avaliacaoPorCategoria) {
@@ -180,13 +148,12 @@ public class InspecaoControle implements Serializable {
                     avaliacaoRepositorio.save(avaliacao);
                 }
             }
-
-            Mensagem.mensagemSucesso(inspecao.getEmpreendimento().getNome()); //pegar pelo nome do empreendimento e se puder dizer a data e hora
+            
+            Mensagem.mensagemSucesso(inspecao.getNome() + " em " +  inspecao.getDataEhora());
 
             iniciar();
         } catch (Exception e) {
-            System.out.println("Erro ao salvar " + e.getMessage());
-            Mensagem.mensagemErro(inspecao.getNome()); //pegar pelo nome do empreendimento
+            System.err.println("Erro ao salvar " + e.getMessage());
         }
     }
 
@@ -196,20 +163,6 @@ public class InspecaoControle implements Serializable {
 
     public void setAvaliacoes(List<Avaliacao> avaliacoes) {
         inspecao.setAvaliacoes(avaliacoes);
-    }
-
-    public void onTabChange(TabChangeEvent event) {
-        if (event.getTab().getTitle().equals("Novo")) {
-            if (comboEmpreendimentos == null) {
-                carregarComboBoxEmpreendimentos();
-            }
-            if (listaDeCategoria == null) {
-                carregarListaItem();
-            }
-        }
-    }
-
-    public void onTabClose(TabCloseEvent event) {
     }
 
     //não vai funcionar - gerar um lancamento dao - talvez outra classe para relatório 
