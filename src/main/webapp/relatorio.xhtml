@@ -6,104 +6,88 @@
                 template="/WEB-INF/templates/layout.xhtml">
 
     <ui:define name="content">
-        <!--<h1 class="aw-page-title">Título da sua página</h1>-->
 
         <p:panel id="painel_conteudo" header="Relatório" >
-            <p:tabView id="tab_view" activeIndex="#{inspecaoC.aba}">
-                <!--aba para pesquisa-->
-                <p:tab title="Pesquisa">
-                    <h:form id="form_pesquisa">
-                        <p:panelGrid id="panelGG" columns="2" layout="flex" 
-                                     columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
-                                     contentStyleClass="ui-fluid">
-                            <p:outputLabel for="lugar" value="Local:" />
-                            <p:selectOneMenu id="lugar" value="#{inspecaoC.empreendimento.id}" 
-                                             required="true" requiredMessage="Nome empreendimento é obrigatório!"
-                                             filter="true" filterMatchMode="startsWith">
-                                <f:selectItem itemLabel="Selecione o empreendimento:"/>
-                                <f:selectItems value="#{inspecaoC.comboEmpreendimentos}"/>
-                            </p:selectOneMenu>         
-                            <p:commandButton value="Pesquisar" actionListener="#{inspecaoC.pesquisarPorNome()}" update="tabela" />
-                        </p:panelGrid>
 
-                        <p:dataTable id="tabela" var="inspecao" value="" rows="10"
-                                     paginator="true" paginatorPosition="bottom"
-                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
-                                     rowsPerPageTemplate="5,10,15,{ShowAll|'Todos'}">
+            <h:form id="form_pesquisa">
+<!--                
+                <p:panelGrid id="panelGG" columns="2" layout="flex" 
+                             columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
+                             contentStyleClass="ui-fluid">
+                    <p:outputLabel for="lugar" value="Local:" />
+                    <p:selectOneMenu id="lugar" value="#{relatorioC.empreendimento.id}" 
+                                     required="true" requiredMessage="Nome empreendimento é obrigatório!"
+                                     filter="true" filterMatchMode="startsWith">
+                        <f:selectItem itemLabel="Selecione o empreendimento:"/>
+                        <f:selectItems value="#{relatorioC.comboEmpreendimentos}"/>
+                    </p:selectOneMenu>         
+                    <p:commandButton value="Pesquisar" actionListener="#{relatorioC.pesquisarPorNome()}" update="tabela" />
+                </p:panelGrid>-->
 
-                            <f:facet name="header">
-                                <h:outputText value="Inspeção"/>
-                            </f:facet>
-                            <p:column headerText="Nome Empreendimento">
-                                <h:outputText value="" />
-                            </p:column>
-                            <p:column headerText="Data de Inspeção">
-                                <h:outputText value="" />
-                            </p:column>
+                <p:dataTable id="tabela" var="inspecao" value="${relatorioC.inspecoes}" rows="10"
+                             paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+                             rowsPerPageTemplate="5,10,15,{ShowAll|'Todos'}">
 
-                            <p:column headerText="Ação">
+                    <f:facet name="header">
+                        <h:outputText value="Inspeção"/>
+                    </f:facet>
+                    <p:column headerText="Nome Empreendimento">
+                        <h:outputText value="#{inspecao.nome}" />
+                    </p:column>
+                    <p:column headerText="Data de Inspeção">
+                        <h:outputText value="#{inspecao.dataEhora}" />
+                    </p:column>
 
-                                <p:commandButton icon="pi pi-eye" title="Visualisar" process="@this" 
-                                                 actionListener="#{clienteC.prepararAlterar()}" update="@all"
-                                                 style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" >
-                                </p:commandButton>
-                            </p:column>                       
-
-                        </p:dataTable>
-
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
-                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
-                            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
-                        </p:confirmDialog>
-                    </h:form>
-                </p:tab>
-
-                <!--aba para mostrar o relatório-->
-
-
-                <p:tab title="Relatório">
-                    <h:form id="form_relatorio">
-
-                        <p:dataTable>
-                            <p:column headerText="Empreendimento" style="text-align:left;">
-                                <h:outputText value="#{cliente.nome}" />
-                            </p:column>
-                        </p:dataTable>
-
-                        <p:dataTable>
-
-<!--                            <f:facet name="header">
-                                <h:outputText value="inspeção no empreendimento GG"/>
-                            </f:facet>-->
-                            <p:column headerText="Categoria">
-                                <h:outputText value="#{cliente.nome}" />
-                            </p:column>
-                            <p:column headerText="item">
-                                <h:outputText value="#{cliente.email}" />
-                            </p:column>
-                            <p:column headerText="Resposta">
-                                <h:outputText value="#{cliente.email}" />
-                            </p:column>
-
-                        </p:dataTable>
-
-                        <p:dataTable>
-                            <p:column headerText="Observação" style="text-align:left;">
-                                <h:outputText value="#{cliente.nome}" />
-                            </p:column>
-                        </p:dataTable>
-
-                        <p:commandButton value="Exportar para pdf" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
-                            <p:dataExporter type="pdf" target="dt-products" fileName="products"/>
+                    <p:column headerText="Ação">
+                        <p:commandButton icon="pi pi-eye" title="Visualisar" process="@this" 
+                                         actionListener="#{relatorioC.setInspecaoSelecionada(inspecao)}" update="form_relatorio"
+                                         style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" >
                         </p:commandButton>
-                    </h:form>  
-                </p:tab>
+                    </p:column>                       
 
+                </p:dataTable>
 
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="450">
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
+                </p:confirmDialog>
+            </h:form>
 
+            <!--aba para mostrar o relatório-->
+            
+            <br/>
+            <hr/>
+            <br/>
 
-            </p:tabView>
+            <h:form id="form_relatorio">
+                <p:panel header="Nome do Empreendimento" footer="Relizada em #{relatorioC.inspecaoSelecionada.dataEhora}">
+                    <h:outputText value="#{relatorioC.inspecaoSelecionada.empreendimento.nome}" />
+                </p:panel>
+
+                <p:dataTable id="avaliacoes" var="avaliacao" value="${relatorioC.inspecaoSelecionada.avaliacoes}">
+                    <p:column headerText="Categoria">
+                        <h:outputText value="#{avaliacao.item.categoria.nome}" />
+                    </p:column>
+                    <p:column headerText="item">
+                        <h:outputText value="#{avaliacao.item.nome}" />
+                    </p:column>
+                    <p:column headerText="Resposta">
+                        <h:outputText value="#{avaliacao.resposta}" />
+                    </p:column>
+                </p:dataTable>
+
+                <p:panel header="Observação">
+                    <h:outputText value="#{relatorioC.inspecaoSelecionada.observacao}" />
+                </p:panel>
+
+                <br/>
+                
+                <p:commandButton value="Exportar para pdf" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
+                    <p:dataExporter type="pdf" target="dt-products" fileName="products"/>
+                </p:commandButton>
+            </h:form>  
 
         </p:panel> 
     </ui:define>
