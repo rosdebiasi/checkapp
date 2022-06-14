@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.jboss.logging.Logger;
+import org.springframework.context.annotation.DeferredImportSelector;
 import org.springframework.data.domain.Sort;
 
 @Component(value = "relatorioC")
@@ -53,13 +54,23 @@ public class RelatorioControle implements Serializable {
     public void iniciar() {
         aba = 0;
         inspecaoSelecionada = new Inspecao();
-        inspecoes = inspecaoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "dataEhora"));
+        //inspecoes = inspecaoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "dataEhora"));
         empreendimento = new Empreendimento();
         carregarComboBoxEmpreendimentos();
     }
 
     public List<Inspecao> pesquisarTodo() {
         return inspecaoRepositorio.findAll();
+    }
+
+    public void pesquisarPorEmpreeendimento() {
+        aba = 0;
+        //carregarComboBoxEmpreendimentos();
+        //inspecaoSelecionada = new Inspecao();
+        inspecoes = inspecaoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "empreendimento.nome"));
+              
+        empreendimento = new Empreendimento();
+        empreendimento.getNome();
     }
 
     public void pesquisarPorNome() {

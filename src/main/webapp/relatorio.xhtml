@@ -10,7 +10,7 @@
         <p:panel id="painel_conteudo" header="Relatório" >
 
             <h:form id="form_pesquisa">
-                <!--                
+                                
                                 <p:panelGrid id="panelGG" columns="2" layout="flex" 
                                              columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
                                              contentStyleClass="ui-fluid">
@@ -21,8 +21,8 @@
                                         <f:selectItem itemLabel="Selecione o empreendimento:"/>
                                         <f:selectItems value="#{relatorioC.comboEmpreendimentos}"/>
                                     </p:selectOneMenu>         
-                                    <p:commandButton value="Pesquisar" actionListener="#{relatorioC.pesquisarPorNome()}" update="tabela" />
-                                </p:panelGrid>-->
+                                    <p:commandButton value="Pesquisar" actionListener="#{relatorioC.pesquisarPorEmpreeendimento()}" update="tabela" />
+                                </p:panelGrid>
 
                 <p:dataTable id="tabela" var="inspecao" value="${relatorioC.inspecoes}" rows="10"
                              paginator="true" paginatorPosition="bottom"
