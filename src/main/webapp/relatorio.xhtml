@@ -28,11 +28,11 @@
                              columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
                              contentStyleClass="ui-fluid">
                     <p:outputLabel for="dataI" value="Data Inicial:" />
-                    <p:datePicker id="dataI" value="" 
-                                  required="false" requiredMessage="#{relatorioC.inspecaoSelecionada.dataInicioPesquisa}"/>
+                    <p:datePicker id="dataI" value="#{relatorioC.inspecaoSelecionada.dataInicioPesquisa}" 
+                                  required="false" requiredMessage=""/>
                     <p:outputLabel for="dataF" value="Data Final:" />
-                    <p:datePicker id="dataF" value="" 
-                                  required="false" requiredMessage="#{relatorioC.inspecaoSelecionada.dataFinalPesquisa}"/>
+                    <p:datePicker id="dataF" value="#{relatorioC.inspecaoSelecionada.dataFinalPesquisa}" 
+                                  required="false" requiredMessage=""/>
                     <p:commandButton value="Pesquisar" actionListener="#{relatorioC.pesquisarPorFaixaDeData()}" update="tabela" />
                 </p:panelGrid>
 

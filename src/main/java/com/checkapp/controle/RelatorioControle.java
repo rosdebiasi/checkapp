@@ -74,13 +74,15 @@ public class RelatorioControle implements Serializable {
         empreendimento.getNome();
     }
     
-    //mesma coisa aqu
     public void pesquisarPorFaixaDeData(){
         aba=0;
         inspecoes = inspecaoRepositorio.pesquisarInspecaoPorFaixaDeData();
         inspecaoSelecionada.setDataInicioPesquisa(inspecaoSelecionada.getDataInicioPesquisa());
         inspecaoSelecionada.setDataFinalPesquisa(inspecaoSelecionada.getDataFinalPesquisa());
-
+        inspecaoSelecionada.getDataEhora();
+        
+//        empreendimento = new Empreendimento();
+//        empreendimento.getNome();
     }
 
     public void pesquisarPorNome() {
