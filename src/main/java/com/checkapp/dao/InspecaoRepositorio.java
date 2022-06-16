@@ -27,6 +27,9 @@ public interface InspecaoRepositorio extends JpaRepository<Inspecao, Long>{
     @Query("select distinct(i) from Inspecao i join fetch i.avaliacoes")
     List<Inspecao> pesquisarAvaliacaoPorInspecao();
     
+     @Query("select i from Inspecao i Where Date(data_ehora) between Date(dataInicioPesquisa) and Date(dataFinalPesquisa)")
+     List<Inspecao> pesquisarInspecaoPorFaixaDeData();
+     
 //    @Query("select distinct(c) from Categoria c join fetch c.itens")
 //    List<Categoria>pesquisarCategoriaPorItem();
     

@@ -10,19 +10,31 @@
         <p:panel id="painel_conteudo" header="Relatório" >
 
             <h:form id="form_pesquisa">
-                                
-                                <p:panelGrid id="panelGG" columns="2" layout="flex" 
-                                             columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
-                                             contentStyleClass="ui-fluid">
-                                    <p:outputLabel for="lugar" value="Local:" />
-                                    <p:selectOneMenu id="lugar" value="#{relatorioC.empreendimento.id}" 
-                                                     required="true" requiredMessage="Nome empreendimento é obrigatório!"
-                                                     filter="true" filterMatchMode="startsWith">
-                                        <f:selectItem itemLabel="Selecione o empreendimento:"/>
-                                        <f:selectItems value="#{relatorioC.comboEmpreendimentos}"/>
-                                    </p:selectOneMenu>         
-                                    <p:commandButton value="Pesquisar" actionListener="#{relatorioC.pesquisarPorEmpreeendimento()}" update="tabela" />
-                                </p:panelGrid>
+
+                <p:panelGrid id="panelGG" columns="2" layout="flex" 
+                             columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
+                             contentStyleClass="ui-fluid">
+                    <p:outputLabel for="lugar" value="Local:" />
+                    <p:selectOneMenu id="lugar" value="#{relatorioC.empreendimento.id}" 
+                                     required="false" requiredMessage="Nome empreendimento é obrigatório!"
+                                     filter="true" filterMatchMode="startsWith">
+                        <f:selectItem itemLabel="Selecione o empreendimento:"/>
+                        <f:selectItems value="#{relatorioC.comboEmpreendimentos}"/>
+                    </p:selectOneMenu>         
+                    <p:commandButton value="Pesquisar" actionListener="#{relatorioC.pesquisarPorEmpreeendimento()}" update="tabela" />
+                </p:panelGrid>
+
+                <p:panelGrid id="panelGG2" columns="2" layout="flex" 
+                             columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
+                             contentStyleClass="ui-fluid">
+                    <p:outputLabel for="dataI" value="Data Inicial:" />
+                    <p:datePicker id="dataI" value="" 
+                                  required="false" requiredMessage="#{relatorioC.inspecaoSelecionada.dataInicioPesquisa}"/>
+                    <p:outputLabel for="dataF" value="Data Final:" />
+                    <p:datePicker id="dataF" value="" 
+                                  required="false" requiredMessage="#{relatorioC.inspecaoSelecionada.dataFinalPesquisa}"/>
+                    <p:commandButton value="Pesquisar" actionListener="#{relatorioC.pesquisarPorFaixaDeData()}" update="tabela" />
+                </p:panelGrid>
 
                 <p:dataTable id="tabela" var="inspecao" value="${relatorioC.inspecoes}" rows="10"
                              paginator="true" paginatorPosition="bottom"

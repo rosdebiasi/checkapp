@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.faces.model.SelectItem;
 import com.checkapp.dao.EmpreendimentoRepositorio;
 import javax.annotation.PostConstruct;
+import org.hibernate.validator.internal.engine.groups.Group;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.jboss.logging.Logger;
@@ -68,9 +69,18 @@ public class RelatorioControle implements Serializable {
         //carregarComboBoxEmpreendimentos();
         //inspecaoSelecionada = new Inspecao();
         inspecoes = inspecaoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "empreendimento.nome"));
-              
+             
         empreendimento = new Empreendimento();
         empreendimento.getNome();
+    }
+    
+    //mesma coisa aqu
+    public void pesquisarPorFaixaDeData(){
+        aba=0;
+        inspecoes = inspecaoRepositorio.pesquisarInspecaoPorFaixaDeData();
+        inspecaoSelecionada.setDataInicioPesquisa(inspecaoSelecionada.getDataInicioPesquisa());
+        inspecaoSelecionada.setDataFinalPesquisa(inspecaoSelecionada.getDataFinalPesquisa());
+
     }
 
     public void pesquisarPorNome() {
