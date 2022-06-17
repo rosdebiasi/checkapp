@@ -61,8 +61,6 @@ public class RelatorioControle implements Serializable {
     }
 
     public void pesquisarPorFaixaDeData() {
-        System.err.println("inicio " + pesquisaDataInicial);
-        System.err.println("final_ " + pesquisaDataFinal);
         inspecoes = inspecaoRepositorio.pesquisarInspecaoPorFaixaDeData(pesquisaDataInicial, pesquisaDataFinal);
     }
 
