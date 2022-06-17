@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.checkapp.entidade.Inspecao;
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 
@@ -12,6 +13,9 @@ public interface InspecaoRepositorio extends JpaRepository<Inspecao, Long>{
        
 //    @Query("select i from Inspecao i Where i.nome like %:nome%")
 //    List<Inspecao> findByNome(String nome);
+
+    @Query("select i from Inspecao i where i.empreendimento.id = :empreendimento_id")
+    List<Inspecao> findByEmpreendimento(Long empreendimento_id);
     
 //    @Query("select i from Inspecao i join fetch i.empreendimento Where i.nome like %:nome%")
 //    List<Inspecao> findByNome(String nome);
@@ -27,8 +31,8 @@ public interface InspecaoRepositorio extends JpaRepository<Inspecao, Long>{
     @Query("select distinct(i) from Inspecao i join fetch i.avaliacoes")
     List<Inspecao> pesquisarAvaliacaoPorInspecao();
     
-     @Query("select i from Inspecao i Where Date(data_ehora) between Date(dataInicioPesquisa) and Date(dataFinalPesquisa)")
-     List<Inspecao> pesquisarInspecaoPorFaixaDeData();
+     @Query("select i from Inspecao i where i.dataEhora between :dataInicioPesquisa and :dataFinalPesquisa")
+     List<Inspecao> pesquisarInspecaoPorFaixaDeData(Date dataInicioPesquisa, Date dataFinalPesquisa);
      
 //    @Query("select distinct(c) from Categoria c join fetch c.itens")
 //    List<Categoria>pesquisarCategoriaPorItem();

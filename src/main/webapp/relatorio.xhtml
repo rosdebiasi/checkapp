@@ -15,24 +15,25 @@
                              columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
                              contentStyleClass="ui-fluid">
                     <p:outputLabel for="lugar" value="Local:" />
-                    <p:selectOneMenu id="lugar" value="#{relatorioC.empreendimento.id}" 
-                                     required="false" requiredMessage="Nome empreendimento é obrigatório!"
-                                     filter="true" filterMatchMode="startsWith">
-                        <f:selectItem itemLabel="Selecione o empreendimento:"/>
-                        <f:selectItems value="#{relatorioC.comboEmpreendimentos}"/>
-                    </p:selectOneMenu>         
+                    <p:selectOneMenu id="lugar" value="#{relatorioC.pesquisaEmpreendimentoId}"
+                                     required="false" filter="true" filterMatchMode="startsWith">
+                        <f:selectItem itemLabel="Selecione o empreendimento:" itemValue="-1"/>
+                        <f:selectItems value="#{relatorioC.lugares}" var="lugar"
+                                       itemLabel="#{lugar.nome}" itemValue="#{lugar.id}" />
+                    </p:selectOneMenu>
+                    
                     <p:commandButton value="Pesquisar" actionListener="#{relatorioC.pesquisarPorEmpreeendimento()}" update="tabela" />
                 </p:panelGrid>
 
                 <p:panelGrid id="panelGG2" columns="2" layout="flex" 
                              columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
-                             contentStyleClass="ui-fluid">
+                             contentStyleClass="ui-fluid">                 
                     <p:outputLabel for="dataI" value="Data Inicial:" />
-                    <p:datePicker id="dataI" value="#{relatorioC.inspecaoSelecionada.dataInicioPesquisa}" 
-                                  required="false" requiredMessage=""/>
+                    <p:datePicker id="dataI" value="#{relatorioC.pesquisaDataInicial}" 
+                                  required="false" showIcon="true" style="width:auto"/>
                     <p:outputLabel for="dataF" value="Data Final:" />
-                    <p:datePicker id="dataF" value="#{relatorioC.inspecaoSelecionada.dataFinalPesquisa}" 
-                                  required="false" requiredMessage=""/>
+                    <p:datePicker id="dataF" value="#{relatorioC.pesquisaDataFinal}" 
+                                  required="false" showIcon="true" style="width:auto"/>
                     <p:commandButton value="Pesquisar" actionListener="#{relatorioC.pesquisarPorFaixaDeData()}" update="tabela" />
                 </p:panelGrid>
 

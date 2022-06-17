@@ -11,15 +11,11 @@ import javax.faces.model.DataModel;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TabCloseEvent;
 import com.checkapp.entidade.Inspecao;
-import java.util.ArrayList;
-import javax.faces.model.SelectItem;
 import com.checkapp.dao.EmpreendimentoRepositorio;
+import java.util.Date;
 import javax.annotation.PostConstruct;
-import org.hibernate.validator.internal.engine.groups.Group;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.jboss.logging.Logger;
-import org.springframework.context.annotation.DeferredImportSelector;
 import org.springframework.data.domain.Sort;
 
 @Component(value = "relatorioC")
@@ -31,19 +27,14 @@ public class RelatorioControle implements Serializable {
     private Inspecao inspecaoSelecionada;
     private List<Inspecao> inspecoes;
 
-    public EmpreendimentoRepositorio getLugarRepositorio() {
-        return lugarRepositorio;
-    }
-
-    public void setLugarRepositorio(EmpreendimentoRepositorio lugarRepositorio) {
-        this.lugarRepositorio = lugarRepositorio;
-    }
     private DataModel<Inspecao> modelInspecoes;
     private int aba;
 
-    private Empreendimento empreendimento;
+    private Long pesquisaEmpreendimentoId;
+    private Date pesquisaDataInicial;
+    private Date pesquisaDataFinal;
 
-    private List<SelectItem> comboEmpreendimentos;
+    private List<Empreendimento> lugares;
 
     @Autowired
     private EmpreendimentoRepositorio lugarRepositorio;
@@ -55,55 +46,28 @@ public class RelatorioControle implements Serializable {
     public void iniciar() {
         aba = 0;
         inspecaoSelecionada = new Inspecao();
-        //inspecoes = inspecaoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "dataEhora"));
-        empreendimento = new Empreendimento();
-        carregarComboBoxEmpreendimentos();
-    }
-
-    public List<Inspecao> pesquisarTodo() {
-        return inspecaoRepositorio.findAll();
+        pesquisaDataInicial = new Date();
+        pesquisaDataFinal = new Date();
+        inspecoes = inspecaoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "dataEhora"));
+        lugares = lugarRepositorio.findAll(Sort.by(Sort.Direction.ASC, "nome"));
     }
 
     public void pesquisarPorEmpreeendimento() {
-        aba = 0;
-        //carregarComboBoxEmpreendimentos();
-        //inspecaoSelecionada = new Inspecao();
-        inspecoes = inspecaoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "empreendimento.nome"));
-             
-        empreendimento = new Empreendimento();
-        empreendimento.getNome();
-    }
-    
-    public void pesquisarPorFaixaDeData(){
-        aba=0;
-        inspecoes = inspecaoRepositorio.pesquisarInspecaoPorFaixaDeData();
-        inspecaoSelecionada.setDataInicioPesquisa(inspecaoSelecionada.getDataInicioPesquisa());
-        inspecaoSelecionada.setDataFinalPesquisa(inspecaoSelecionada.getDataFinalPesquisa());
-        inspecaoSelecionada.getDataEhora();
-        
-//        empreendimento = new Empreendimento();
-//        empreendimento.getNome();
-    }
-
-    public void pesquisarPorNome() {
-//        List<Inspecao> inspecoes = inspecaoRepositorio.findByNome(inspecao.getNome());
-//        modelInspecoes = new ListDataModel<>(inspecoes);
-//        inspecao.setNome(null);
-    }
-
-    private void carregarComboBoxEmpreendimentos() {
-        List<Empreendimento> lugares = lugarRepositorio.findAll();
-        comboEmpreendimentos = new ArrayList<>();
-        for (Empreendimento lug : lugares) {
-            comboEmpreendimentos.add(new SelectItem(lug.getId(), lug.getNome()));
+        if (pesquisaEmpreendimentoId == -1) {
+            this.inspecoes = inspecaoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "dataEhora"));
+        } else {
+            this.inspecoes = inspecaoRepositorio.findByEmpreendimento(pesquisaEmpreendimentoId);
         }
+    }
+
+    public void pesquisarPorFaixaDeData() {
+        System.err.println("inicio " + pesquisaDataInicial);
+        System.err.println("final_ " + pesquisaDataFinal);
+        inspecoes = inspecaoRepositorio.pesquisarInspecaoPorFaixaDeData(pesquisaDataInicial, pesquisaDataFinal);
     }
 
     public void onTabChange(TabChangeEvent event) {
         if (event.getTab().getTitle().equals("Novo")) {
-            if (comboEmpreendimentos == null) {
-                carregarComboBoxEmpreendimentos();
-            }
         }
     }
 
@@ -121,14 +85,6 @@ public class RelatorioControle implements Serializable {
 //                avaliacaoRepositorio.getById(serialVersionUID);
 //            }
 //        }
-    }
-
-    public List<SelectItem> getComboEmpreendimentos() {
-        return comboEmpreendimentos;
-    }
-
-    public void setComboEmpreendimentos(List<SelectItem> comboEmpreendimentos) {
-        this.comboEmpreendimentos = comboEmpreendimentos;
     }
 
     public Inspecao getInspecaoSelecionada() {
@@ -155,20 +111,36 @@ public class RelatorioControle implements Serializable {
         this.modelInspecoes = modelInspecoes;
     }
 
-    public InspecaoRepositorio getInspecaoRepositorio() {
-        return inspecaoRepositorio;
+    public List<Empreendimento> getLugares() {
+        return lugares;
     }
 
-    public void setInspecaoRepositorio(InspecaoRepositorio inspecaoRepositorio) {
-        this.inspecaoRepositorio = inspecaoRepositorio;
+    public void setLugares(List<Empreendimento> lugares) {
+        this.lugares = lugares;
     }
 
-    public Empreendimento getEmpreendimento() {
-        return empreendimento;
+    public Long getPesquisaEmpreendimentoId() {
+        return pesquisaEmpreendimentoId;
     }
 
-    public void setEmpreencimento(Empreendimento empreendimento) {
-        this.empreendimento = empreendimento;
+    public void setPesquisaEmpreendimentoId(Long pesquisaEmpreendimentoId) {
+        this.pesquisaEmpreendimentoId = pesquisaEmpreendimentoId;
+    }
+
+    public Date getPesquisaDataInicial() {
+        return pesquisaDataInicial;
+    }
+
+    public void setPesquisaDataInicial(Date pesquisaDataInicial) {
+        this.pesquisaDataInicial = pesquisaDataInicial;
+    }
+
+    public Date getPesquisaDataFinal() {
+        return pesquisaDataFinal;
+    }
+
+    public void setPesquisaDataFinal(Date pesquisaDataFinal) {
+        this.pesquisaDataFinal = pesquisaDataFinal;
     }
 
     public int getAba() {
