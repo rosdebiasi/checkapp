@@ -1,6 +1,7 @@
 package com.checkapp.entidade;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -26,6 +27,10 @@ public class Usuario implements Serializable {
 
     //@Column(nullable = false)
     private boolean enable;
+    //observação: no banco de dados trocar o tipo de variável para TINYINT(1), senão não salva o usuário no banco
+    
+    @Temporal(TemporalType.DATE)
+    private Date ultimoAcesso;
 
     //desmarcar depois- para teste inicial
     @OneToMany(mappedBy = "usuario")
