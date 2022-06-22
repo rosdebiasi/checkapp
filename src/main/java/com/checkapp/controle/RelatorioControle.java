@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.data.domain.Sort;
 
 @Component(value = "relatorioC")
-@Scope("view")
+@Scope("session")
 public class RelatorioControle implements Serializable {
 
     private static final long serialVersionUID = 1L;
