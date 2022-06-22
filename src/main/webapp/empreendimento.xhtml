@@ -25,7 +25,7 @@
 
                             <p:outputLabel for="nome" value="Nome empreendimento:" />
                             <p:inputText id="nome" value="#{empreendimentoC.lugar.nome}"
-                                         required="true" requiredMessage="Nome é obrigatório!" />
+                                         required="true" requiredMessage="Nome empreendimento é obrigatório!" />
 
                             <!--                            <p:outputLabel for="funcao" value="Função:" />
                                                         <p:inputText id="funcao" value="#{empreendimentoC.lugar.funcao}"
@@ -36,13 +36,13 @@
                                              required="true" requiredMessage="Função é obrigatório">
                                 <f:selectItem itemLabel="Selecione a função:"/>
                                 <f:selectItem itemLabel="" itemValue=""/>
+                                <f:selectItem itemLabel="Misto" itemValue="Misto"/>
                                 <f:selectItem itemLabel="Residencial" itemValue="Residencial"/>
                                 <f:selectItem itemLabel="Comercial" itemValue="Comercial"/>
                                 <f:selectItem itemLabel="Escolar" itemValue="Escolar"/>
                                 <f:selectItem itemLabel="Atividades desportivas" itemValue="Atividades desportivas"/>
-                                <f:selectItem itemLabel="Auditório" itemValue="Auditório"/>
+                                <f:selectItem itemLabel="Eventos" itemValue="Eventos"/>
                                 <f:selectItem itemLabel="Parque/Praça" itemValue="Parque/Praça"/>
-                                <f:selectItem itemLabel="Misto" itemValue="Misto"/>
                                 <f:selectItem itemLabel="Não se aplica" itemValue="Não se aplica"/>
                             </p:selectOneMenu>
 

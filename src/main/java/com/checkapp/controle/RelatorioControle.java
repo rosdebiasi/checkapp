@@ -52,6 +52,14 @@ public class RelatorioControle implements Serializable {
         lugares = lugarRepositorio.findAll(Sort.by(Sort.Direction.ASC, "nome"));
     }
 
+//tem um problema: quando altero o nome do empreendimento, ele não atualiza na tela de relatório. 
+//Tentei colocar autowired em lugaes e não deu certo    
+//    private void carregarComboBoxEmpreendimento(){
+//        List<Inspecao> inspecaoEmpreendimentos = inspecaoRepositorio.findByEmpreendimento(pesquisaEmpreendimentoId);
+//        comboEmpreendimento= new ArrayList<>();
+//    
+//    }
+
     public void pesquisarPorEmpreeendimento() {
         if (pesquisaEmpreendimentoId == -1) {
             this.inspecoes = inspecaoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "dataEhora"));
@@ -61,7 +69,6 @@ public class RelatorioControle implements Serializable {
     }
 
     public void pesquisarPorFaixaDeData() {
-
         if ((pesquisaDataInicial).after(pesquisaDataFinal)) {
                 Mensagem.mensagemErroPesquisaData(" a data inicial deve ser menor que a data final");
         } else {

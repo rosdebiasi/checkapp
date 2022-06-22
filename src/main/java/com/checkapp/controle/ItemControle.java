@@ -254,7 +254,4 @@ public class ItemControle implements Serializable {
         this.categoriaRepositorio = categoriaRepositorio;
     }
     
-    
-    
- 
 }
