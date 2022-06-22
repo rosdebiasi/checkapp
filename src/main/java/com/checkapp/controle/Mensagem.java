@@ -25,7 +25,7 @@ public class Mensagem {
     public static void mensagemErro(String mensagem){
         FacesContext faceContexto = FacesContext.getCurrentInstance();
         faceContexto.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "erro ao salvar " + mensagem, null));
+                    "Erro ao salvar: " + mensagem, null));
     }
         
     public static void mensagemSucessoExcluir(String mensagem){
@@ -37,7 +37,7 @@ public class Mensagem {
     public static void mensagemErroExcluir(String mensagem){
         FacesContext faceContexto = FacesContext.getCurrentInstance();
         faceContexto.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "erro ao excluir " + mensagem, null));
+                    "Erro ao excluir: " + mensagem, null));
     }
     
     public static void mensagemSucessoAlterar(String mensagem){
@@ -49,7 +49,13 @@ public class Mensagem {
     public static void mensagemErroAlterar(String mensagem){
         FacesContext faceContexto = FacesContext.getCurrentInstance();
         faceContexto.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "erro ao alterar " + mensagem, null));
+                    "Erro ao alterar: " + mensagem, null));
+    }
+    
+    public static void mensagemErroPesquisaData(String mensagem){
+        FacesContext faceContexto = FacesContext.getCurrentInstance();
+        faceContexto.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Erro ao pesquisar: " + mensagem, null));
     }
 
     

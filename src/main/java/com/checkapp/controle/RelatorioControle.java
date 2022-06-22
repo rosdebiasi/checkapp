@@ -61,7 +61,12 @@ public class RelatorioControle implements Serializable {
     }
 
     public void pesquisarPorFaixaDeData() {
-        inspecoes = inspecaoRepositorio.pesquisarInspecaoPorFaixaDeData(pesquisaDataInicial, pesquisaDataFinal);
+
+        if ((pesquisaDataInicial).after(pesquisaDataFinal)) {
+                Mensagem.mensagemErroPesquisaData(" a data inicial deve ser menor que a data final");
+        } else {
+            inspecoes = inspecaoRepositorio.pesquisarInspecaoPorFaixaDeData(pesquisaDataInicial, pesquisaDataFinal);
+        }
     }
 
     public void onTabChange(TabChangeEvent event) {
