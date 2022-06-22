@@ -54,10 +54,15 @@
                     </p:column>
 
                     <p:column headerText="Ação">
-                        <p:commandButton icon="pi pi-eye" title="Visualisar" process="@this" 
+                        <p:commandButton icon="pi pi-eye" title="Selecionar" process="@this" 
                                          actionListener="#{relatorioC.setInspecaoSelecionada(inspecao)}" update="tabela_inspecao"
-                                         style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" >
-                        </p:commandButton>
+                                         style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" />
+                       
+                        <h:commandLink
+                            actionListener="#{relatorioC.setInspecaoSelecionada(inspecao)}"
+                            action="inspecao.html" target="_blank">Impressão
+                        </h:commandLink>
+                        
                     </p:column>                       
 
                 </p:dataTable>
@@ -68,55 +73,41 @@
                 </p:confirmDialog>
             </h:form>
 
-            <!--aba para mostrar o relatório-->
-
+            
             <br/>
             <hr/>
             <br/>
-
-            
-            
+                        
 
             <p:dataTable id="tabela_inspecao" var="avaliacao" value="#{relatorioC.inspecaoSelecionada.avaliacoes}" >
                              
-<!--                    <p:column headerText="Nome do Empreendimento">
-                        <h:outputText value="#{inspecao.empreendimento.nome}"/>
-                    </p:column>
-                    <p:column headerText="Data Inspeção">
-                        <h:outputText value="#{inspecao.dataEhora}" />
-                    </p:column>
-                    -->
+                <h2>#{relatorioC.inspecaoSelecionada.empreendimento.nome}</h2>
+                <p><b>Data da vistoria:</b> #{relatorioC.inspecaoSelecionada.dataEhora}</p>
+                <p><b>Observação:</b> #{relatorioC.inspecaoSelecionada.observacao}</p>
 
-                    <f:facet name="header">
-                        <p:outputPanel >
-                            <p>Empreendimento: #{relatorioC.inspecaoSelecionada.empreendimento.nome}</p>
-                            <p>Data da vistoria: #{relatorioC.inspecaoSelecionada.dataEhora}</p>
-                        </p:outputPanel>                        
-                    </f:facet>                       
-
-                    <p:column headerText="Categoria">
-                        <h:outputText value="#{avaliacao.item.categoria.nome}" />
-                    </p:column>
-                    <p:column headerText="Item">
-                        <h:outputText value="#{avaliacao.item.nome}" />
-                    </p:column>
-                    <p:column headerText="Resposta">
-                        <h:outputText value="#{avaliacao.resposta}" />
-                    </p:column>
+                <p:column headerText="Categoria">
+                    <h:outputText value="#{avaliacao.item.categoria.nome}" />
+                </p:column>
+                <p:column headerText="Item">
+                    <h:outputText value="#{avaliacao.item.nome}" />
+                </p:column>
+                <p:column headerText="Resposta">
+                    <h:outputText value="#{avaliacao.resposta}" />
+                </p:column>
                  
-                    <f:facet name="footer">
-                        <p:outputPanel>
-                            <p>Observação: #{relatorioC.inspecaoSelecionada.observacao}</p>
-                        </p:outputPanel>                        
-                    </f:facet>
-                </p:dataTable>
+                <f:facet name="footer">
+                    <p:outputPanel>
+                        <p>Observação: #{relatorioC.inspecaoSelecionada.observacao}</p>
+                    </p:outputPanel>                        
+                </f:facet>
+            </p:dataTable>
 
             
             
             <h:form>
-                <p:commandButton value="Exportar para pdf" icon="pi pi-upload" styleClass="ui-button-help" ajax="false">
-                    <p:dataExporter type="xls" target="tabela_inspecao" fileName="relatorio"/>
-                </p:commandButton>
+                <h:commandLink
+                    action="inspecao.html" target="_blank">Impressão
+                </h:commandLink>
             </h:form>  
 
         </p:panel> 
