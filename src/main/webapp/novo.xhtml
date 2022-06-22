@@ -38,12 +38,12 @@
                                                         required="true" requiredMessage="Preenchimento do item de inspeção obrigatório (Sim, Não ou N/A)" >
                                                         
                                                         <!--testando o if- ainda não deu certo-->
-                                                        <c:if test = "${'#{avaliacao.item.id}' == '1'}" >
+<!--                                                        <c:if test = "${'#{avaliacao.item.id}' == '1'}" >
                                                             required="true" requiredMessage="Preenchimento do item de inspeção obrigatório (Sim, Não ou N/A)"
-                                                        </c:if>
-                                                        <f:selectItem itemLabel="Sim" itemValue="sim"/>
-                                                        <f:selectItem itemLabel="Não" itemValue="nao"/>
-                                                        <f:selectItem itemLabel="N/A" itemValue="na"/>
+                                                        </c:if>-->
+                                                        <f:selectItem itemLabel="Sim" itemValue="Sim"/>
+                                                        <f:selectItem itemLabel="Não" itemValue="Não"/>
+                                                        <f:selectItem itemLabel="N/A" itemValue="N/A"/>
                                                     </p:selectOneRadio>
                                                     <p:remoteCommand name="teste" action="# {inspecaoC.adicionarItem(item.id)}"/>
                                                 </div>

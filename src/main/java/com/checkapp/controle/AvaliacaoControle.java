@@ -46,7 +46,6 @@ public class AvaliacaoControle implements Serializable {
     private List<SelectItem> comboItem;
     private Item item;
 
-
     @Autowired
     private ItemRepositorio itemRepositorio;
     

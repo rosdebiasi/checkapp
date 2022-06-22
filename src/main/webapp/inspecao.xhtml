@@ -22,11 +22,21 @@
         </header>
 
         <section class="aw-content  js-content">           
-        
-            <p:panel header="Relatório de Inspeção">
+
+            <p:panel header="Relatório de Inspeção" id="teste">
 
                 <h2>#{relatorioC.inspecaoSelecionada.empreendimento.nome}</h2>
-                
+
+                <p><b>Cidade:</b> #{relatorioC.inspecaoSelecionada.empreendimento.localidade}
+
+                    <b>Estado:</b> #{relatorioC.inspecaoSelecionada.empreendimento.uf}
+                </p>
+
+                <p><b>Logradouro:</b> #{relatorioC.inspecaoSelecionada.empreendimento.logradouro}
+
+                    <b>Número:</b> #{relatorioC.inspecaoSelecionada.empreendimento.numero}
+                </p>
+
                 <p><b>Data da vistoria:</b> #{relatorioC.inspecaoSelecionada.dataEhora}</p>
 
                 <p><b>Observação:</b> #{relatorioC.inspecaoSelecionada.observacao}</p>
@@ -46,8 +56,15 @@
                 </p:dataTable>
 
             </p:panel>
+
         </section>
 
     </h:body>
+
+    <br/>
+    <br/>
+    <p:commandButton type="button" value="Imprimir"  icon="pi pi-print" styleClass="p-mr-2 p-mb-2">
+        <p:printer target= "teste" />
+    </p:commandButton>
 
 </html>
