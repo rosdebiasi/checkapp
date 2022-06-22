@@ -54,13 +54,13 @@
                     </p:column>
 
                     <p:column headerText="Ação">
-                        <p:commandButton icon="pi pi-eye" title="Selecionar" process="@this" 
+<!--                        <p:commandButton icon="pi pi-eye" title="Selecionar" process="@this" 
                                          actionListener="#{relatorioC.setInspecaoSelecionada(inspecao)}" update="tabela_inspecao"
-                                         style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" />
+                                         style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" />-->
                        
                         <h:commandLink
                             actionListener="#{relatorioC.setInspecaoSelecionada(inspecao)}"
-                            action="inspecao.html" target="_blank">Impressão
+                            action="inspecao.html" target="_blank">Visualização/Impressão
                         </h:commandLink>
                         
                     </p:column>                       
@@ -74,12 +74,12 @@
             </h:form>
 
             
-            <br/>
+<!--            <br/>
             <hr/>
-            <br/>
+            <br/>-->
                         
 
-            <p:dataTable id="tabela_inspecao" var="avaliacao" value="#{relatorioC.inspecaoSelecionada.avaliacoes}" >
+<!--            <p:dataTable id="tabela_inspecao" var="avaliacao" value="#{relatorioC.inspecaoSelecionada.avaliacoes}" >
                              
                 <h2>#{relatorioC.inspecaoSelecionada.empreendimento.nome}</h2>
                 <p><b>Data da vistoria:</b> #{relatorioC.inspecaoSelecionada.dataEhora}</p>
@@ -100,15 +100,15 @@
                         <p>Observação: #{relatorioC.inspecaoSelecionada.observacao}</p>
                     </p:outputPanel>                        
                 </f:facet>
-            </p:dataTable>
+            </p:dataTable>-->
 
             
             
-            <h:form>
+<!--            <h:form>
                 <h:commandLink
                     action="inspecao.html" target="_blank">Impressão
                 </h:commandLink>
-            </h:form>  
+            </h:form>  -->
 
         </p:panel> 
     </ui:define>
