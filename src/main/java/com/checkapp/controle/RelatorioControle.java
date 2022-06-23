@@ -41,6 +41,8 @@ public class RelatorioControle implements Serializable {
 
     @Autowired
     private InspecaoRepositorio inspecaoRepositorio;
+    
+    private int numeroInspecoes;
 
     @PostConstruct
     public void iniciar() {
@@ -60,6 +62,10 @@ public class RelatorioControle implements Serializable {
 //    
 //    }
 
+   public void contarNumeroInspecoes(){
+       inspecaoRepositorio.count();
+   }
+   
     public void pesquisarPorEmpreeendimento() {
         if (pesquisaEmpreendimentoId == -1) {
             this.inspecoes = inspecaoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "dataEhora"));

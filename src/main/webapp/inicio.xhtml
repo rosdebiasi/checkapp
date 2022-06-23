@@ -10,11 +10,69 @@
         <p:panel id="painel_conteudo" header="Início">
             <h:form>
                 <div class="card">
-                     Seja bem vindo(a)! Selecione uma das opções no menu lateral.
+                    Seja bem vindo(a)! Selecione uma das opções no menu lateral.
                 </div>
             </h:form>
-
         </p:panel>
+
+        <br/>
+        <br/>
+
+        <p:panel id="agrupamento">
+            <br/>
+            <p:panel id="painel_conteudo2" header="Número de inspeções realizadas">
+                <h:form>
+                    <div class="card">
+                        Número de inspeções realizadas
+                        <h:outputText value="#{relatorioC.contarNumeroInspecoes()}" />
+                    </div>
+                </h:form>
+            </p:panel>
+            <br/>
+            <p:panel id="painel_conteudo3" header="Últimas inspeções">
+                <h:form>
+                    <div class="card">
+
+                        <p:dataTable id="tabela" var="inspecao" value="${relatorioC.inspecoes}" rows="10"
+                                     paginator="true" paginatorPosition="bottom"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+                                     rowsPerPageTemplate="5,10,15,{ShowAll|'Todos'}">
+
+                            <f:facet name="header">
+                                <h:outputText value="Inspeção"/>
+                            </f:facet>
+                            <p:column headerText="Nome Empreendimento">
+                                <h:outputText value="#{inspecao.nome}" />
+                            </p:column>
+                            <p:column headerText="Data de Inspeção">
+                                <h:outputText value="#{inspecao.dataEhora}" />
+                            </p:column>
+
+                            <p:column headerText="Ação">
+                                <!--                        <p:commandButton icon="pi pi-eye" title="Selecionar" process="@this" 
+                                                                         actionListener="#{relatorioC.setInspecaoSelecionada(inspecao)}" update="tabela_inspecao"
+                                                                         style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" />-->
+
+                                <!--                                <h:commandLink
+                                                                    actionListener="#{relatorioC.setInspecaoSelecionada(inspecao)}"
+                                                                    action="inspecao.html" target="_blank"><i class="pi pi-eye" styleClass="p-d-block p-mx-auto" title="Visualizar/imprimir" ></i>
+                                                                </h:commandLink>-->
+
+                                <h:commandLink
+                                    actionListener="#{relatorioC.setInspecaoSelecionada(inspecao)}"
+                                    action="inspecao.html" target="_blank">Visualizar/Imprimir
+                                </h:commandLink>
+
+                            </p:column>                       
+                        </p:dataTable>
+
+                    </div>
+                </h:form>
+            </p:panel>
+            <br/>
+        </p:panel>
+
     </ui:define>
 
 </ui:composition>
