@@ -21,7 +21,7 @@
   
                             <p:outputLabel for="lugar" value="Nome empreendimento:" />
                             <p:selectOneMenu id="lugar" value="#{inspecaoC.empreendimento.id}" 
-                                             required="true" requiredMessage="Nome empreendimento é obrigatório!"
+                                             required="true" requiredMessage="Nome empreendimento é obrigatório! Se não houver Nome empreendimento ir no menu Cadastro -> Empreendimento."
                                              filter="true" filterMatchMode="startsWith">
                                 <f:selectItem itemLabel="Selecione o empreendimento:"/>
                                 <f:selectItems value="#{inspecaoC.comboEmpreendimentos}"/>
