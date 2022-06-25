@@ -23,7 +23,7 @@
                             <p:selectOneMenu id="lugar" value="#{inspecaoC.empreendimento.id}" 
                                              required="true" requiredMessage="Nome empreendimento é obrigatório! Se não houver Nome empreendimento ir no menu Cadastro -> Empreendimento."
                                              filter="true" filterMatchMode="startsWith">
-                                <f:selectItem itemLabel="Selecione o empreendimento:"/>
+                                <f:selectItem itemLabel="Selecione o empreendimento (se não houver empreendimento ir em Cadastro -> Empreendimento):"/>
                                 <f:selectItems value="#{inspecaoC.comboEmpreendimentos}"/>
                             </p:selectOneMenu>
                             

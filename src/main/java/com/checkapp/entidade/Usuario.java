@@ -19,14 +19,13 @@ public class Usuario implements Serializable {
     @Column(nullable = false)
     private String login;
 
-    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
     private String senha;
 
     //@Column(nullable = false)
-    private boolean enable;
+    //private boolean enable;
     //observação: no banco de dados trocar o tipo de variável para TINYINT(1), senão não salva o usuário no banco
     
     @Temporal(TemporalType.DATE)
@@ -80,13 +79,13 @@ public class Usuario implements Serializable {
         this.senha = senha;
     }
 
-    public boolean isEnable() {
-        return enable;
-    }
-
-    public void setEnable(boolean enable) {
-        this.enable = enable;
-    }
+//    public boolean isEnable() {
+//        return enable;
+//    }
+//
+//    public void setEnable(boolean enable) {
+//        this.enable = enable;
+//    }
 
     public List<Inspecao> getInspecao() {
         return inspecao;

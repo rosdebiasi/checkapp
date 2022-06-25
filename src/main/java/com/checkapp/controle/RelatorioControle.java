@@ -166,4 +166,22 @@ public class RelatorioControle implements Serializable {
     public void setAba(int aba) {
         this.aba = aba;
     }
+
+    public InspecaoRepositorio getInspecaoRepositorio() {
+        return inspecaoRepositorio;
+    }
+
+    public void setInspecaoRepositorio(InspecaoRepositorio inspecaoRepositorio) {
+        this.inspecaoRepositorio = inspecaoRepositorio;
+    }
+
+    public int getNumeroInspecoes() {
+        return numeroInspecoes;
+    }
+
+    public void setNumeroInspecoes(int numeroInspecoes) {
+        this.numeroInspecoes = numeroInspecoes;
+    }
+    
+    
 }

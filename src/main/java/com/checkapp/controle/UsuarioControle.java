@@ -19,13 +19,14 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TabCloseEvent;
+import org.springframework.context.annotation.Scope;
 
 ///**
 // *
 // * @author JavaRevolutions
 // */
 @Named(value = "usuarioC")
-@ViewScoped
+@Scope("session")
 public class UsuarioControle implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -137,13 +138,16 @@ public class UsuarioControle implements Serializable {
 //    getters e setters
    
     public Usuario getUsuario() {
+         if (usuario == null) {
+            usuario = new Usuario();
+        }
         return usuario;
     }
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-    
+
     public DataModel<Usuario> getModelUsuarios() {
         return modelUsuarios;
     }

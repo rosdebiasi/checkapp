@@ -52,16 +52,16 @@
                             <p:outputLabel for="item" value="Nome:" />
                             <p:inputText id="item" value="#{itemC.item.nome}"  required="false" 
                                          requiredMessage="Nome é obrigatório" />
-                            <p:commandButton value="Pesquisar por nome" actionListener="#{itemC.pesquisarPorNome()}" update="tabela" />
+                            <p:commandButton value="Pesquisar" actionListener="#{itemC.pesquisarPorNome()}" update="tabela" />
                         </p:panelGrid>
 
                         <p:panelGrid id="panelGG2" columns="2" layout="flex" 
                                      columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
                                      contentStyleClass="ui-fluid">
-                            <p:outputLabel for="itemCategoria" value="Nome Categoria:" />
+                            <p:outputLabel for="itemCategoria" value="Categoria:" />
                             <p:inputText id="itemCategoria" value="#{itemC.categoria.nome}"  required="false" 
                                          requiredMessage="Nome é obrigatório" />
-                            <p:commandButton value="Pesquisar por categoria" actionListener="#{itemC.pesquisarPorNomeCategoria()}" update="tabela" />
+                            <p:commandButton value="Pesquisar" actionListener="#{itemC.pesquisarPorNomeCategoria()}" update="tabela" />
                         </p:panelGrid>
 
                         <p:dataTable id="tabela" var="item" value="#{itemC.modelItens}"  rows="10"

@@ -11,8 +11,8 @@
         <p:panel id="painel_conteudo" header="Empreendimento" >
             <p:tabView id="tab_view" activeIndex="#{empreendimentoC.aba}">
                 <p:ajax event="tabChange" listener="#{empreendimentoC.onTabChange}" update="tab_view:form_novo"/>
-                
-                 <!--aba para cadastrar e alterar-->
+
+                <!--aba para cadastrar e alterar-->
                 <p:tab title="Novo">
                     <h:form id="form_novo">
                         <p:panelGrid columns="4" layout="flex"
@@ -47,7 +47,7 @@
                             </p:selectOneMenu>
 
                             <p:outputLabel for="pavimento" value="Número de pavimentos (se aplicável):" />
-                            <p:inputText id="pavimento" value="#{empreendimentoC.lugar.pavimento}"
+                            <p:inputText id="pavimento" value="#{empreendimentoC.lugar.pavimento}" size="10"
                                          required="false" requiredMessage="" />
 
                             <p:outputLabel for="cep" value="CEP:" />
@@ -87,25 +87,25 @@
 
                     </h:form>
                 </p:tab>
-                 
+
                 <p:tab title="Pesquisa">
                     <h:form id="form_pesquisa">
                         <p:panelGrid id="panelGG" columns="3" layout="flex" 
                                      columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
                                      contentStyleClass="ui-fluid">
-                            <p:outputLabel for="empreendimento" value="Empreendimento" />
+                            <p:outputLabel for="empreendimento" value="Nome empreendimento:" />
                             <p:inputText id="empreendimento" value="#{empreendimentoC.lugar.nome}"  required="false" 
                                          requiredMessage="Local é obrigatório" />
-                            <p:commandButton value="Pesquisar por empreendimento" actionListener="#{empreendimentoC.pesquisarPorNome()}" update="tabela" />
+                            <p:commandButton value="Pesquisar" actionListener="#{empreendimentoC.pesquisarPorNome()}" update="tabela" />
                         </p:panelGrid>
 
                         <p:panelGrid id="panelGG2" columns="3" layout="flex" 
                                      columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
                                      contentStyleClass="ui-fluid">
-                            <p:outputLabel for="funcao" value="Função" />
+                            <p:outputLabel for="funcao" value="Função:" />
                             <p:inputText id="funcao" value="#{empreendimentoC.lugar.funcao}"  required="false" 
                                          requiredMessage="Local é obrigatório" />
-                            <p:commandButton value="Pesquisar por função" actionListener="#{empreendimentoC.pesquisarPorFuncao()}" update="tabela" />
+                            <p:commandButton value="Pesquisar" actionListener="#{empreendimentoC.pesquisarPorFuncao()}" update="tabela" />
                         </p:panelGrid>
 
                         <p:dataTable id="tabela" var="empreendimento" value="#{empreendimentoC.modelLugares}" rows="10" 
@@ -117,7 +117,7 @@
                             <!--                            <f:facet name="header">
                                                             <h:outputText value="Local"/>
                                                         </f:facet>-->
-                            <p:column headerText="Nome">
+                            <p:column headerText="Nome empreendimento">
                                 <h:outputText value="#{empreendimento.nome}" />
                             </p:column>
                             <p:column headerText="Função">

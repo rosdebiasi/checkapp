@@ -12,7 +12,7 @@
             <p:tabView id="tab_view" activeIndex="">
                 
                 <!--aba para cadastrar e alterar-->
-                <p:tab title="Novo">
+                <p:tab title="Editar">
                     <h:form id="form_novo">
                         
                         <p:panelGrid columns="4" layout="flex"
@@ -22,9 +22,9 @@
                             <p:inputText id="nome" value="#{usuarioC.usuario.login}" 
                                          required="true" requiredMessage="Usuário é obrigatório!"/>
                             
-                            <p:outputLabel for="email" value="E-mail:" />
+<!--                            <p:outputLabel for="email" value="E-mail:" />
                             <p:inputText id="email" value="#{usuarioC.usuario.email}" 
-                                         required="true" requiredMessage="E-mail é obrigatório!"/>
+                                         required="true" requiredMessage="E-mail é obrigatório!"/>-->
                             
                             <p:outputLabel for="senha" value="Senha:" />
                             <p:password id="senha" value="#{usuarioC.usuario.senha}" 
