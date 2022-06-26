@@ -17,6 +17,9 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long>{
     @Query("from Usuario u Where u.email like %:email%")
     List<Usuario> findByEmailContaining(String email);
     
+    @Query("from Usuario u Where u.login = :login and u.senha = :senha")
+    Usuario logar (String login, String senha);
+    
 //    @Query("from Item i join fetch i.categoria Where nome like %:nome%")
 //    List<Item> procurarItemPorCategoria(String nome);
     

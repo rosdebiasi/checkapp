@@ -13,10 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.checkapp.dao.UsuarioRepositorio;
 import com.checkapp.entidade.Usuario;
+import com.checkapp.webservice.Criptografia;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
+import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import org.hibernate.HibernateException;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TabCloseEvent;
 import org.springframework.context.annotation.Scope;
@@ -34,6 +39,9 @@ public class UsuarioControle implements Serializable {
     private Usuario usuario;
     private DataModel<Usuario> modelUsuarios;
     private int aba;
+    
+    private String campoLogin;
+    private String campoSenha;
     
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
@@ -59,6 +67,28 @@ public class UsuarioControle implements Serializable {
 ////        modelClientes = new ListDataModel<>(clientes);
 ////    }
 //
+    
+        public void logar() {
+        try {
+            usuario = usuarioRepositorio.logar(campoLogin, new Criptografia().encript(campoSenha));
+            if (usuario == null) {
+                throw new HibernateException("erro, nenhum resultado foi encontrado no login");
+            }
+            
+            Mensagem.mensagemSucesso(usuario.getLogin());
+
+            FacesContext.getCurrentInstance().getExternalContext().redirect("inicio.faces"); //mapeamento/falta front end
+            campoLogin = null;
+            campoSenha = null;
+        } catch (IOException | NoSuchAlgorithmException | HibernateException e) {
+             Mensagem.mensagemErro(usuario.getLogin());
+        } finally {
+            if (usuario == null) {
+                usuario = new Usuario();
+            }
+        }     
+    }
+  
     public void salvar(){
         try {
             usuarioRepositorio.save(usuario);
