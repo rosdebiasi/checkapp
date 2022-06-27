@@ -41,8 +41,8 @@ public class RelatorioControle implements Serializable {
 
     @Autowired
     private InspecaoRepositorio inspecaoRepositorio;
-    
-    private int numeroInspecoes;
+
+    private long numeroInspecoes;
 
     @PostConstruct
     public void iniciar() {
@@ -52,6 +52,7 @@ public class RelatorioControle implements Serializable {
         pesquisaDataFinal = new Date();
         inspecoes = inspecaoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "dataEhora"));
         lugares = lugarRepositorio.findAll(Sort.by(Sort.Direction.ASC, "nome"));
+        numeroInspecoes = inspecaoRepositorio.count();
     }
 
 //tem um problema: quando altero o nome do empreendimento, ele não atualiza na tela de relatório. 
@@ -61,11 +62,6 @@ public class RelatorioControle implements Serializable {
 //        comboEmpreendimento= new ArrayList<>();
 //    
 //    }
-
-   public void contarNumeroInspecoes(){
-       inspecaoRepositorio.count();
-   }
-   
     public void pesquisarPorEmpreeendimento() {
         if (pesquisaEmpreendimentoId == -1) {
             this.inspecoes = inspecaoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "dataEhora"));
@@ -76,7 +72,7 @@ public class RelatorioControle implements Serializable {
 
     public void pesquisarPorFaixaDeData() {
         if ((pesquisaDataInicial).after(pesquisaDataFinal)) {
-                Mensagem.mensagemErroPesquisaData(" a data inicial deve ser menor que a data final");
+            Mensagem.mensagemErroPesquisaData(" a data inicial deve ser menor que a data final");
         } else {
             inspecoes = inspecaoRepositorio.pesquisarInspecaoPorFaixaDeData(pesquisaDataInicial, pesquisaDataFinal);
         }
@@ -167,21 +163,12 @@ public class RelatorioControle implements Serializable {
         this.aba = aba;
     }
 
-    public InspecaoRepositorio getInspecaoRepositorio() {
-        return inspecaoRepositorio;
-    }
-
-    public void setInspecaoRepositorio(InspecaoRepositorio inspecaoRepositorio) {
-        this.inspecaoRepositorio = inspecaoRepositorio;
-    }
-
-    public int getNumeroInspecoes() {
+    public long getNumeroInspecoes() {
         return numeroInspecoes;
     }
 
-    public void setNumeroInspecoes(int numeroInspecoes) {
+    public void setNumeroInspecoes(long numeroInspecoes) {
         this.numeroInspecoes = numeroInspecoes;
     }
-    
-    
+
 }

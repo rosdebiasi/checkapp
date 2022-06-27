@@ -5,11 +5,8 @@
  */
 package com.checkapp.controle;
 
-import com.checkapp.dao.CategoriaRepositorio;
 import java.io.Serializable;
 
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.checkapp.entidade.Categoria;
@@ -29,10 +26,6 @@ import org.primefaces.event.TabCloseEvent;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-/**
- *
- * @author JavaRevolutions
- */
 @Component(value = "itemC")
 @Scope("view")
 public class ItemControle implements Serializable {
@@ -57,6 +50,7 @@ public class ItemControle implements Serializable {
     @PostConstruct
     public void iniciar() {
         carregarComboBoxCategoria();
+        modelItens = new ListDataModel<>(itemRepositorio.findAll());
     }
     
     public List<Item> pesquisarTodo(){

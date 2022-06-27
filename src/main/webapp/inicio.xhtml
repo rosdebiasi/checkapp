@@ -20,15 +20,11 @@
 
         <p:panel id="agrupamento">
             <br/>
-            <p:panel id="painel_conteudo2" header="Número de inspeções realizadas">
-                <h:form>
-                    <div class="card">
-                        Número de inspeções realizadas
-                        <h:outputText value="#{relatorioC.contarNumeroInspecoes()}" />
-                    </div>
-                </h:form>
+            <p:panel id="painel_conteudo2" header="Total de inspeções realizadas: #{relatorioC.numeroInspecoes}">
             </p:panel>
+
             <br/>
+
             <p:panel id="painel_conteudo3" header="Últimas inspeções">
                 <h:form>
                     <div class="card">

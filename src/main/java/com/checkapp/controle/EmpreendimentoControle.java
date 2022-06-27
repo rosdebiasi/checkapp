@@ -7,8 +7,6 @@ package com.checkapp.controle;
 
 import java.io.Serializable;
 
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.checkapp.entidade.Empreendimento;
@@ -22,6 +20,7 @@ import javax.faces.model.ListDataModel;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TabCloseEvent;
 import com.checkapp.dao.EmpreendimentoRepositorio;
+import javax.annotation.PostConstruct;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +28,6 @@ import org.springframework.stereotype.Component;
  *
  * @author JavaRevolutions
  */
-
 @Component(value = "empreendimentoC")
 @Scope("view")
 public class EmpreendimentoControle implements Serializable {
@@ -39,9 +37,14 @@ public class EmpreendimentoControle implements Serializable {
     private Empreendimento lugar;
     private DataModel<Empreendimento> modelLugares;
     private int aba;
-    
+
     @Autowired
     private EmpreendimentoRepositorio localRepositorio;
+
+    @PostConstruct
+    public void iniciar() {
+        modelLugares = new ListDataModel<>(localRepositorio.findAll());
+    }
 
     public List<Empreendimento> pesquisarTodo() {
         return localRepositorio.findAll();
@@ -61,7 +64,7 @@ public class EmpreendimentoControle implements Serializable {
 
     //adicionado --será que funciona???
     public void pesquisarPorId() {
-        Optional<Empreendimento> lugares= localRepositorio.findById(lugar.getId());
+        Optional<Empreendimento> lugares = localRepositorio.findById(lugar.getId());
     }
 
     public void salvar() {
@@ -69,7 +72,7 @@ public class EmpreendimentoControle implements Serializable {
             localRepositorio.save(lugar);
             Mensagem.mensagemSucesso(lugar.getNome());
             lugar = null;
-            modelLugares= null;
+            modelLugares = null;
             aba = 0;
         } catch (Exception e) {
             Mensagem.mensagemErro(lugar.getNome());
@@ -82,7 +85,7 @@ public class EmpreendimentoControle implements Serializable {
             localRepositorio.delete(lugar);
             Mensagem.mensagemSucessoExcluir(lugar.getNome());
             lugar = null;
-            modelLugares= null;
+            modelLugares = null;
         } catch (Exception e) {
             Mensagem.mensagemErroExcluir(lugar.getNome());
         }
@@ -111,7 +114,6 @@ public class EmpreendimentoControle implements Serializable {
     }
 
 //    getters e setters
-
     public Empreendimento getLugar() {
         if (lugar == null) {
             lugar = new Empreendimento();
@@ -122,7 +124,7 @@ public class EmpreendimentoControle implements Serializable {
     public void setLugar(Empreendimento lugar) {
         this.lugar = lugar;
     }
-    
+
     public DataModel<Empreendimento> getModelLugares() {
         return modelLugares;
     }
