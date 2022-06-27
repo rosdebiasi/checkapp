@@ -53,7 +53,7 @@
                             <p:outputLabel for="cep" value="CEP:" />
                             <p:inputMask id="cep" value="#{empreendimentoC.lugar.cep}"
                                          mask="99999-999" size="10"
-                                         required="true" requiredMessage="CEP é obrigatório!" >
+                                         required="false" requiredMessage="CEP é obrigatório!" >
                                 <p:ajax listener="#{empreendimentoC.buscarCep()}" event="blur" update="rua bairro cidade uf"/>
                             </p:inputMask>
 
