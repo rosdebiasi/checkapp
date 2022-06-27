@@ -50,7 +50,8 @@ public class ItemControle implements Serializable {
     @PostConstruct
     public void iniciar() {
         carregarComboBoxCategoria();
-        modelItens = new ListDataModel<>(itemRepositorio.findAll());
+        //modelItens = new ListDataModel<>(itemRepositorio.findAll()); 
+        //nesse vou deixar vazio pois vai ficar muitos dados, mas pergunto ao usuário isso também!
     }
     
     public List<Item> pesquisarTodo(){

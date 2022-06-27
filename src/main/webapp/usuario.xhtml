@@ -29,11 +29,10 @@
                             <p:outputLabel for="senha" value="Senha:" />
                             <p:password id="senha" value="#{usuarioC.usuario.senha}" 
                                          required="true" requiredMessage="Senha é obrigatório!"/>
-                              
-                            <!--primeira coluna-->
-                            <p:commandButton value="Salvar" action="#{usuarioC.salvar()}"  update="@all" />
-  
+
                         </p:panelGrid>
+                         <p:commandButton value="Salvar" action="#{usuarioC.salvar()}"  update="@all" />
+                        
                     </h:form>
                 </p:tab>
 

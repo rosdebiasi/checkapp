@@ -36,10 +36,11 @@
                             <p:inputTextarea  id="nome" value="#{itemC.item.nome}" 
                                               required="true" requiredMessage="Descrição é obrigatório!"/>
 
-                            <!--primeira coluna-->
-                            <p:commandButton value="Salvar" action="#{itemC.salvar()}"  update="@all" />
+                            
 
                         </p:panelGrid>
+                        
+                        <p:commandButton value="Salvar" action="#{itemC.salvar()}"  update="@all" />
                     </h:form>
                 </p:tab>
                 
