@@ -37,16 +37,31 @@
                     <b>Número:</b> #{relatorioC.inspecaoSelecionada.empreendimento.numero}
                 </p>
 
-                <p><b>Data da vistoria:</b> #{relatorioC.inspecaoSelecionada.dataEhora}</p>
+                <p><b>Data da vistoria: </b> 
+                    <h:outputText value="#{relatorioC.inspecaoSelecionada.dataEhora}">
+                        <f:convertDateTime pattern="dd/MM/yyyy 'às' HH:mm" />
+                    </h:outputText>
+                </p>
 
                 <p><b>Observação:</b> #{relatorioC.inspecaoSelecionada.observacao}</p>
 
                 <p:dataTable id="avaliacoes" var="avaliacao" value="#{relatorioC.inspecaoSelecionada.avaliacoes}" >
-
-                    <p:column headerText="Categoria">
-                        <h:outputText value="#{avaliacao.item.categoria.nome}" />
+<!--
+                    <p:column  headerText="Categoria" groupRow="true">
+                        <h:outputText style="vertical-align: middle; margin-left: .5rem"
+                                      value="#{avaliacao.item.categoria.nome}"/>
                     </p:column>
-                    <p:column headerText="Item">
+                    -->
+                    
+                    <p:headerRow field="item.categoria.nome" expandable="true">
+                        <p:column colspan="3">
+                            <div class="p-d-inline-flex p-ai-center" style="vertical-align: middle">                                
+                                <h:outputText styleClass="p-ml-2" value="#{avaliacao.item.categoria.nome}"/>
+                            </div>
+                        </p:column>
+                    </p:headerRow>
+                    
+                    <p:column headerText="Item" colspan="2">
                         <h:outputText value="#{avaliacao.item.nome}" />
                     </p:column>
                     <p:column headerText="Resposta">
