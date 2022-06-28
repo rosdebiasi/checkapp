@@ -21,7 +21,7 @@
                         <f:selectItems value="#{relatorioC.lugares}" var="lugar"
                                        itemLabel="#{lugar.nome}" itemValue="#{lugar.id}" />
                     </p:selectOneMenu>
-                    
+
                     <p:commandButton value="Pesquisar" actionListener="#{relatorioC.pesquisarPorEmpreeendimento()}" update="tabela" />
                 </p:panelGrid>
 
@@ -38,7 +38,7 @@
                 </p:panelGrid>
 
                 <p:dataTable id="tabela" var="inspecao" value="${relatorioC.inspecoes}" rows="10"
-                             paginator="true" paginatorPosition="bottom"
+                             paginator="true" paginatorPosition="bottom" style="text-align: center"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
                              rowsPerPageTemplate="5,10,15,{ShowAll|'Todos'}">
@@ -47,22 +47,24 @@
                         <h:outputText value="Inspeção"/>
                     </f:facet>
                     <p:column headerText="Nome Empreendimento">
-                        <h:outputText value="#{inspecao.nome}" />
+                        <h:outputText value="#{inspecao.nome}" style="text-align: center" />
                     </p:column>
                     <p:column headerText="Data de Inspeção">
-                        <h:outputText value="#{inspecao.dataEhora}" />
+                        <h:outputText value="#{inspecao.dataEhora}">
+                            <f:convertDateTime pattern="dd/MM/yyyy 'às' HH:mm:ss" />
+                        </h:outputText>
                     </p:column>
 
                     <p:column headerText="Ação">
-<!--                        <p:commandButton icon="pi pi-eye" title="Selecionar" process="@this" 
-                                         actionListener="#{relatorioC.setInspecaoSelecionada(inspecao)}" update="tabela_inspecao"
-                                         style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" />-->
-                       
+                        <!--                        <p:commandButton icon="pi pi-eye" title="Selecionar" process="@this" 
+                                                                 actionListener="#{relatorioC.setInspecaoSelecionada(inspecao)}" update="tabela_inspecao"
+                                                                 style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" />-->
+
                         <h:commandLink
-                            actionListener="#{relatorioC.setInspecaoSelecionada(inspecao)}"
+                            actionListener="#{relatorioC.setInspecaoSelecionada(inspecao)}" style="text-align: center"
                             action="inspecao.html" target="_blank">Visualizar/Imprimir
                         </h:commandLink>
-                        
+
                     </p:column>                       
 
                 </p:dataTable>
@@ -73,11 +75,11 @@
                 </p:confirmDialog>
             </h:form>
 
-            
-<!--            <br/>
-            <hr/>
-            <br/>-->
-                        
+
+            <!--            <br/>
+                        <hr/>
+                        <br/>-->
+
 
 <!--            <p:dataTable id="tabela_inspecao" var="avaliacao" value="#{relatorioC.inspecaoSelecionada.avaliacoes}" >
                              
@@ -103,13 +105,13 @@
                 </f:facet>
             </p:dataTable>-->
 
-            
-            
-<!--            <h:form>
-                <h:commandLink
-                    action="inspecao.html" target="_blank">Impressão
-                </h:commandLink>
-            </h:form>  -->
+
+
+            <!--            <h:form>
+                            <h:commandLink
+                                action="inspecao.html" target="_blank">Impressão
+                            </h:commandLink>
+                        </h:form>  -->
 
         </p:panel> 
     </ui:define>

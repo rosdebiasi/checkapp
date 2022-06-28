@@ -9,10 +9,10 @@
         <!--<h1 class="aw-page-title">Título da sua página</h1>-->
 
         <p:panel id="painel_conteudo" header="Usuário" >
-            <p:tabView id="tab_view" activeIndex="">
+<!--            <p:tabView id="tab_view" activeIndex="">-->
                 
                 <!--aba para cadastrar e alterar-->
-                <p:tab title="Editar">
+<!--                <p:tab title="Editar">-->
                     <h:form id="form_novo">
                         
                         <p:panelGrid columns="4" layout="flex"
@@ -20,7 +20,7 @@
                                      contentStyleClass="ui-fluid">
                             <p:outputLabel for="nome" value="Usuário:" />
                             <p:inputText id="nome" value="#{usuarioC.usuario.login}" 
-                                         required="true" requiredMessage="Usuário é obrigatório!"/>
+                                         required="false" requiredMessage="Usuário é obrigatório!"/>
                             
 <!--                            <p:outputLabel for="email" value="E-mail:" />
                             <p:inputText id="email" value="#{usuarioC.usuario.email}" 
@@ -28,15 +28,15 @@
                             
                             <p:outputLabel for="senha" value="Senha:" />
                             <p:password id="senha" value="#{usuarioC.usuario.senha}" 
-                                         required="true" requiredMessage="Senha é obrigatório!"/>
+                                         required="false" requiredMessage="Senha é obrigatório!"/>
 
                         </p:panelGrid>
-                         <p:commandButton value="Salvar" action="#{usuarioC.salvar()}"  update="@all" />
+<!--                         <p:commandButton value="Salvar" action="#{usuarioC.salvar()}"  update="@all" />-->
                         
                     </h:form>
-                </p:tab>
+<!--                </p:tab>
 
-            </p:tabView>
+            </p:tabView>-->
         </p:panel> 
     </ui:define>
 

@@ -109,7 +109,7 @@
                         </p:panelGrid>
 
                         <p:dataTable id="tabela" var="empreendimento" value="#{empreendimentoC.modelLugares}" rows="10" 
-                                     paginator="true" paginatorPosition="bottom"
+                                     paginator="true" paginatorPosition="bottom" style="text-align: center"
                                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
                                      rowsPerPageTemplate="5,10,15,{ShowAll|'Todos'}">
@@ -118,10 +118,10 @@
                                                             <h:outputText value="Local"/>
                                                         </f:facet>-->
                             <p:column headerText="Nome empreendimento">
-                                <h:outputText value="#{empreendimento.nome}" />
+                                <h:outputText value="#{empreendimento.nome}" style="text-align: center" />
                             </p:column>
                             <p:column headerText="Função">
-                                <h:outputText value="#{empreendimento.funcao}" />
+                                <h:outputText value="#{empreendimento.funcao}" style="text-align: center" />
                             </p:column>
 
                             <p:column headerText="Ação">
