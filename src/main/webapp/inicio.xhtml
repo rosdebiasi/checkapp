@@ -38,7 +38,7 @@
         <br/>
 
         <p:panel id="agrupamento">
-            <br/>
+            
             <p:panel id="painel_conteudo2" header="Total de inspeções realizadas: #{relatorioC.numeroInspecoes}">
             </p:panel>
 
@@ -57,14 +57,16 @@
                             <f:facet name="header">
                                 <h:outputText value="Inspeção"/>
                             </f:facet>
-                            <p:column headerText="Nome Empreendimento">
+                            <p:column headerText="Nome Empreendimento" style="text-align: center">
                                 <h:outputText value="#{inspecao.nome}" />
                             </p:column>
-                            <p:column headerText="Data de Inspeção">
-                                <h:outputText value="#{inspecao.dataEhora}" />
+                            <p:column headerText="Data de Inspeção" style="text-align: center">
+                                <h:outputText value="#{inspecao.dataEhora}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy 'às' HH:mm" />
+                                </h:outputText>
                             </p:column>
 
-                            <p:column headerText="Ação">
+                            <p:column headerText="Ação" style="text-align: center">
                                 <!--                        <p:commandButton icon="pi pi-eye" title="Selecionar" process="@this" 
                                                                          actionListener="#{relatorioC.setInspecaoSelecionada(inspecao)}" update="tabela_inspecao"
                                                                          style="margin-right: 12px" styleClass="rounded-button ui-button-outlined" />-->
