@@ -29,7 +29,7 @@
                 </div>
                 <br/>
                 <div class="card">
-                    Caso queira cadastrar mais um Item na Inspeção com uma Categoria já existente é necessário: 1) cadastrar um Item no menu de Cadastro e selecionar a Categoria já existente. 
+                    Caso queira cadastrar mais um Item na Inspeção com uma Categoria já existente é necessário: 1) cadastrar um Item no menu de Cadastro e 2) selecionar a Categoria já existente. 
                 </div>
             </h:form>
         </p:panel>
@@ -62,7 +62,7 @@
                             </p:column>
                             <p:column headerText="Data de Inspeção" style="text-align: center">
                                 <h:outputText value="#{inspecao.dataEhora}">
-                                    <f:convertDateTime pattern="dd/MM/yyyy 'às' HH:mm" />
+                                    <f:convertDateTime pattern="dd/MM/yyyy 'às' HH:mm:ss" />
                                 </h:outputText>
                             </p:column>
 
@@ -78,7 +78,7 @@
 
                                 <h:commandLink
                                     actionListener="#{relatorioC.setInspecaoSelecionada(inspecao)}"
-                                    action="inspecao.html" target="_blank">Visualizar/Imprimir
+                                    action="inspecao.html" target="_blank"> <i class="pi pi-eye" title="Visualizar/Imprimir" ></i>
                                 </h:commandLink>
 
                             </p:column>                       
