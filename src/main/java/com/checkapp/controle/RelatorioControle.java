@@ -12,6 +12,7 @@ import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TabCloseEvent;
 import com.checkapp.entidade.Inspecao;
 import com.checkapp.dao.EmpreendimentoRepositorio;
+import java.time.temporal.TemporalAmount;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import org.springframework.context.annotation.Scope;
@@ -68,6 +69,8 @@ public class RelatorioControle implements Serializable {
         if ((pesquisaDataInicial).after(pesquisaDataFinal)) {
             Mensagem.mensagemErroPesquisaData(" a data inicial deve ser menor que a data final");
         } else {
+//            TemporalAmount temporal;
+//            pesquisaDataInicial.toInstant().;
             inspecoes = inspecaoRepositorio.pesquisarInspecaoPorFaixaDeData(pesquisaDataInicial, pesquisaDataFinal);
         }
     }

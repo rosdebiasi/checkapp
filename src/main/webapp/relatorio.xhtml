@@ -51,7 +51,7 @@
                     </p:column>
                     <p:column headerText="Data de Inspeção">
                         <h:outputText value="#{inspecao.dataEhora}">
-                            <f:convertDateTime pattern="dd/MM/yyyy 'às' HH:mm:ss" />
+                            <f:convertDateTime pattern="dd/MM/yyyy 'às' HH:mm:ss" timeZone="GMT-3" />
                         </h:outputText>
                     </p:column>
 

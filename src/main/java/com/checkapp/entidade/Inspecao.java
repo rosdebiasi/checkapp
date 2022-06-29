@@ -24,6 +24,7 @@ public class Inspecao implements Serializable {
     private Empreendimento empreendimento;
 
     @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataEhora;
 
