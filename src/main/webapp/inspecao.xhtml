@@ -3,7 +3,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <h:head>
         <f:facet name="first">
@@ -26,6 +27,8 @@
             <p:panel header="Relatório de Inspeção" id="teste">
 
                 <h2>#{relatorioC.inspecaoSelecionada.empreendimento.nome}</h2>
+                
+                <p><b>Responsável técnico:</b> #{relatorioC.inspecaoSelecionada.responsavelTecnico}</p>
 
                 <p><b>Cidade:</b> #{relatorioC.inspecaoSelecionada.empreendimento.localidade}
 
@@ -51,21 +54,30 @@
                         <h:outputText style="vertical-align: middle; margin-left: .5rem"
                                       value="#{avaliacao.item.categoria.nome}"/>
                     </p:column>
-                    
-                    
-<!--                    <p:headerRow field="item.categoria.nome" expandable="true">
-                        <p:column colspan="3">
-                            <div class="p-d-inline-flex p-ai-center" style="vertical-align: middle">                                
-                                <h:outputText styleClass="p-ml-2" value="#{avaliacao.item.categoria.nome}"/>
-                            </div>
-                        </p:column>
-                    </p:headerRow>-->
-                    
+
+
+                    <!--                    <p:headerRow field="item.categoria.nome" expandable="true">
+                                            <p:column colspan="3">
+                                                <div class="p-d-inline-flex p-ai-center" style="vertical-align: middle">                                
+                                                    <h:outputText styleClass="p-ml-2" value="#{avaliacao.item.categoria.nome}"/>
+                                                </div>
+                                            </p:column>
+                                        </p:headerRow>-->
+
                     <p:column headerText="Item" colspan="2">
                         <h:outputText value="#{avaliacao.item.nome}" />
                     </p:column>
                     <p:column headerText="Resposta">
-                        <h:outputText value="#{avaliacao.resposta}" />
+                        <h:outputText
+                            value="#{avaliacao.resposta}">
+<!--                            tentei fazer para que quando não estivesse preenchido aparecesse: "item não preenchido"-->
+<!--                            <c:if test="$'#{avaliacao.resposta} == 'null'" >
+                              <h:outputText value="Item não preenchido" />
+                            </c:if>
+                            <c:if test="$'#{avaliacao.resposta} !== 'null'" >
+                              <h:outputText value="#{avaliacao.resposta}"  />
+                            </c:if>-->
+                        </h:outputText>
                     </p:column>
 
                 </p:dataTable>

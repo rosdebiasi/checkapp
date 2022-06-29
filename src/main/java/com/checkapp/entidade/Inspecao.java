@@ -29,6 +29,8 @@ public class Inspecao implements Serializable {
     private Date dataEhora;
 
     private String observacao;
+    
+    private String responsavelTecnico;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataInicioPesquisa;
@@ -57,12 +59,14 @@ public class Inspecao implements Serializable {
 //    @OneToOne 
 //    @JoinColumn(name="id_usuario")
 //    private Usuario usuario;
+    
     public Inspecao() {
     }
 
-    public Inspecao(Date dataEhora, String observacao) {
+    public Inspecao(Date dataEhora, String observacao, String responsavelTecnico) {
         this.dataEhora = dataEhora;
         this.observacao = observacao;
+        this.responsavelTecnico = responsavelTecnico;
     }
 
     public void addAvaliacao(Item item) {
@@ -108,6 +112,14 @@ public class Inspecao implements Serializable {
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    public String getResponsavelTecnico() {
+        return responsavelTecnico;
+    }
+
+    public void setResponsavelTecnico(String responsavelTecnico) {
+        this.responsavelTecnico = responsavelTecnico;
     }
 
     public Empreendimento getEmpreendimento() {

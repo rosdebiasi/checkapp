@@ -21,8 +21,9 @@ public class Empreendimento implements Serializable {
     @Column(nullable = false) 
     private String funcao; //combobox
     
-    @Column(nullable = false)
     private String responsavel;
+    
+    private String telefoneResponsavel;
     
     private String pavimento; 
     
@@ -74,11 +75,11 @@ public class Empreendimento implements Serializable {
     public Empreendimento() {
     }
 
-    public Empreendimento(Long id, String nome, String funcao, String responsavel, String pavimento, String logradouro, String numero, String cep, String bairro, String localidade, String uf, String complemento, String gia, String ibge, String ddd, String siafe) {
-        this.id = id;
+    public Empreendimento(String nome, String funcao, String responsavel, String telefoneResponsavel, String pavimento, String logradouro, String numero, String cep, String bairro, String localidade, String uf, String complemento, String gia, String ibge, String ddd, String siafe) {
         this.nome = nome;
         this.funcao = funcao;
         this.responsavel = responsavel;
+        this.telefoneResponsavel = telefoneResponsavel;
         this.pavimento = pavimento;
         this.logradouro = logradouro;
         this.numero = numero;
@@ -92,7 +93,7 @@ public class Empreendimento implements Serializable {
         this.ddd = ddd;
         this.siafe = siafe;
     }
- 
+
     public Long getId() {
         return id;
     }
@@ -220,7 +221,23 @@ public class Empreendimento implements Serializable {
     public void setSiafe(String siafe) {
         this.siafe = siafe;
     }
-    
+
+    public String getTelefoneResponsavel() {
+        return telefoneResponsavel;
+    }
+
+    public void setTelefoneResponsavel(String telefoneResponsavel) {
+        this.telefoneResponsavel = telefoneResponsavel;
+    }
+
+    public List<Inspecao> getInspecoes() {
+        return inspecoes;
+    }
+
+    public void setInspecoes(List<Inspecao> inspecoes) {
+        this.inspecoes = inspecoes;
+    }
+     
 //    public List<Inspecao> getInspecoes() {
 //        return inspecoes;
 //    }

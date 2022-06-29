@@ -23,6 +23,10 @@
                             <p:inputText id="responsavel" value="#{empreendimentoC.lugar.responsavel}"
                                          required="false" requiredMessage="Nome é obrigatório!" />
 
+                            <p:outputLabel for="telefone" value="Telefone responsável:" />
+                            <p:inputMask id="telefone" value="#{empreendimentoC.lugar.telefoneResponsavel}" mask="(99)99999-9999"
+                                         required="false" requiredMessage="Telefone é obrigatório!"/>
+
                             <p:outputLabel for="nome" value="Nome empreendimento:" />
                             <p:inputText id="nome" value="#{empreendimentoC.lugar.nome}"
                                          required="true" requiredMessage="Nome empreendimento é obrigatório!" />
