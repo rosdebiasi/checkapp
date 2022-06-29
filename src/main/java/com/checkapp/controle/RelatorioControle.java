@@ -12,7 +12,7 @@ import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TabCloseEvent;
 import com.checkapp.entidade.Inspecao;
 import com.checkapp.dao.EmpreendimentoRepositorio;
-import java.time.temporal.TemporalAmount;
+import java.util.Calendar;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import org.springframework.context.annotation.Scope;
@@ -56,7 +56,6 @@ public class RelatorioControle implements Serializable {
         numeroInspecoes = inspecaoRepositorio.count();
     }
 
-
     public void pesquisarPorEmpreeendimento() {
         if (pesquisaEmpreendimentoId == -1) {
             this.inspecoes = inspecaoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "dataEhora"));
@@ -67,12 +66,25 @@ public class RelatorioControle implements Serializable {
 
     public void pesquisarPorFaixaDeData() {
         if ((pesquisaDataInicial).after(pesquisaDataFinal)) {
-            Mensagem.mensagemErroPesquisaData(" a data inicial deve ser menor que a data final");
-        } else {
-//            TemporalAmount temporal;
-//            pesquisaDataInicial.toInstant().;
-            inspecoes = inspecaoRepositorio.pesquisarInspecaoPorFaixaDeData(pesquisaDataInicial, pesquisaDataFinal);
+            Mensagem.mensagemErroPesquisaData(" a data inicial deve ser anterior à data final");
+            return;
         }
+
+        Calendar calendarioInicio = Calendar.getInstance();
+        calendarioInicio.setTime(pesquisaDataInicial);
+        calendarioInicio.set(Calendar.MILLISECOND, 0);
+        calendarioInicio.set(Calendar.SECOND, 0);
+        calendarioInicio.set(Calendar.MINUTE, 0);
+        calendarioInicio.set(Calendar.HOUR_OF_DAY, 0);
+
+        Calendar calendarioFim = Calendar.getInstance();
+        calendarioFim.setTime(pesquisaDataFinal);
+        calendarioFim.set(Calendar.MILLISECOND, 999);
+        calendarioFim.set(Calendar.SECOND, 59);
+        calendarioFim.set(Calendar.MINUTE, 59);
+        calendarioFim.set(Calendar.HOUR_OF_DAY, 23);
+
+        inspecoes = inspecaoRepositorio.pesquisarInspecaoPorFaixaDeData(calendarioInicio.getTime(), calendarioFim.getTime());
     }
 
     public void onTabChange(TabChangeEvent event) {
