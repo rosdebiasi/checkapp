@@ -64,6 +64,9 @@
                             <p:column headerText="Nome Empreendimento" style="text-align: center">
                                 <h:outputText value="#{inspecao.nome}" />
                             </p:column>
+                            <p:column headerText="Função" style="text-align: center">
+                                <h:outputText value="#{inspecao.empreendimento.funcao}" />
+                            </p:column>
                             <p:column headerText="Data de Inspeção" style="text-align: center">
                                 <h:outputText value="#{inspecao.dataEhora}">
                                     <f:convertDateTime pattern="dd/MM/yyyy 'às' HH:mm:ss" timeZone="GMT-3"/>

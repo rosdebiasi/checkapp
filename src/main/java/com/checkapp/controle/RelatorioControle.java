@@ -15,6 +15,7 @@ import com.checkapp.dao.EmpreendimentoRepositorio;
 import java.util.Calendar;
 import java.util.Date;
 import javax.annotation.PostConstruct;
+import javax.faces.model.ListDataModel;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.data.domain.Sort;
@@ -35,8 +36,14 @@ public class RelatorioControle implements Serializable {
     private Date pesquisaDataInicial;
     private Date pesquisaDataFinal;
 
+    private Empreendimento lugar;
+    private DataModel<Empreendimento> modelLugares;
+    
     private List<Empreendimento> lugares;
 
+    private List<Empreendimento> funcoes;
+    private Empreendimento funcao;
+    
     @Autowired
     private EmpreendimentoRepositorio lugarRepositorio;
 
@@ -53,6 +60,8 @@ public class RelatorioControle implements Serializable {
         pesquisaDataFinal = new Date();
         inspecoes = inspecaoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "dataEhora"));
         lugares = lugarRepositorio.findAll(Sort.by(Sort.Direction.ASC, "nome"));
+        //funcoes = lugarRepositorio.findAll(Sort.by(Sort.Direction.ASC, "funcao"));
+        modelLugares = new ListDataModel<>(lugarRepositorio.findAll()); //copiei de empreendimento mas não deu certo
         numeroInspecoes = inspecaoRepositorio.count();
     }
 
@@ -62,6 +71,22 @@ public class RelatorioControle implements Serializable {
         } else {
             this.inspecoes = inspecaoRepositorio.findByEmpreendimento(pesquisaEmpreendimentoId);
         }
+    }
+    
+    //isso aqui não deu certo pois a Função foi colocada manualmente no combo Box
+//    public void pesquisarPorFuncao() {
+//        if (pesquisaEmpreendimentoId == -1) {
+//            this.inspecoes = inspecaoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "dataEhora"));
+//        } else {
+//            this.inspecoes = inspecaoRepositorio.findByEmpreendimento(pesquisaEmpreendimentoId);
+//        }
+//    }
+    
+    //se der- senão retirar- não deu para fazer com combo pois o combo das funções foi colocado manualmente - não é urgente- se der depois de login
+    public void pesquisarPorFuncao() {
+        List<Empreendimento> locais = lugarRepositorio.findByFuncao(lugar.getFuncao());
+        modelLugares = new ListDataModel<>(locais);
+        lugar.setFuncao(null);
     }
 
     public void pesquisarPorFaixaDeData() {
@@ -179,5 +204,23 @@ public class RelatorioControle implements Serializable {
     public void setNumeroInspecoes(long numeroInspecoes) {
         this.numeroInspecoes = numeroInspecoes;
     }
+
+    public Empreendimento getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(Empreendimento lugar) {
+        this.lugar = lugar;
+    }
+
+    public List<Empreendimento> getFuncoes() {
+        return funcoes;
+    }
+
+    public void setFuncoes(List<Empreendimento> funcoes) {
+        this.funcoes = funcoes;
+    }
+    
+    
 
 }

@@ -21,9 +21,17 @@
                         <f:selectItems value="#{relatorioC.lugares}" var="lugar"
                                        itemLabel="#{lugar.nome}" itemValue="#{lugar.id}" />
                     </p:selectOneMenu>
-
                     <p:commandButton value="Pesquisar" actionListener="#{relatorioC.pesquisarPorEmpreeendimento()}" update="tabela" />
                 </p:panelGrid>
+
+<!--                <p:panelGrid id="panelGG3" columns="3" layout="flex" 
+                             columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
+                             contentStyleClass="ui-fluid">
+                    <p:outputLabel for="funcao" value="Função:" />
+                    <p:inputText id="funcao" value="#"  required="false" 
+                                 requiredMessage="Local é obrigatório" />
+                    <p:commandButton value="Pesquisar" actionListener="#" update="tabela" />
+                </p:panelGrid>-->
 
                 <p:panelGrid id="panelGG2" columns="2" layout="flex" 
                              columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
@@ -47,7 +55,10 @@
                         <h:outputText value="Inspeção"/>
                     </f:facet>
                     <p:column headerText="Nome Empreendimento">
-                        <h:outputText value="#{inspecao.nome}" style="text-align: center" />
+                        <h:outputText value="#{inspecao.nome}"/>
+                    </p:column>
+                    <p:column headerText="Função">
+                        <h:outputText value="#{inspecao.empreendimento.funcao}"/>
                     </p:column>
                     <p:column headerText="Data de Inspeção">
                         <h:outputText value="#{inspecao.dataEhora}">
