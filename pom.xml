@@ -142,7 +142,7 @@
         </dependency>
         
         
-<!--         INICIO PDF 
+        <!-- INICIO PDF -->
 
         <dependency>
             <groupId>com.itextpdf</groupId>
@@ -161,7 +161,7 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>3.9</version>
-        </dependency>-->
+        </dependency>
 
         <!-- FIM PDF -->
                     
