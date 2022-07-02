@@ -30,7 +30,8 @@ import org.springframework.stereotype.Component;
  * @author JavaRevolutions
  */
 @Component(value = "categoriaC")
-@Scope("view")
+//@ViewScoped
+@Scope("request")
 public class CategoriaControle implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -70,7 +71,7 @@ public class CategoriaControle implements Serializable {
             categoriaRepositorio.save(categoria);
             Mensagem.mensagemSucesso(categoria.getNome());
             categoria = null;
-            modelCategorias = null;
+            //modelCategorias = null;
             aba = 0;
         } catch (Exception e) {
             Mensagem.mensagemErro(categoria.getNome());
@@ -110,9 +111,11 @@ public class CategoriaControle implements Serializable {
     }
 
     public void onTabChange(TabChangeEvent event) {
+        modelCategorias = new ListDataModel<>(categoriaRepositorio.findAll());
     }
 
     public void onTabClose(TabCloseEvent event) {
+        modelCategorias = new ListDataModel<>(categoriaRepositorio.findAll());
     }
 
 //    getters e setters
