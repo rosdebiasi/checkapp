@@ -28,7 +28,7 @@
                              columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2"
                              contentStyleClass="ui-fluid">
                     <p:outputLabel for="funcao" value="Função:" />
-                    <p:inputText id="funcao" value="#"  required="false" 
+                    <p:inputText id="funcao" value="#" required="false" 
                                  requiredMessage="Local é obrigatório" />
                     <p:commandButton value="Pesquisar" actionListener="#" update="tabela" />
                 </p:panelGrid>-->
@@ -73,7 +73,7 @@
 
                         <h:commandLink
                             actionListener="#{relatorioC.setInspecaoSelecionada(inspecao)}" style="text-align: center"
-                            action="inspecao.html" target="_blank">Visualizar/Imprimir
+                            action="inspecao.html" target="_blank"><i class="pi pi-eye" title="Visualizar/Imprimir" ></i>
                         </h:commandLink>
 
                     </p:column>                       

@@ -19,7 +19,7 @@
                                      columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-10"
                                      contentStyleClass="ui-fluid">
                             <p:outputLabel for="nome" value="Nome:" />
-                            <p:inputText id="nome" value="#{categoriaC.categoria.nome}" 
+                            <p:inputText id="nome" value="#{categoriaC.categoria.nome}" placeholder="ex: escada, circulação"
                                          required="true" requiredMessage="Nome é obrigatório!"/>
 <!--                            <p:outputLabel for="nomeEspecifico" value="Nome especifico:" />
                             <p:inputText id="nomeEspecifico" value="#{categoriaC.categoria.nomeEspecifico}"
@@ -52,7 +52,7 @@
                                      contentStyleClass="ui-fluid">
                             <p:outputLabel for="categoria" value="Nome:" />
                             <p:inputText id="categoria" value="#{categoriaC.categoria.nome}"  required="true" 
-                                         requiredMessage="Nome é obrigatório" />
+                                         requiredMessage="Nome é obrigatório" placeholder="ex: escada, circulação" />
                             <p:commandButton value="Pesquisar" actionListener="#{categoriaC.pesquisarPorNome()}" update="tabela" />
                         </p:panelGrid>
 

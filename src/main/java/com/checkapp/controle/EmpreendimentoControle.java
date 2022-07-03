@@ -45,7 +45,7 @@ public class EmpreendimentoControle implements Serializable {
 
     @PostConstruct
     public void iniciar() {
-        modelLugares = new ListDataModel<>(localRepositorio.findAll());
+        //modelLugares = new ListDataModel<>(localRepositorio.findAll());
     }
 
     public List<Empreendimento> pesquisarTodo() {
@@ -104,11 +104,11 @@ public class EmpreendimentoControle implements Serializable {
     }
 
     public void onTabChange(TabChangeEvent event) {
-        modelLugares = new ListDataModel<>(localRepositorio.findAll());
+        //modelLugares = new ListDataModel<>(localRepositorio.findAll());
     }
 
     public void onTabClose(TabCloseEvent event) {
-        modelLugares = new ListDataModel<>(localRepositorio.findAll());
+        //modelLugares = new ListDataModel<>(localRepositorio.findAll());
     }
 
     public void buscarCep() {

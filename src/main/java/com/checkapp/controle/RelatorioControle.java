@@ -38,12 +38,13 @@ public class RelatorioControle implements Serializable {
 
     private Empreendimento lugar;
     private DataModel<Empreendimento> modelLugares;
-    
+
     private List<Empreendimento> lugares;
+    private DataModel<Inspecao> modelFuncoes;
 
     private List<Empreendimento> funcoes;
     private Empreendimento funcao;
-    
+
     @Autowired
     private EmpreendimentoRepositorio lugarRepositorio;
 
@@ -61,7 +62,7 @@ public class RelatorioControle implements Serializable {
         inspecoes = inspecaoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "dataEhora"));
         lugares = lugarRepositorio.findAll(Sort.by(Sort.Direction.ASC, "nome"));
         //funcoes = lugarRepositorio.findAll(Sort.by(Sort.Direction.ASC, "funcao"));
-        modelLugares = new ListDataModel<>(lugarRepositorio.findAll()); //copiei de empreendimento mas não deu certo
+        //modelLugares = new ListDataModel<>(lugarRepositorio.findAll()); //copiei de empreendimento mas não deu certo
         numeroInspecoes = inspecaoRepositorio.count();
     }
 
@@ -72,7 +73,7 @@ public class RelatorioControle implements Serializable {
             this.inspecoes = inspecaoRepositorio.findByEmpreendimento(pesquisaEmpreendimentoId);
         }
     }
-    
+
     //isso aqui não deu certo pois a Função foi colocada manualmente no combo Box
 //    public void pesquisarPorFuncao() {
 //        if (pesquisaEmpreendimentoId == -1) {
@@ -81,13 +82,17 @@ public class RelatorioControle implements Serializable {
 //            this.inspecoes = inspecaoRepositorio.findByEmpreendimento(pesquisaEmpreendimentoId);
 //        }
 //    }
-    
     //se der- senão retirar- não deu para fazer com combo pois o combo das funções foi colocado manualmente - não é urgente- se der depois de login
-    public void pesquisarPorFuncao() {
-        List<Empreendimento> locais = lugarRepositorio.findByFuncao(lugar.getFuncao());
-        modelLugares = new ListDataModel<>(locais);
-        lugar.setFuncao(null);
-    }
+//    public void pesquisarPorFuncao() {
+//        List<Empreendimento> locais = lugarRepositorio.findByFuncao(lugar.getFuncao());
+//        modelLugares = new ListDataModel<>(locais);
+//        lugar.setFuncao(null);
+//    }
+//    public void pesquisarPorFuncao() {
+//        List<Inspecao> locais = inspecaoRepositorio.findByFuncao(lugar.getFuncao());
+//        modelFuncoes = new ListDataModel<>(locais);
+//        lugar.setFuncao(null);
+//    }
 
     public void pesquisarPorFaixaDeData() {
         if ((pesquisaDataInicial).after(pesquisaDataFinal)) {
@@ -220,7 +225,45 @@ public class RelatorioControle implements Serializable {
     public void setFuncoes(List<Empreendimento> funcoes) {
         this.funcoes = funcoes;
     }
-    
-    
+
+    public DataModel<Empreendimento> getModelLugares() {
+        return modelLugares;
+    }
+
+    public void setModelLugares(DataModel<Empreendimento> modelLugares) {
+        this.modelLugares = modelLugares;
+    }
+
+    public DataModel<Inspecao> getModelFuncoes() {
+        return modelFuncoes;
+    }
+
+    public void setModelFuncoes(DataModel<Inspecao> modelFuncoes) {
+        this.modelFuncoes = modelFuncoes;
+    }
+
+    public Empreendimento getFuncao() {
+        return funcao;
+    }
+
+    public void setFuncao(Empreendimento funcao) {
+        this.funcao = funcao;
+    }
+
+    public EmpreendimentoRepositorio getLugarRepositorio() {
+        return lugarRepositorio;
+    }
+
+    public void setLugarRepositorio(EmpreendimentoRepositorio lugarRepositorio) {
+        this.lugarRepositorio = lugarRepositorio;
+    }
+
+    public InspecaoRepositorio getInspecaoRepositorio() {
+        return inspecaoRepositorio;
+    }
+
+    public void setInspecaoRepositorio(InspecaoRepositorio inspecaoRepositorio) {
+        this.inspecaoRepositorio = inspecaoRepositorio;
+    }
 
 }

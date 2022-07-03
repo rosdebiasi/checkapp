@@ -33,7 +33,7 @@
                                 <f:selectItems value="#{itemC.comboCategoria}"/>
                             </p:selectOneMenu>
                             <p:outputLabel for="nome" value="Descrição:" />
-                            <p:inputTextarea  id="nome" value="#{itemC.item.nome}" 
+                            <p:inputTextarea  id="nome" value="#{itemC.item.nome}" placeholder="ex: Possui piso antiderrapante"
                                               required="true" requiredMessage="Descrição é obrigatório!"/>
 
                             
@@ -61,7 +61,7 @@
                                      contentStyleClass="ui-fluid">
                             <p:outputLabel for="itemCategoria" value="Categoria:" />
                             <p:inputText id="itemCategoria" value="#{itemC.categoria.nome}"  required="false" 
-                                         requiredMessage="Nome é obrigatório" />
+                                         requiredMessage="Nome é obrigatório" placeholder="ex: escada, circulação"/>
                             <p:commandButton value="Pesquisar" actionListener="#{itemC.pesquisarPorNomeCategoria()}" update="tabela" />
                         </p:panelGrid>
 
